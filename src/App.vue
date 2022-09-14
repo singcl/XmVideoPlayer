@@ -38,8 +38,8 @@ import Video from "./components/Video.vue";
       >
     </p> -->
 
-    <Greet />
     <Video />
+    <Greet />
   </div>
 </template>
 
