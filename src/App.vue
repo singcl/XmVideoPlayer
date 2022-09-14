@@ -7,7 +7,7 @@ import Video from "./components/Video.vue";
 
 <template>
   <div class="container">
-    <h1>Welcome to Tauri!</h1>
+    <!-- <h1>Welcome to Tauri!</h1> -->
 
     <div class="row">
       <a href="https://vitejs.dev" target="_blank">
@@ -21,9 +21,9 @@ import Video from "./components/Video.vue";
       </a>
     </div>
 
-    <p>Click on the Tauri, Vite, and Vue logos to learn more.</p>
+    <!-- <p>Click on the Tauri, Vite, and Vue logos to learn more.</p> -->
 
-    <p>
+    <!-- <p>
       Recommended IDE setup:
       <a href="https://code.visualstudio.com/" target="_blank">VS Code</a>
       +
@@ -36,7 +36,7 @@ import Video from "./components/Video.vue";
       <a href="https://github.com/rust-lang/rust-analyzer" target="_blank"
         >rust-analyzer</a
       >
-    </p>
+    </p> -->
 
     <Greet />
     <Video />

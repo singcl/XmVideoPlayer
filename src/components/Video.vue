@@ -3,7 +3,7 @@ import { ref, onMounted } from "vue";
 import { invoke } from "@tauri-apps/api/tauri";
 import DPlayer from "dplayer";
 
-// TODO: 本地视频播放
+// 本地视频播放
 import demoVideo from "./../assets/videos/demo.mp4";
 
 const videoRef = ref();
@@ -21,8 +21,7 @@ onMounted(() => {
 
 <template>
   <div class="card">
-    <div>Dplayer播放器</div>
-    <div style="width: 900px;margin: 0 auto;">
+    <div style="width: 600px;margin: 0 auto;">
       <div ref="videoRef"></div>
     </div>
   </div>
