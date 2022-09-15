@@ -24,11 +24,11 @@ interface DPDanmaku {
 
 // 外挂字幕
 interface DPSubtitle {
-  // subtitle.url	required	字幕链接
-  // subtitle.type	'webvtt'	字幕类型，可选值: 'webvtt', 'ass'，目前只支持 webvtt
-  // subtitle.fontSize	'20px'	字幕字号
-  // subtitle.bottom	'40px'	字幕距离播放器底部的距离，取值形如: '10px' '10%'
-  // subtitle.color	'#fff'	字幕颜色
+  url: string; // subtitle.url	required	字幕链接
+  type?: "webvtt" | "ass"; // subtitle.type	'webvtt'	字幕类型，可选值: 'webvtt', 'ass'，目前只支持 webvtt
+  fontSize?: string; // // subtitle.fontSize	'20px'	字幕字号
+  bottom?: string; // subtitle.bottom	'40px'	字幕距离播放器底部的距离，取值形如: '10px' '10%'
+  color?: string; // subtitle.color	'#fff'	字幕颜色
 }
 
 // DPlayer 播放器配置项目

@@ -3,6 +3,7 @@
         "chromecast",
         "danmaku",
         "dplayer",
-        "tauri"
+        "tauri",
+        "webvtt"
     ]
 }
