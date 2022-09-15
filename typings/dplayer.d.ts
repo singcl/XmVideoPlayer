@@ -1,4 +1,4 @@
-// TIPS: 也可以安装 "@types/dplayer": "^1.25.2", 类型定义
+/* // TIPS: 也可以安装 "@types/dplayer": "^1.25.2", 类型定义
 // 视频信息
 interface DPVideo {
   url: string; // 视频链接
@@ -70,3 +70,4 @@ declare module "dplayer" {
     constructor(options?: DPOptions);
   }
 }
+ */
