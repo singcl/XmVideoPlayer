@@ -3,7 +3,7 @@
     <input
       id="greet-input"
       v-model="modelValue"
-      @input="$emit('update:modelValue', $event.target.value)"
+      @input="$emit('update:modelValue', $event.target?.value)"
       :placeholder="placeholder"
     />
     <button type="button" @click="$emit('submit', modelValue)">重载</button>
