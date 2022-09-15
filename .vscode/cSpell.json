@@ -3,6 +3,8 @@
         "chromecast",
         "danmaku",
         "dplayer",
+        "fullscreen",
+        "singcl",
         "tauri",
         "webvtt"
     ]
