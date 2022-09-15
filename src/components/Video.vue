@@ -5,6 +5,8 @@ import Hls from "hls.js";
 
 // 本地视频播放
 import demoVideo from "./../assets/videos/demo.mp4";
+import Search from "./Player/Search.vue";
+
 const m3u8DefaultUrl =
   "https://bitdash-a.akamaihd.net/content/sintel/hls/video/800kbit.m3u8";
 let dplayer: DPlayer | undefined;
@@ -54,7 +56,7 @@ function toggle() {
 // 重载新的播放链接
 // TODO:一定要销毁重建吗？更新video部分行不行？
 // TODO:支持播放m3u8, flv, mp4等
-function restart() {
+function restart(v?: string) {
   if (!/^https?:\/\/.+\.m3u8(\?(.*))?$/.test(m3u8Url.value)) {
     return alert("请输入正确的m3u8链接");
   }
@@ -64,13 +66,11 @@ function restart() {
 </script>
 
 <template>
-  <div class="card">
-    <input id="greet-input" v-model="m3u8Url" :placeholder="m3u8DefaultUrl" />
-    <button type="button" @click="restart()">重载</button>
-    <!-- <button type="button" @click="toggle()">
-      {{ isPlay ? "暂停" : "播放" }}
-    </button> -->
-  </div>
+  <Search
+    v-model="m3u8Url"
+    @submit="restart"
+    :placeholder="m3u8DefaultUrl"
+  />
   <div class="card">
     <div style="width: 600px; margin: 0 auto">
       <div ref="videoRef"></div>
