@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import { invoke } from "@tauri-apps/api/tauri";
 import DPlayer from "dplayer";
 
 // 本地视频播放
 import demoVideo from "./../assets/videos/demo.mp4";
 
-const videoRef = ref();
+const videoRef = ref<HTMLElement>();
 
 onMounted(() => {
+  if (!videoRef.value) return;
   const dp = new DPlayer({
     container: videoRef.value,
     video: {
