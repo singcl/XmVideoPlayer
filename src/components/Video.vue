@@ -53,8 +53,9 @@ function toggle() {
 
 // 重载新的播放链接
 // TODO:一定要销毁重建吗？更新video部分行不行？
+// TODO:支持播放m3u8, flv, mp4等
 function restart() {
-  if (!/^https?:\/\/.+\.m3u8$/.test(m3u8Url.value)) {
+  if (!/^https?:\/\/.+\.m3u8(\?(.*))?$/.test(m3u8Url.value)) {
     return alert("请输入正确的m3u8链接");
   }
   init();
