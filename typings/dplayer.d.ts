@@ -1,3 +1,4 @@
+// TIPS: 也可以安装 "@types/dplayer": "^1.25.2", 类型定义
 // 视频信息
 interface DPVideo {
   url: string; // 视频链接
@@ -5,8 +6,15 @@ interface DPVideo {
   // video.quality	-	见#清晰度切换
   // video.defaultQuality	-	见#清晰度切换
   // video.thumbnails	-	视频缩略图，可以使用 DPlayer-thumbnails (opens new window)生成
-  // video.type	'auto'	可选值: 'auto', 'hls', 'flv', 'dash', 'webtorrent', 'normal' 或其他自定义类型, 见#MSE 支持
-  // video.customType	-	自定义类型, 见#MSE 支持
+  type?:
+    | "auto"
+    | "hls"
+    | "flv"
+    | "dash"
+    | "webtorrent"
+    | "normal"
+    | "customHls"; // video.type	'auto'	可选值: 'auto', 'hls', 'flv', 'dash', 'webtorrent', 'normal' 或其他自定义类型, 见#MSE 支持
+  customType?: Record<string, any>; // video.customType	-	自定义类型, 见#MSE 支持
 }
 
 // 显示弹幕
