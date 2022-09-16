@@ -2,7 +2,7 @@
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
 // import Greet from "./components/Greet.vue";
-import Video from "./components/Video.vue";
+import XmPlayer from "./components/Player/XmPlayer.vue";
 </script>
 
 <template>
@@ -38,7 +38,7 @@ import Video from "./components/Video.vue";
       >
     </p> -->
 
-    <Video />
+    <XmPlayer />
     <!-- <Greet /> -->
   </div>
 </template>

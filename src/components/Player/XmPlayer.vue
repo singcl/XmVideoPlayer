@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
-import XmSearch from "./Player/XmSearch.vue";
-import XmVideo from "./Player/XmVideo.vue";
+import XmSearch from "./XmSearch.vue";
+import XmVideo from "./XmVideo.vue";
 
 const defaultUrl =
   "https://bitdash-a.akamaihd.net/content/sintel/hls/video/800kbit.m3u8";
