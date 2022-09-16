@@ -14,13 +14,21 @@
   -webkit-text-size-adjust: 100%;
 }
 
-.container {
+body {
   margin: 0;
+}
+
+.container {
+  margin: 0 auto;
   /* padding-top: 10vh; */
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   text-align: center;
+  height: 100vh;
+  width: 70%;
+  max-width: 900px;
+  background-color: rgba(0, 0, 0, 0.01);
 }
 
 .logo {
