@@ -1,8 +1,9 @@
 import Hls from "hls.js";
 import flv from "flv.js";
 
-export function formatVideo(url: string) {
-  if (/^https?:\/\/.+\.m3u8(\?(.*))?$/.test(url)) {
+export function formatVideo(url: string, type?: string) {
+  const isHls = type === "hls" || /^https?:\/\/.+\.m3u8(\?(.*))?$/.test(url);
+  if (isHls) {
     return {
       url: url,
       type: "customHls",
@@ -15,7 +16,9 @@ export function formatVideo(url: string) {
       },
     };
   }
-  if (/^https?:\/\/.+\.flv(\?(.*))?$/.test(url)) {
+  const isFlv =
+    type === "flv" || /^https?:\/\/.+\.(flv|xs)(\?(.*))?$/.test(url);
+  if (isFlv) {
     return {
       url: url,
       type: "customFlv",
