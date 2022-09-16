@@ -6,6 +6,7 @@
         "fullscreen",
         "singcl",
         "tauri",
+        "vite",
         "webvtt"
     ]
 }
