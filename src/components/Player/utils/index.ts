@@ -1,7 +1,8 @@
 import Hls from "hls.js";
+import flv from "flv.js";
 
 export function formatVideo(url: string) {
-  if (/^https?:\/\/.+\.m3u8(\?(.*))?$/) {
+  if (/^https?:\/\/.+\.m3u8(\?(.*))?$/.test(url)) {
     return {
       url: url,
       type: "customHls",
@@ -14,8 +15,24 @@ export function formatVideo(url: string) {
       },
     };
   }
+  if (/^https?:\/\/.+\.flv(\?(.*))?$/.test(url)) {
+    return {
+      url: url,
+      type: "customFlv",
+      customType: {
+        customFlv: function (video: HTMLVideoElement /* player */) {
+          const flvPlayer = flv.createPlayer({
+            type: "flv",
+            url: video.src,
+          });
+          flvPlayer.attachMediaElement(video);
+          flvPlayer.load();
+        },
+      },
+    };
+  }
   return {
     url,
-    type: 'normal'
+    type: "normal",
   };
 }

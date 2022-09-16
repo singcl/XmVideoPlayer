@@ -12,14 +12,15 @@
   "dependencies": {
     "@tauri-apps/api": "^1.0.2",
     "dplayer": "^1.27.0",
+    "flv.js": "^1.6.2",
     "hls.js": "^1.2.3",
     "vue": "^3.2.37"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^1.0.5",
+    "@types/dplayer": "^1.25.2",
     "@types/hls.js": "^1.0.0",
     "@types/node": "^18.7.10",
-    "@types/dplayer": "^1.25.2",
     "@vitejs/plugin-vue": "^3.0.1",
     "typescript": "^4.6.4",
     "vite": "^3.0.2",
