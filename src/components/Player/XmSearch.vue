@@ -11,7 +11,7 @@
       {{ isPlay ? "暂停" : "播放" }}
     </button> -->
   </div>
-  <div class="tips">Tips: 支持mp4, m3u8,flv等多种视频或者指标流🔥。</div>
+  <div class="tips">Tips: 支持mp4, m3u8,flv等多种视格式或直播流🔥。</div>
 </template>
 
 <script setup lang="ts">
