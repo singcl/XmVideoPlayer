@@ -25,12 +25,15 @@ function restart(v?: string) {
 </script>
 
 <template>
-  <XmSearch v-model="m3u8Url" @submit="restart" :placeholder="defaultUrl" />
-  <XmVideo ref="playerRef" :default-url="defaultUrl" />
+  <div class="player">
+    <XmSearch v-model="m3u8Url" @submit="restart" :placeholder="defaultUrl" />
+    <XmVideo ref="playerRef" :default-url="defaultUrl" />
+  </div>
 </template>
 
 <style scoped>
-.card {
-  margin-bottom: 12px;
+.player {
+  max-width: 600px;
+  margin: 0 auto;
 }
 </style>

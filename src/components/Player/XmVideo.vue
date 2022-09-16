@@ -1,8 +1,6 @@
 <template>
   <div class="card">
-    <div style="width: 600px; margin: 0 auto">
-      <div ref="videoRef"></div>
-    </div>
+    <div ref="videoRef"></div>
   </div>
 </template>
 
