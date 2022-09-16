@@ -37,7 +37,6 @@ function load(options?: Omit<DPlayerOptions, "container">) {
   //
   const { video: { url = props.defaultUrl, type = '' } = {} } = options || {};
   const vo = formatVideo(url, type);
-  console.log('======vo',vo)
   //
   const dp = new DPlayer({
     ...(options || {}),
