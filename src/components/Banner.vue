@@ -19,10 +19,12 @@
 .banner {
   position: fixed;
   bottom: 0;
-  right: 0;
-  margin-right: 8px;
   display: flex;
+  justify-content: flex-end;
   align-items: center;
+  width: 70%;
+  max-width: 900px;
+  margin: 0 auto;
 }
 .banner a {
   display: inline-block;
