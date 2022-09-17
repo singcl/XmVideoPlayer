@@ -35,7 +35,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { AutoComplete } from "@arco-design/web-vue";
-import m3u8List from "./m3u8.config";
+import m3u8List from "./source.config";
 import { checkPinYin } from "./utils";
 
 defineProps({
