@@ -10,13 +10,14 @@ export default defineConfig({
     vue(),
     AutoImport({
       dts: true,
-      resolvers: [ArcoResolver()],
+      resolvers: [ArcoResolver({ resolveIcons: true })],
     }),
     Components({
       dts: true, // enabled by default if `typescript` is installed
       resolvers: [
         ArcoResolver({
           sideEffect: true,
+          resolveIcons: true,
         }),
       ],
     }),

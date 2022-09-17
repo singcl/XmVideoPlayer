@@ -14,6 +14,7 @@ import flour from "./../../assets/flour.webp";
 import redbag from "./../../assets/redbag.webp";
 import car from "./../../assets/car.webp";
 import xj from "./../../assets/xj.webp";
+import stars from "./../../assets/stars.webp";
 const giftList = [
   {
     label: "鲜花",
@@ -30,6 +31,10 @@ const giftList = [
   {
     label: "仙境",
     value: xj,
+  },
+  {
+    label: "大星星",
+    value: stars,
   },
 ];
 </script>
