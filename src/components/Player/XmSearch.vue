@@ -1,12 +1,12 @@
 <template>
   <div class="card">
     <input
-      id="greet-input"
+      class="search-input"
       v-model="modelValue"
       @input="$emit('update:modelValue', $event.target?.value)"
       :placeholder="placeholder"
     />
-    <button type="button" @click="$emit('submit', modelValue)">载入</button>
+    <button type="button" @click="$emit('submit', modelValue)">GO</button>
     <!-- <button type="button" @click="toggle()">
       {{ isPlay ? "暂停" : "播放" }}
     </button> -->
@@ -32,10 +32,13 @@ defineEmits<{
 <style scoped>
 .card {
   margin-bottom: 5px;
+  position: relative;
 }
 
-.card input {
-  width: 482px;
+.search-input {
+  box-sizing: border-box;
+  margin-right: 5px;
+  width: calc(100% - 5px - 66px);
 }
 
 .tips {
