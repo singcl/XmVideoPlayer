@@ -9,6 +9,7 @@ export default defineConfig({
   plugins: [
     vue(),
     AutoImport({
+      dts: true,
       resolvers: [ArcoResolver()],
     }),
     Components({
