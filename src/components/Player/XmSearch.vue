@@ -1,15 +1,18 @@
 <template>
   <div class="card">
-    <input
+    <a-input
       class="search-input"
       v-model="modelValue"
-      @input="$emit('update:modelValue', $event.target?.value)"
+      @input="(v, e) => $emit('update:modelValue', v)"
       :placeholder="placeholder"
+      allow-clear
     />
-    <button type="button" @click="$emit('submit', modelValue)">GO</button>
-    <!-- <button type="button" @click="toggle()">
-      {{ isPlay ? "暂停" : "播放" }}
-    </button> -->
+    <a-button
+      type="primary"
+      status="warning"
+      @click="$emit('submit', modelValue)"
+      >GO</a-button
+    >
   </div>
   <div class="tips">Tips: 支持mp4, m3u8,flv等多种视频格式或直播流🔥。</div>
 </template>
@@ -38,7 +41,7 @@ defineEmits<{
 .search-input {
   box-sizing: border-box;
   margin-right: 5px;
-  width: calc(100% - 5px - 66px);
+  width: calc(100% - 5px - 55px);
 }
 
 .tips {

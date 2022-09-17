@@ -10,6 +10,7 @@
     "tauri": "tauri"
   },
   "dependencies": {
+    "@arco-design/web-vue": "^2.37.1",
     "@tauri-apps/api": "^1.0.2",
     "dplayer": "^1.27.0",
     "flv.js": "^1.6.2",
@@ -23,6 +24,8 @@
     "@types/node": "^18.7.10",
     "@vitejs/plugin-vue": "^3.0.1",
     "typescript": "^4.6.4",
+    "unplugin-auto-import": "^0.11.2",
+    "unplugin-vue-components": "^0.22.7",
     "vite": "^3.0.2",
     "vue-tsc": "^0.40.0"
   }
