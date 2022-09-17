@@ -26,9 +26,13 @@ function restart(v?: string) {
 <template>
   <div class="player">
     <XmSearch v-model="m3u8Url" @submit="restart" :placeholder="defaultUrl" />
-    <PlayerHeader />
+    <BannerWrapper>
+      <BannerHeader />
+    </BannerWrapper>
     <XmVideo ref="playerRef" :default-url="defaultUrl" />
-    <PlayerHeader />
+    <BannerWrapper>
+      <BannerFooter />
+    </BannerWrapper>
   </div>
 </template>
 
