@@ -56,10 +56,10 @@
     "windows": [
       {
         "fullscreen": false,
-        "height": 600,
+        "height": 680,
         "resizable": true,
-        "title": "Singcl<https://github.com/singcl>",
-        "width": 900
+        "title": "XmVideoPlayer支持m3u8,flv等多种流媒体格式🔥<https://github.com/singcl>",
+        "width": 960
       }
     ]
   }
