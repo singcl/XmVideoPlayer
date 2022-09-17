@@ -16,6 +16,10 @@ const list = [
     label: "学习资料4",
     value: "https://play-tx-ugcpub.douyucdn2.cn/live/high_4553961620220908204314-upload-24e4/playlist.m3u8?tlink=63244379&tplay=6324d019&exper=0&nlimit=5&us=313660a83135da2159ce16a162eabe59&sign=b1a76c02d07ce43106b81e44fa76b3cb&u=0&d=313660a83135da2159ce16a162eabe59&ct=&vid=32843882&pt=1&cdn=tx",
   },
+  {
+    label: "学习资料5",
+    value: "https://sf1-hscdn-tos.pstatp.com/obj/media-fe/xgplayer_doc_video/flv/xgplayer-demo-360p.flv",
+  },
 ];
 
 export default list;
