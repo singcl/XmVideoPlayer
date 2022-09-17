@@ -2,7 +2,7 @@ import Hls from "hls.js";
 import flv from "flv.js";
 
 export function formatVideo(url: string, type?: string) {
-  const isHls = type === "hls" || /^https?:\/\/.+\.m3u8(\?(.*))?$/.test(url);
+  const isHls = type === "hls" || /^https?:\/\/.+(\.)?m3u8(\.php)?(\?(.*))?$/.test(url);
   if (isHls) {
     return {
       url: url,
