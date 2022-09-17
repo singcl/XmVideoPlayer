@@ -1,5 +1,6 @@
 <template>
-  <div class="row">
+  <div class="banner">
+    <span class="address">https://github.com/singcl</span>
     <a href="https://vitejs.dev" target="_blank">
       <img src="/vite.svg" class="logo vite" alt="Vite logo" />
     </a>
@@ -14,4 +15,26 @@
 
 <script setup lang="ts"></script>
 
-<style scoped></style>
+<style scoped>
+.banner {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  margin-right: 8px;
+  display: flex;
+  align-items: center;
+}
+.banner a {
+  display: inline-block;
+}
+
+.banner .address {
+  color: #666;
+}
+.logo {
+  width: 18px;
+  height: 18px;
+  padding: 5px;
+  display: block;
+}
+</style>
