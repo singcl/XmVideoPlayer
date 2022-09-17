@@ -33,7 +33,8 @@ function restart(v?: string) {
 
 <style scoped>
 .player {
-  max-width: 600px;
+  width: 100%;
+  max-width: var(--area-width-max);
   margin: 0 auto;
 }
 </style>
