@@ -5,8 +5,12 @@
       v-model="modelValue"
       @input="(v, e) => $emit('update:modelValue', v)"
       :placeholder="placeholder"
-      allow-clear
+      :allow-clear="true"
+      @clear="$emit('update:modelValue', undefined)"
+      @press-enter="$emit('submit', modelValue)"
     />
+      <!-- allow-clear -->
+      <!-- BUG: build后的应用点击清楚没有反应，必须手动绑定onClear事件 -->
     <a-button
       type="primary"
       status="warning"
