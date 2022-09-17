@@ -12,6 +12,9 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+
+  --area-width: 70%;
+  --area-width-max: 900px;
 }
 
 body {
@@ -28,8 +31,8 @@ body {
   justify-content: flex-start;
   text-align: center;
   height: 100vh;
-  width: 70%;
-  max-width: 900px;
+  width: var(--area-width);
+  max-width: var(--area-width-max);
   background-color: rgba(0, 0, 0, 0.01);
 }
 

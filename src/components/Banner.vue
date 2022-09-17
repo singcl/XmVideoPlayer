@@ -22,9 +22,9 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  width: 70%;
-  max-width: 900px;
   margin: 0 auto;
+  width: var(--area-width);
+  max-width: var(--area-width-max);
 }
 .banner a {
   display: inline-block;
