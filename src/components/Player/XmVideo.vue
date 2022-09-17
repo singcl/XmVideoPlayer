@@ -9,12 +9,12 @@ import { ref, onMounted } from "vue";
 import DPlayer from "dplayer";
 import { formatVideo } from "./utils";
 // 本地视频播放
-import demoVideo from "./../../assets/videos/demo.mp4";
+// import demoVideo from "./../../assets/videos/demo.mp4";
 
 const props = defineProps({
   defaultUrl: {
     type: String,
-    default: demoVideo,
+    default: "https://bitdash-a.akamaihd.net/content/sintel/hls/video/800kbit.m3u8",
   },
 });
 
