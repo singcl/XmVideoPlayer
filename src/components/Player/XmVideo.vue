@@ -60,7 +60,4 @@ function toggle() {
 </script>
 
 <style scoped>
-.card {
-  margin-bottom: 12px;
-}
 </style>

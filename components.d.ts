@@ -12,6 +12,7 @@ declare module '@vue/runtime-core' {
     Banner: typeof import('./src/components/Banner.vue')['default']
     Description: typeof import('./src/components/Description.vue')['default']
     Greet: typeof import('./src/components/Greet.vue')['default']
+    PlayerHeader: typeof import('./src/components/Player/PlayerHeader.vue')['default']
     XmPlayer: typeof import('./src/components/Player/XmPlayer.vue')['default']
     XmSearch: typeof import('./src/components/Player/XmSearch.vue')['default']
     XmVideo: typeof import('./src/components/Player/XmVideo.vue')['default']
