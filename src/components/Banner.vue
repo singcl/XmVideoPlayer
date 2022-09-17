@@ -25,6 +25,7 @@
   margin: 0 auto;
   width: var(--area-width);
   max-width: var(--area-width-max);
+  font-size: 10px;
 }
 .banner a {
   display: inline-block;
@@ -34,8 +35,8 @@
   color: #666;
 }
 .logo {
-  width: 18px;
-  height: 18px;
+  width: 12px;
+  height: 12px;
   padding: 5px;
   display: block;
 }
