@@ -1,16 +1,27 @@
 <template>
-  <div class="card">
-    <a-input
-      class="search-input"
-      v-model="modelValue"
-      @input="(v, e) => $emit('update:modelValue', v)"
-      :placeholder="placeholder"
-      :allow-clear="true"
-      @clear="$emit('update:modelValue', undefined)"
-      @press-enter="$emit('submit', modelValue)"
-    />
-      <!-- allow-clear -->
-      <!-- BUG: build后的应用点击清楚没有反应，必须手动绑定onClear事件 -->
+  <div class="wrapper">
+    <div class="search">
+      <a-auto-complete
+        :data="options"
+        v-model="modelValue"
+        @change="(v) => $emit('update:modelValue', v)"
+        :placeholder="placeholder"
+        :allow-clear="true"
+        @clear="$emit('update:modelValue', undefined)"
+        @press-enter="$emit('submit', modelValue)"
+        @search="handleSearch"
+        @select="handleSelect"
+        ref="searchRef"
+        :filter-option="
+          (v, option) => {
+            if (!option.label) return true;
+            return checkPinYin(option.label, v);
+          }
+        "
+      />
+    </div>
+    <!-- allow-clear -->
+    <!-- BUG: build后的应用点击清楚没有反应，必须手动绑定onClear事件 -->
     <a-button
       type="primary"
       status="warning"
@@ -22,6 +33,11 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue";
+import { AutoComplete } from "@arco-design/web-vue";
+import m3u8List from "./m3u8.config";
+import { checkPinYin } from "./utils";
+
 defineProps({
   modelValue: String,
   placeholder: {
@@ -34,15 +50,26 @@ defineEmits<{
   (e: "update:modelValue", v?: string): void;
   (e: "submit", v?: string): void;
 }>();
+
+const options = ref(m3u8List);
+const searchRef = ref<InstanceType<typeof AutoComplete>>();
+
+// 可以发起请求远程获取
+function handleSearch(v: string) {
+  options.value = m3u8List.filter((item) => checkPinYin(item.label, v));
+}
+
+function handleSelect() {}
 </script>
 
 <style scoped>
-.card {
+.wrapper {
+  display: flex;
   margin-bottom: 5px;
   position: relative;
 }
 
-.search-input {
+.search {
   box-sizing: border-box;
   margin-right: 5px;
   width: calc(100% - 5px - 55px);

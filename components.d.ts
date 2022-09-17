@@ -7,6 +7,7 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    AAutoComplete: typeof import('@arco-design/web-vue')['AutoComplete']
     AButton: typeof import('@arco-design/web-vue')['Button']
     AInput: typeof import('@arco-design/web-vue')['Input']
     Banner: typeof import('./src/components/Banner.vue')['default']

@@ -15,6 +15,7 @@
     "dplayer": "^1.27.0",
     "flv.js": "^1.6.2",
     "hls.js": "^1.2.3",
+    "pinyin-match": "^1.2.2",
     "vue": "^3.2.37"
   },
   "devDependencies": {

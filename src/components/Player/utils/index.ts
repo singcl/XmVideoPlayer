@@ -1,5 +1,6 @@
 import Hls from "hls.js";
 import flv from "flv.js";
+import pinyinMatch from 'pinyin-match';
 
 export function formatVideo(url: string, type?: string) {
   const isHls = type === "hls" || /^https?:\/\/.+(\.)?m3u8(\.php)?(\?(.*))?$/.test(url);
@@ -38,4 +39,10 @@ export function formatVideo(url: string, type?: string) {
     url,
     type: "normal",
   };
+}
+
+//
+export function checkPinYin(name: string, keyword: string) {
+  const matchRes = pinyinMatch.match(name, keyword);
+  return typeof matchRes === 'object' ? matchRes.length > 0 : matchRes;
 }
