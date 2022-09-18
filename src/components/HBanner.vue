@@ -1,6 +1,7 @@
 <template>
   <div class="banner">
-    <span class="address">https://github.com/singcl</span>
+    <span class="address"><a href="https://github.com/singcl/XmVideoPlayer" target="_blank">版本:v0.0.7</a></span>
+    <span>Powered by</span>
     <a href="https://vitejs.dev" target="_blank">
       <img src="/vite.svg" class="logo vite" alt="Vite logo" />
     </a>
@@ -33,6 +34,7 @@
 
 .banner .address {
   color: #666;
+  padding-right: 5px;
 }
 .logo {
   width: 12px;
