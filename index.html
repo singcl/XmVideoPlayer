@@ -3,12 +3,27 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="stylesheet" type="text/css" href="/src/styles/loading.css" />
+    <link rel="stylesheet" type="text/css" href="/src/styles/names.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title></title>
   </head>
 
   <body>
-    <div id="app">VITE_APP_TITLE="M3U8/FLV VIDEO PLAYER</div>
+    <div id="app"></div>
+    <script type="module">
+      const app = document.getElementById("app");
+      app.innerHTML = `<div class="start-wrapper">
+        <h1 class="start-name">${import.meta.env.VITE_APP_NAME}</h1>
+        <div class="start loading">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>`;
+    </script>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
