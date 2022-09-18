@@ -20,6 +20,10 @@ const list = [
     label: "小松鼠与熊[MPEG-DASH]",
     value: "https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps.mpd",
   },
+  {
+    label: "监听事件测试[MPEG-DASH]",
+    value: "https://livesim.dashif.org/livesim/sts_1663490483/sid_a8436cd5/scte35_2/testpic_2s/Manifest.mpd",
+  },
 ];
 
 export default list;
