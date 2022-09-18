@@ -12,24 +12,23 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import { Message } from "@arco-design/web-vue";
-import "@arco-design/web-vue/lib/message/style";
+import { ref } from 'vue';
+import { Message } from '@arco-design/web-vue';
+import '@arco-design/web-vue/lib/message/style';
 
-import XmSearch from "./XmSearch.vue";
-import XmVideo from "./XmVideo.vue";
+import XmSearch from './XmSearch.vue';
+import XmVideo from './XmVideo.vue';
 
-const defaultUrl =
-  "https://bitdash-a.akamaihd.net/content/sintel/hls/video/800kbit.m3u8";
+const defaultUrl = 'https://bitdash-a.akamaihd.net/content/sintel/hls/video/800kbit.m3u8';
 //
 const playerRef = ref<InstanceType<typeof XmVideo>>();
-const m3u8Url = ref("");
+const m3u8Url = ref('');
 
 // 重载新的播放链接
 // TODO:一定要销毁重建吗？更新video部分行不行？
 function restart(v?: string) {
   // if (!v) return alert("请输入正确的链接");
-  if (!v) return Message.info({ content: "请输入正确的链接" });
+  if (!v) return Message.info({ content: '请输入正确的链接' });
 
   const player = playerRef.value?.load({
     video: {

@@ -5,3 +5,8 @@ coverage
 
 #
 src/assets/
+index.html
+
+# auto generate file
+components.d.ts
+auto-imports.d.ts

@@ -24,7 +24,7 @@
   position: relative;
   width: 48px;
   height: 48px;
-  background-image: url("./../../assets/avatar.webp");
+  background-image: url('./../../assets/avatar.webp');
   background-size: cover;
   border-radius: 2px;
 }
@@ -32,7 +32,7 @@
   position: relative;
   width: 100%;
   height: 100%;
-  background-image: url("./../../assets/avatar-dec.webp");
+  background-image: url('./../../assets/avatar-dec.webp');
   background-size: cover;
 }
 

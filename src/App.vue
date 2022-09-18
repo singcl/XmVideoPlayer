@@ -4,20 +4,20 @@
       <img src="/vite.svg" class="logo vite" alt="Vite logo" />
       <span class="txt typing">{{ APP_TITLE }}</span>
     </h1>
-    <!-- <Description /> -->
+    <!-- <HDescription /> -->
     <XmPlayer />
-    <Banner />
-    <!-- <Greet /> -->
+    <HBanner />
+    <!-- <HGreet /> -->
   </div>
 </template>
 
 <script setup lang="ts">
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
-// import Greet from "./components/Greet.vue";
-import XmPlayer from "./components/Player/XmPlayer.vue";
-import Banner from "./components/Banner.vue";
-// import Description from "./components/Description.vue";
+// import HGreet from "./components/HGreet.vue";
+import XmPlayer from './components/Player/XmPlayer.vue';
+import HBanner from './components/HBanner.vue';
+// import HDescription from "./components/HDescription.vue";
 const APP_TITLE = import.meta.env.VITE_APP_TITLE;
 </script>
 
@@ -50,8 +50,7 @@ const APP_TITLE = import.meta.env.VITE_APP_TITLE;
 
 .typing {
   border-right: 2px solid transparent;
-  animation: typing 3s steps(42, end) infinite,
-    blink-caret 0.55s step-end infinite;
+  animation: typing 3s steps(42, end) infinite, blink-caret 0.55s step-end infinite;
   word-break: break-all;
   overflow: hidden;
 }
