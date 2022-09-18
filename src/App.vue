@@ -2,7 +2,7 @@
   <div class="container">
     <h1 class="home-title">
       <img src="/vite.svg" class="logo vite" alt="Vite logo" />
-      <span class="txt">{{ APP_TITLE }}</span>
+      <span class="txt typing">{{ APP_TITLE }}</span>
     </h1>
     <!-- <Description /> -->
     <XmPlayer />
@@ -36,6 +36,9 @@ const APP_TITLE = import.meta.env.VITE_APP_TITLE;
 
 .home-title .txt {
   margin-left: 5px;
+  height: 36px;
+  line-height: 36px;
+  text-align: left;
 }
 .logo.vite:hover {
   filter: drop-shadow(0 0 2em #747bff);
@@ -43,5 +46,36 @@ const APP_TITLE = import.meta.env.VITE_APP_TITLE;
 
 .logo.vue:hover {
   filter: drop-shadow(0 0 2em #249b73);
+}
+
+.typing {
+  border-right: 2px solid transparent;
+  animation: typing 3s steps(42, end) infinite,
+    blink-caret 0.55s step-end infinite;
+  word-break: break-all;
+  overflow: hidden;
+}
+
+/* 打印效果 */
+@keyframes typing {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 100%;
+  }
+}
+
+/* 光标 */
+@keyframes blink-caret {
+  from,
+  to {
+    border-color: transparent;
+  }
+
+  50% {
+    border-color: currentColor;
+  }
 }
 </style>
