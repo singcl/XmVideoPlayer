@@ -1,16 +1,15 @@
-import Hls from "hls.js";
-import flv from "flv.js";
-import dash from "dashjs";
-import pinyinMatch from "pinyin-match";
+import Hls from 'hls.js';
+import flv from 'flv.js';
+import dash from 'dashjs';
+import pinyinMatch from 'pinyin-match';
 
 export function formatVideo(url: string, type?: string) {
   // HLS流媒体
-  const isHls =
-    type === "hls" || /^https?:\/\/.+(\.)?m3u8(\.php)?(\?(.*))?$/.test(url);
+  const isHls = type === 'hls' || /^https?:\/\/.+(\.)?m3u8(\.php)?(\?(.*))?$/.test(url);
   if (isHls) {
     return {
       url: url,
-      type: "customHls",
+      type: 'customHls',
       customType: {
         customHls: function (video: HTMLVideoElement /* player */) {
           const hls = new Hls();
@@ -21,16 +20,15 @@ export function formatVideo(url: string, type?: string) {
     };
   }
   // FLV 流媒体
-  const isFlv =
-    type === "flv" || /^https?:\/\/.+\.(flv|xs)(\?(.*))?$/.test(url);
+  const isFlv = type === 'flv' || /^https?:\/\/.+\.(flv|xs)(\?(.*))?$/.test(url);
   if (isFlv) {
     return {
       url: url,
-      type: "customFlv",
+      type: 'customFlv',
       customType: {
         customFlv: function (video: HTMLVideoElement /* player */) {
           const flvPlayer = flv.createPlayer({
-            type: "flv",
+            type: 'flv',
             url: video.src,
           });
           flvPlayer.attachMediaElement(video);
@@ -40,11 +38,11 @@ export function formatVideo(url: string, type?: string) {
     };
   }
   // MPEG-DASH 流媒体
-  const isMpd = type === "mpd" || /^https?:\/\/.+\.(mpd)(\?(.*))?$/.test(url);
+  const isMpd = type === 'mpd' || /^https?:\/\/.+\.(mpd)(\?(.*))?$/.test(url);
   if (isMpd) {
     return {
       url: url,
-      type: "customDash",
+      type: 'customDash',
       customType: {
         customDash: function (video: HTMLVideoElement /* player */) {
           dash.MediaPlayer().create().initialize(video, video.src, false);
@@ -54,12 +52,12 @@ export function formatVideo(url: string, type?: string) {
   }
   return {
     url,
-    type: "normal",
+    type: 'normal',
   };
 }
 
 //
 export function checkPinYin(name: string, keyword: string) {
   const matchRes = pinyinMatch.match(name, keyword);
-  return typeof matchRes === "object" ? matchRes.length > 0 : matchRes;
+  return typeof matchRes === 'object' ? matchRes.length > 0 : matchRes;
 }

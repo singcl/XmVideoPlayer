@@ -1,39 +1,39 @@
 <template>
   <div class="b-footer">
     <div
-      class="gift"
       v-for="item in giftList"
       :key="item.label"
+      class="gift"
       :style="{ backgroundImage: `url(${item.value})` }"
     ></div>
   </div>
 </template>
 
 <script setup lang="ts">
-import flour from "./../../assets/flour.webp";
-import redbag from "./../../assets/redbag.webp";
-import car from "./../../assets/car.webp";
-import xj from "./../../assets/xj.webp";
-import stars from "./../../assets/stars.webp";
+import flour from './../../assets/flour.webp';
+import redbag from './../../assets/redbag.webp';
+import car from './../../assets/car.webp';
+import xj from './../../assets/xj.webp';
+import stars from './../../assets/stars.webp';
 const giftList = [
   {
-    label: "鲜花",
+    label: '鲜花',
     value: flour,
   },
   {
-    label: "红包",
+    label: '红包',
     value: redbag,
   },
   {
-    label: "跑车",
+    label: '跑车',
     value: car,
   },
   {
-    label: "仙境",
+    label: '仙境',
     value: xj,
   },
   {
-    label: "大星星",
+    label: '大星星',
     value: stars,
   },
 ];

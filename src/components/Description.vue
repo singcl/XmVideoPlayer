@@ -6,13 +6,9 @@
     +
     <a href="https://github.com/johnsoncodehk/volar" target="_blank">Volar</a>
     +
-    <a href="https://github.com/tauri-apps/tauri-vscode" target="_blank"
-      >Tauri</a
-    >
+    <a href="https://github.com/tauri-apps/tauri-vscode" target="_blank">Tauri</a>
     +
-    <a href="https://github.com/rust-lang/rust-analyzer" target="_blank"
-      >rust-analyzer</a
-    >
+    <a href="https://github.com/rust-lang/rust-analyzer" target="_blank">rust-analyzer</a>
   </p>
 </template>
 
