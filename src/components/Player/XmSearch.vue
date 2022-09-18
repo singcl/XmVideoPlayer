@@ -29,7 +29,7 @@
       >GO</a-button
     >
   </div>
-  <div class="tips">Tips: 支持mp4, m3u8,flv等多种流媒体格式🔥。</div>
+  <div class="tips">Tips: 支持mp4,m3u8,flv,mpeg-dash等多种流媒体格式🔥。</div>
 </template>
 
 <script setup lang="ts">
