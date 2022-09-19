@@ -1,5 +1,6 @@
 <template>
   <div class="banner">
+    <span class="address">{{ address }}</span>
     <span class="address"><a href="https://github.com/singcl/XmVideoPlayer" target="_blank">版本:v0.0.7</a></span>
     <span>Powered by</span>
     <a href="https://vitejs.dev" target="_blank">
@@ -14,7 +15,9 @@
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const address = window.location.href;
+</script>
 
 <style scoped>
 .banner {
