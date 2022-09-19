@@ -16,3 +16,4 @@ node >= 16
 
 - [ ] 窗口全屏化
 - [ ] 流媒体下载
+- [ ] GithubActions
