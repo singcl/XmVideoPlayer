@@ -1,8 +1,11 @@
 name: "publish"
 on:
   push:
-    branches:
-      - release
+    # branches:
+    #   - release
+    tags:
+      - 'v*'
+  workflow_dispatch:
 
 jobs:
   publish-tauri:
