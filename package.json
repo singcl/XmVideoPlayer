@@ -19,6 +19,12 @@
     "pinyin-match": "^1.2.2",
     "vue": "^3.2.37"
   },
+  "author": "singcl<imbabyer@gmail.com>",
+  "homepage": "https://github.com/singcl/XmVideoPlayer",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/singcl/XmVideoPlayer"
+  },
   "devDependencies": {
     "@tauri-apps/cli": "^1.0.5",
     "@types/dplayer": "^1.25.2",
@@ -40,5 +46,8 @@
     "vite": "^3.0.2",
     "vue-eslint-parser": "^9.1.0",
     "vue-tsc": "^0.40.0"
+  },
+  "engines": {
+    "node": ">=16"
   }
 }
