@@ -22,4 +22,4 @@ node >= 16
 
 - [ ] 窗口全屏化
 - [ ] 流媒体下载
-- [ ] GithubActions
+- [x] GithubActions: [🥂push指定的tag github actions自动构建并创建release draft🥂!](https://tauri.app/zh/v1/guides/building/cross-platform)
