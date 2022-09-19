@@ -1,7 +1,9 @@
 <template>
   <div class="banner">
     <span class="address">{{ address }}</span>
-    <span class="address"><a href="https://github.com/singcl/XmVideoPlayer" target="_blank">版本:v0.0.7</a></span>
+    <span class="address"
+      ><a href="https://github.com/singcl/XmVideoPlayer" target="_blank">版本:v{{ pkg.version }}</a></span
+    >
     <span>Powered by</span>
     <a href="https://vitejs.dev" target="_blank">
       <img src="/vite.svg" class="logo vite" alt="Vite logo" />
@@ -16,6 +18,7 @@
 </template>
 
 <script setup lang="ts">
+import pkg from '@package';
 const address = window.location.href;
 </script>
 

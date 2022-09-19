@@ -3,9 +3,23 @@ import vue from '@vitejs/plugin-vue';
 import AutoImport from 'unplugin-auto-import/vite';
 import Components from 'unplugin-vue-components/vite';
 import { ArcoResolver } from 'unplugin-vue-components/resolvers';
+import path from 'path';
+
+// aliases
+const aliases = {
+  '@/': `${path.resolve(__dirname, 'src')}/`,
+  '@/styles': `${path.resolve(__dirname, 'src')}/styles`,
+  '@/components': `${path.resolve(__dirname, 'src')}/components`,
+  '@/utils': `${path.resolve(__dirname, 'src')}/utils`,
+  '@/stores': `${path.resolve(__dirname, 'src')}/stores`,
+  '@package': `${path.resolve(__dirname)}/package.json`,
+};
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  resolve: {
+    alias: aliases,
+  },
   plugins: [
     vue(),
     AutoImport({

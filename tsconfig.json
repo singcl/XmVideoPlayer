@@ -11,7 +11,19 @@
     "isolatedModules": true,
     "esModuleInterop": true,
     "lib": ["ESNext", "DOM"],
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "rootDir": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@/components/*": ["./src/components/*"],
+      "@/styles/*": ["./src/styles/*"],
+      "@/utils/*": ["./src/utils/*"],
+      "@/stores/*": ["./src/stores/*"],
+      "@/assets/*": ["./src/assets/*"],
+      "@package": ["./package.json"],
+      "@project": ["./project.config.json"]
+    }
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "typings/**/*.d.ts", "*.d.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
