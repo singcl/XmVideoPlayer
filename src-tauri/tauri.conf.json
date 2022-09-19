@@ -56,7 +56,7 @@
     "windows": [
       {
         "fullscreen": false,
-        "height": 590,
+        "height": 610,
         "resizable": true,
         "title": "XmVideoPlayer支持m3u8,flv等多种流媒体格式🔥<https://github.com/singcl>",
         "width": 960
