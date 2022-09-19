@@ -1,6 +1,6 @@
 <template>
   <div class="player">
-    <XmSearch v-model="m3u8Url" @submit="restart" :placeholder="defaultUrl" />
+    <XmSearch v-model="mediaUrl" @submit="restart" :placeholder="defaultUrl" />
     <BannerWrapper>
       <BannerHeader />
     </BannerWrapper>
@@ -22,7 +22,7 @@ import XmVideo from './XmVideo.vue';
 const defaultUrl = 'https://bitdash-a.akamaihd.net/content/sintel/hls/video/800kbit.m3u8';
 //
 const playerRef = ref<InstanceType<typeof XmVideo>>();
-const m3u8Url = ref('');
+const mediaUrl = ref('');
 
 // 重载新的播放链接
 // TODO:一定要销毁重建吗？更新video部分行不行？
