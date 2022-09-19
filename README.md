@@ -1,3 +1,6 @@
+![ci](https://img.shields.io/github/workflow/status/singcl/XmVideoPlayer/publish?label=ci&logo=github)
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196?logo=conventionalcommits&logoColor=white)](https://conventionalcommits.org)
 ## 在线播放客户端
 
 一款支持 mp4,m3u8,flv,mpeg-dash 等多种视频格式或流媒体的在线播放客户端 🔥。
