@@ -58,7 +58,7 @@
         "fullscreen": false,
         "height": 610,
         "resizable": true,
-        "title": "XmVideoPlayer支持m3u8,flv等多种流媒体格式🔥<https://github.com/singcl>",
+        "title": "XmVideoPlayer支持m3u8,flv,mpeg-dash等多种流媒体格式🔥<https://github.com/singcl>",
         "width": 960
       }
     ]
