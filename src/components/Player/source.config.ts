@@ -39,9 +39,13 @@ export const giftList = [
 ];
 
 const list = [
+  // {
+  //   label: '海洋世界[MP4]',
+  //   value: 'http://vjs.zencdn.net/v/oceans.mp4',
+  // },
   {
-    label: '海洋世界[MP4]',
-    value: 'http://vjs.zencdn.net/v/oceans.mp4',
+    label: '毒液[MPEG-DASH]',
+    value: 'https://storage.googleapis.com/wvmedia/clear/h264/tears/tears.mpd',
   },
   {
     label: '高山雪域[MP4]',
