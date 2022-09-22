@@ -14,7 +14,7 @@
         :placeholder="placeholder"
         :allow-clear="true"
         @change="(v) => $emit('update:modelValue', v)"
-        @clear="$emit('update:modelValue', undefined)"
+        @clear="handleClear"
         @press-enter="$emit('submit', modelValue)"
         @search="handleSearch"
         @select="handleSelect"
@@ -45,7 +45,7 @@ defineProps({
   },
 });
 // 可以重载的函数类型定义
-defineEmits<{
+const emits = defineEmits<{
   (e: 'update:modelValue', v?: string): void;
   (e: 'submit', v?: string): void;
 }>();
@@ -55,7 +55,13 @@ const searchRef = ref<InstanceType<typeof AutoComplete>>();
 
 // 可以发起请求远程获取
 function handleSearch(v: string) {
-  options.value = m3u8List.filter((item) => checkPinYin(item.label, v));
+  // 可以不要
+  // options.value = m3u8List.filter((item) => checkPinYin(item.label, v));
+}
+//
+function handleClear() {
+  emits('update:modelValue', undefined);
+  // options.value = m3u8List;
 }
 
 function handleSelect() {}
