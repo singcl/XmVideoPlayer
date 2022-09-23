@@ -67,6 +67,11 @@ const list = [
   //   label: "监听事件测试[MPEG-DASH]",
   //   value: "https://livesim.dashif.org/livesim/sts_1663490483/sid_a8436cd5/scte35_2/testpic_2s/Manifest.mpd",
   // },
+  // 跨域资源
+  // {
+  //   label: "中国之声-电台[M3U8]",
+  //   value: "https://ngcdn001.cnr.cn/live/zgzs/index.m3u8",
+  // },
 ];
 
 export default list;

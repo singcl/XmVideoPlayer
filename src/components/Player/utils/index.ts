@@ -2,6 +2,7 @@ import Hls from 'hls.js';
 import flv from 'flv.js';
 import dash from 'dashjs';
 import pinyinMatch from 'pinyin-match';
+import FetchLoader from '@/utils/hls/fetch-loader';
 
 export function formatVideo(url: string, type?: string) {
   // HLS流媒体
@@ -12,7 +13,7 @@ export function formatVideo(url: string, type?: string) {
       type: 'customHls',
       customType: {
         customHls: function (video: HTMLVideoElement /* player */) {
-          const hls = new Hls();
+          const hls = new Hls({ loader: FetchLoader });
           hls.loadSource(video.src);
           hls.attachMedia(video);
         },

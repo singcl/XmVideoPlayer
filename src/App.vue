@@ -6,6 +6,7 @@
     </h1>
     <!-- <HDescription /> -->
     <XmPlayer />
+    <a-button @click="handleTestClick">测试按钮</a-button>
     <HBanner />
     <!-- <HGreet /> -->
   </div>
@@ -17,8 +18,18 @@
 // import HGreet from "./components/HGreet.vue";
 import XmPlayer from './components/Player/XmPlayer.vue';
 import HBanner from './components/HBanner.vue';
+import { fetch, ResponseType } from '@tauri-apps/api/http';
 // import HDescription from "./components/HDescription.vue";
 const APP_TITLE = import.meta.env.VITE_APP_TITLE;
+async function handleTestClick() {
+
+const response = await fetch('https://ngcdn001.cnr.cn/live/zgzs/index.m3u8', {
+  method: 'GET',
+  timeout: 30,
+  responseType: ResponseType.Text,
+});
+console.log('--response',response)
+}
 </script>
 
 <style scoped>
