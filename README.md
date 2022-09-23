@@ -31,5 +31,9 @@ node >= 16
 ## Roadmap
 
 - [x] GithubActions: [🥂push 指定的 tag github actions 自动构建并创建 release draft🥂!](https://tauri.app/zh/v1/guides/building/cross-platform)
+- [ ] 跨域资源
+  - [x] M3u8资源跨域加载！ WOW🎉！
+  - [ ] Flv资源跨域加载！
+  - [ ] Mpd资源跨域加载！
 - [ ] 窗口全屏化
 - [ ] 流媒体下载
