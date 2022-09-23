@@ -1,6 +1,6 @@
 export default class ChunkCache {
   private chunks: Array<Uint8Array> = [];
-  public dataLength: number = 0;
+  public dataLength = 0;
 
   push(chunk: Uint8Array) {
     this.chunks.push(chunk);

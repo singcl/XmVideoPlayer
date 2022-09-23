@@ -1,7 +1,114 @@
-import type { Fragment } from '../loader/fragment';
-import type { Part } from '../loader/fragment';
-import type { LevelDetails } from '../loader/level-details';
 import type { HlsUrlParameters } from './level';
+
+// TODO: 简单摘录部分类型，类型定义不完整
+interface Part {
+  readonly fragOffset: number;
+  readonly duration: number;
+  readonly gap: boolean;
+  readonly independent: boolean;
+  readonly relurl: string;
+  readonly fragment: Fragment;
+  readonly index: number;
+  start(): number;
+  end(): number;
+  loaded(): boolean;
+}
+
+interface Fragment {
+  rawProgramDateTime: string | null;
+  programDateTime: number | null;
+  tagList: Array<string[]>;
+
+  // EXTINF has to be present for a m3u8 to be considered valid
+  duration: number;
+  // sn notates the sequence number for a segment, and if set to a string can be 'initSegment'
+  sn: number | 'initSegment';
+  // levelkey is the EXT-X-KEY that applies to this segment for decryption
+  // core difference from the private field _decryptdata is the lack of the initialized IV
+  // _decryptdata will set the IV for this segment based on the segment number in the fragment
+  levelkey?: string;
+  // A string representing the fragment type
+  readonly type: PlaylistLevelType;
+  // A reference to the loader. Set while the fragment is loading, and removed afterwards. Used to abort fragment loading
+  loader: Loader<FragmentLoaderContext> | null;
+  // The level/track index to which the fragment belongs
+  level: number;
+  // The continuity counter of the fragment
+  cc: number;
+  // The starting Presentation Time Stamp (PTS) of the fragment. Set after transmux complete.
+  startPTS?: number;
+  // The ending Presentation Time Stamp (PTS) of the fragment. Set after transmux complete.
+  endPTS?: number;
+  // The latest Presentation Time Stamp (PTS) appended to the buffer.
+  appendedPTS?: number;
+  // The starting Decode Time Stamp (DTS) of the fragment. Set after transmux complete.
+  startDTS: number;
+  // The ending Decode Time Stamp (DTS) of the fragment. Set after transmux complete.
+  endDTS: number;
+  // The start time of the fragment, as listed in the manifest. Updated after transmux complete.
+  start: number;
+  // Set by `updateFragPTSDTS` in level-helper
+  deltaPTS?: number;
+  // The maximum starting Presentation Time Stamp (audio/video PTS) of the fragment. Set after transmux complete.
+  maxStartPTS?: number;
+  // The minimum ending Presentation Time Stamp (audio/video PTS) of the fragment. Set after transmux complete.
+  minEndPTS?: number;
+  urlId: number;
+  data?: Uint8Array;
+  // A flag indicating whether the segment was downloaded in order to test bitrate, and was not buffered
+  bitrateTest: boolean;
+  // #EXTINF  segment title
+  title: string | null;
+  // The Media Initialization Section for this segment
+  initSegment: Fragment | null;
+  decryptdata(): void;
+}
+
+interface LevelDetails {
+  PTSKnown: boolean;
+  alignedSliding: boolean;
+  averagetargetduration?: number;
+  endCC: number;
+  endSN: number;
+  fragments: Fragment[];
+  fragmentHint?: Fragment;
+  partList: Part[] | null;
+  dateRanges: Record<string, unknown>;
+  live: boolean;
+  ageHeader: number;
+  advancedDateTime?: number;
+  updated: boolean;
+  advanced: boolean;
+  availabilityDelay?: number; // Manifest reload synchronization
+  misses: number;
+  needSidxRanges: boolean;
+  startCC: number;
+  startSN: number;
+  startTimeOffset: number | null;
+  targetduration: number;
+  totalduration: number;
+  type: string | null;
+  url: string;
+  m3u8: string;
+  version: number | null;
+  canBlockReload: boolean;
+  canSkipUntil: number;
+  canSkipDateRanges: boolean;
+  skippedSegments: number;
+  recentlyRemovedDateranges?: string[];
+  partHoldBack: number;
+  holdBack: number;
+  partTarget: number;
+  // preloadHint?: AttrList;
+  // renditionReports?: AttrList[];
+  tuneInGoal: number;
+  deltaUpdateFailed?: boolean;
+  driftStartTime: number;
+  driftEndTime: number;
+  driftStart: number;
+  driftEnd: number;
+  reloaded(previous: LevelDetails | undefined): void;
+}
 
 export interface LoaderContext {
   // target URL
@@ -88,7 +195,7 @@ export type LoaderOnError<T extends LoaderContext> = (
     // error status code
     code: number;
     // error description
-    text: string;
+    text: string | null;
   },
   context: T,
   networkDetails: any

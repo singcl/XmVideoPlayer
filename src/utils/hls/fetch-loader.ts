@@ -9,15 +9,17 @@ import {
 import { LoadStats } from './loader/load-stats';
 import ChunkCache from './demux/chunk-cache';
 import { fetch, ResponseType } from '@tauri-apps/api/http';
+import { checkM3U8Url, checkBuffer } from '@/utils/validator';
+import { getQueryObj } from '@/utils/tools';
+import { HlsConfig } from 'hls.js';
+
+interface FError extends Error {
+  details?: Record<string, unknown>;
+  code?: number;
+}
 
 export function fetchSupported() {
-  if (
-    // @ts-ignore
-    self.fetch &&
-    self.AbortController &&
-    self.ReadableStream &&
-    self.Request
-  ) {
+  if (self.AbortController && self.ReadableStream && self.Request) {
     try {
       new self.ReadableStream({}); // eslint-disable-line no-new
       return true;
@@ -29,7 +31,7 @@ export function fetchSupported() {
 }
 
 class FetchLoader implements Loader<LoaderContext> {
-  private fetchSetup: Function;
+  private fetchSetup: (context: LoaderContext, initParams: Record<string, unknown>) => Request;
   private requestTimeout?: number;
   private request!: Request;
   private response!: Response;
@@ -40,7 +42,7 @@ class FetchLoader implements Loader<LoaderContext> {
   public stats: LoaderStats;
   private loader: Response | null = null;
 
-  constructor(config /* HlsConfig */) {
+  constructor(config: HlsConfig) {
     this.fetchSetup = config.fetchSetup || getRequest;
     this.controller = new self.AbortController();
     this.stats = new LoadStats();
@@ -88,17 +90,23 @@ class FetchLoader implements Loader<LoaderContext> {
       callbacks.onTimeout(stats, context, this.response);
     }, config.timeout);
 
-    const url = this.request.url;
-    fetch(url, {
-      ...this.request,
-      responseType: /^https?:\/\/.+(\.)?m3u8(\.php)?(\?(.*))?$/.test(url) ? ResponseType.Text : ResponseType.Binary,
+    const { url, method, headers } = this.request;
+    fetch<string | ArrayBuffer>(url, {
+      method: method as HttpVerb,
+      headers,
+      query: getQueryObj(url),
+      timeout: 100,
+      responseType: checkM3U8Url(url) ? ResponseType.Text : ResponseType.Binary,
     })
-      .then((response: Response): Promise<string | ArrayBuffer> => {
-        console.log('----response', response);
-
-
-        const resp = new Response({})
-
+      .then((rustResponse): Promise<string | ArrayBuffer> => {
+        const { data, headers, status, url } = rustResponse;
+        const response = new Response(checkBuffer(data, isArrayBuffer) ? new Uint8Array(data) : data, {
+          headers: new Headers(Object.assign({}, headers)),
+          status,
+          statusText: 'ok',
+        });
+        Object.defineProperty(response, 'url', { value: url });
+        // console.log('----response', response);
         this.response = this.loader = response;
 
         if (!response.ok) {
@@ -121,7 +129,9 @@ class FetchLoader implements Loader<LoaderContext> {
         const { response } = this;
         self.clearTimeout(this.requestTimeout);
         stats.loading.end = Math.max(self.performance.now(), stats.loading.first);
-        stats.loaded = stats.total = responseData[LENGTH];
+        stats.loaded = stats.total = checkBuffer(responseData, isArrayBuffer)
+          ? responseData['byteLength']
+          : responseData['length'];
 
         const loaderResponse = {
           url: response.url,
@@ -134,7 +144,7 @@ class FetchLoader implements Loader<LoaderContext> {
 
         callbacks.onSuccess(loaderResponse, stats, context, response);
       })
-      .catch((error) => {
+      .catch((error: FError) => {
         self.clearTimeout(this.requestTimeout);
         if (stats.aborted) {
           return;
@@ -142,7 +152,7 @@ class FetchLoader implements Loader<LoaderContext> {
         // CORS errors result in an undefined code. Set it to 0 here to align with XHR's behavior
         // when destroying, 'error' itself can be undefined
         const code: number = !error ? 0 : error.code || 0;
-        const text: string = !error ? null : error.message;
+        const text: string | null = !error ? null : error.message;
         callbacks.onError({ code, text }, context, error ? error.details : null);
       });
   }
@@ -160,11 +170,11 @@ class FetchLoader implements Loader<LoaderContext> {
     response: Response,
     stats: LoaderStats,
     context: LoaderContext,
-    highWaterMark: number = 0,
+    highWaterMark = 0,
     onProgress: LoaderOnProgress<LoaderContext>
   ): Promise<ArrayBuffer> {
     const chunkCache = new ChunkCache();
-    const reader = (response.body as ReadableStream).getReader();
+    const reader = (response.body as ReadableStream<Uint8Array>).getReader();
 
     const pump = (): Promise<ArrayBuffer> => {
       return reader
@@ -205,30 +215,45 @@ class FetchLoader implements Loader<LoaderContext> {
   }
 }
 
-function getRequestParameters(context: LoaderContext, signal): any {
-  const initParams: any = {
+type HttpVerb = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | 'HEAD' | 'OPTIONS' | 'CONNECT' | 'TRACE';
+interface FetchOptions extends Record<string, unknown> {
+  method: HttpVerb;
+  headers: Headers;
+  query?: Record<string, unknown>;
+  body?: Body;
+  timeout?: number;
+  responseType?: ResponseType;
+  //
+  mode?: string;
+  credentials?: string;
+  signal?: AbortSignal;
+}
+function getRequestParameters(context: LoaderContext, signal?: AbortSignal) {
+  const initParams: FetchOptions = {
     method: 'GET',
     mode: 'cors',
     credentials: 'same-origin',
+    responseType: ResponseType.Text,
     signal,
     headers: new self.Headers(Object.assign({}, context.headers)),
   };
 
   if (context.rangeEnd) {
+    // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
     initParams.headers.set('Range', 'bytes=' + context.rangeStart + '-' + String(context.rangeEnd - 1));
   }
 
   return initParams;
 }
 
-function getRequest(context: LoaderContext, initParams: any): Request {
+function getRequest(context: LoaderContext, initParams: Record<string, unknown>): Request {
   return new self.Request(context.url, initParams);
 }
 
 class FetchError extends Error {
   public code: number;
-  public details: any;
-  constructor(message: string, code: number, details: any) {
+  public details: object;
+  constructor(message: string, code: number, details: object) {
     super(message);
     this.code = code;
     this.details = details;
