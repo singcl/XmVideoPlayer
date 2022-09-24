@@ -91,9 +91,11 @@ class FetchLoader implements Loader<LoaderContext> {
     }, config.timeout);
 
     const { url, method, headers } = this.request;
+    const rustHeader: Record<string, unknown> = {};
+    headers.forEach((v, k) => (rustHeader[k] = v));
     fetch<string | ArrayBuffer>(url, {
       method: method as HttpVerb,
-      headers,
+      headers: rustHeader,
       query: getQueryObj(url),
       timeout: 100,
       responseType: checkM3U8Url(url) ? ResponseType.Text : ResponseType.Binary,
