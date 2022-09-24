@@ -22,7 +22,7 @@ export default class Normal {
       timeout: 100,
       headers: {
         Referer: this.url,
-        Range: 'bytes=0-5000000',
+        Range: 'bytes=0-1048576',
       },
       query: getQueryObj(this.url),
     });
