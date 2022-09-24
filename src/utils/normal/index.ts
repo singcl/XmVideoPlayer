@@ -20,15 +20,15 @@ export default class Normal {
       method: 'GET',
       responseType: ResponseType.Binary,
       timeout: 100,
-      headers: new Headers({
+      headers: {
         Referer: this.url,
-        Range: 'bytes=0-',
-      }),
+        Range: 'bytes=0-5000000',
+      },
       query: getQueryObj(this.url),
     });
-    console.log('----rustResponse', rustResponse);
     //
     const { data, status, headers, url } = rustResponse;
+    console.log('----headers', headers);
     const response = new Response(new Uint8Array(data), {
       headers: new Headers(Object.assign({}, headers)),
       status,

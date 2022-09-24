@@ -52,19 +52,19 @@ export function formatVideo(url: string, type?: string) {
       },
     };
   }
-  // return {
-  //   url,
-  //   type: 'normal',
-  // };
   return {
     url,
-    type: 'customNormal',
-    customType: {
-      customNormal(video: HTMLVideoElement /* player */) {
-        Normal.create({ url }).load(video);
-      },
-    },
+    type: 'normal',
   };
+  // return {
+  //   url,
+  //   type: 'customNormal',
+  //   customType: {
+  //     customNormal(video: HTMLVideoElement /* player */) {
+  //       Normal.create({ url }).load(video);
+  //     },
+  //   },
+  // };
 }
 
 //
