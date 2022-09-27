@@ -23,9 +23,13 @@ fn main() {
                 .decode_utf8_lossy()
                 .to_string();
 
-            println!("current request path: {:#?}", &path);
+            // debug log
+            println!("current request.uri(): {:#?}", request.uri());
+            println!("current web request url: {:#?}", &path);
+
             response = response
                 .header("Connection", "Keep-Alive")
+                .header("Access-Control-Allow-Origin", "*")
                 .header("Accept-Ranges", "bytes")
                 .header("Content-Length", 3)
                 .header("Content-Range", "bytes 0-3/3");
