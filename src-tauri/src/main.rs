@@ -10,6 +10,7 @@ fn greet(name: &str) -> String {
 }
 
 fn main() {
+    use reqwest::header::{HeaderMap, HeaderValue, CONTENT_TYPE, RANGE, USER_AGENT};
     use tauri::http::ResponseBuilder;
     tauri::Builder::default()
         .register_uri_scheme_protocol("stream", |_app, request| {
@@ -27,16 +28,20 @@ fn main() {
             println!("current request.uri(): {:#?}", request.uri());
             println!("current web request url: {:#?}", &path);
 
-            let resp = attohttpc::get(&path)
-                .header("Connection", "Keep-Alive")
-                .header("Access-Control-Allow-Origin", "*")
-                .header("Range", "bytes=0-")
-                .send()?;
-            println!("Status: {:?}", resp.status());
-            println!("Headers:\n{:#?}", resp.headers());
-            // println!("Body:\n{}", resp.text()?); // send the request
-            let mut buf = Vec::new();
-            resp.write_to(&mut buf)?;
+            fn construct_headers() -> HeaderMap {
+                let mut headers = HeaderMap::new();
+                headers.insert(USER_AGENT, HeaderValue::from_static("reqwest"));
+                headers.insert(CONTENT_TYPE, HeaderValue::from_static("image/png"));
+                headers.insert(RANGE, HeaderValue::from_static("bytes=0-1"));
+                headers
+            }
+            let client = reqwest::blocking::Client::new();
+            let resp = client.get(&path).headers(construct_headers()).send();
+            let mut buf: Vec<u8> = vec![];
+            let _ = &resp?.copy_to(&mut buf);
+            // println!("{:#?}", &mut &resp?.headers());
+            // let mut buf = Vec::new();
+            // resp.write_to(&mut buf)?;
 
             response = response
                 .header("Connection", "Keep-Alive")
