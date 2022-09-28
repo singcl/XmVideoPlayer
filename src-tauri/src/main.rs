@@ -27,16 +27,24 @@ fn main() {
             println!("current request.uri(): {:#?}", request.uri());
             println!("current web request url: {:#?}", &path);
 
+            let resp = attohttpc::get(&path)
+                .header("Connection", "Keep-Alive")
+                .header("Access-Control-Allow-Origin", "*")
+                .header("Range", "bytes=0-")
+                .send()?;
+            println!("Status: {:?}", resp.status());
+            println!("Headers:\n{:#?}", resp.headers());
+            // println!("Body:\n{}", resp.text()?); // send the request
+            let mut buf = Vec::new();
+            resp.write_to(&mut buf)?;
+
             response = response
                 .header("Connection", "Keep-Alive")
                 .header("Access-Control-Allow-Origin", "*")
                 .header("Accept-Ranges", "bytes")
                 .header("Content-Length", 3)
                 .header("Content-Range", "bytes 0-3/3");
-            response
-                .mimetype("video/mp4")
-                .status(206)
-                .body(vec![0, 1, 2])
+            response.mimetype("video/mp4").status(206).body(buf)
         })
         .invoke_handler(tauri::generate_handler![greet])
         .run(tauri::generate_context!())
