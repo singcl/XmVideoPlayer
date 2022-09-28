@@ -11,7 +11,7 @@ import { convertFileSrc } from '@tauri-apps/api/tauri';
 
 // 测试按钮
 async function handleTestClick() {
-  const url = convertFileSrc('https://ngcdn001.cnr.cn/live/zgzs/index.m3u8', 'stream');
+  const url = convertFileSrc('https://media.w3.org/2010/05/sintel/trailer.mp4', 'stream');
   console.log('---url', url);
   const response = await fetch(url, {
     method: 'GET',

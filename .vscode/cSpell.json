@@ -15,6 +15,7 @@
         "Tiktok",
         "unplugin",
         "vite",
-        "webvtt"
+        "webvtt",
+        "attohttpc"
     ]
 }
