@@ -1,6 +1,6 @@
 <template>
   <div class="player">
-    <XmSearch v-model="mediaUrl" @submit="restart" :placeholder="defaultUrl" />
+    <XmSearch v-model="mediaUrl" :placeholder="defaultUrl" @submit="restart" />
     <BannerWrapper>
       <BannerHeader />
     </BannerWrapper>

@@ -15,6 +15,7 @@ declare module '@vue/runtime-core' {
     HBanner: typeof import('./src/components/HBanner.vue')['default']
     HDescription: typeof import('./src/components/HDescription.vue')['default']
     HGreet: typeof import('./src/components/HGreet.vue')['default']
+    HTest: typeof import('./src/components/HTest.vue')['default']
     IconHeart: typeof import('@arco-design/web-vue/es/icon')['IconHeart']
     IconThumbUp: typeof import('@arco-design/web-vue/es/icon')['IconThumbUp']
     XmPlayer: typeof import('./src/components/Player/XmPlayer.vue')['default']

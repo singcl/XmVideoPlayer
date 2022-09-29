@@ -5,6 +5,7 @@
         "dashjs",
         "demux",
         "dplayer",
+        "elink",
         "fullscreen",
         "kiko",
         "redbag",
@@ -14,6 +15,8 @@
         "Tiktok",
         "unplugin",
         "vite",
-        "webvtt"
+        "webvtt",
+        "attohttpc",
+        "reqwest"
     ]
 }
