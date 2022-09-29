@@ -3,7 +3,12 @@
     windows_subsystem = "windows"
 )]
 
+use reqwest::header::{HeaderMap, HeaderValue, CONTENT_TYPE, RANGE, USER_AGENT};
+use std::fs::File;
+use std::path::PathBuf;
+use std::thread;
 use tauri::Manager;
+use tauri::Runtime;
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 #[tauri::command]
@@ -24,21 +29,43 @@ async fn close_splashscreen(window: tauri::Window) {
     window.get_window("main").unwrap().show().unwrap();
 }
 
+// TODO: 异步stream写入
+#[tauri::command]
+fn video_download<R: Runtime>(
+    app: tauri::AppHandle<R>,
+    window: tauri::Window<R>,
+    path: String,
+) -> Result<String, String> {
+    // 下载线程
+    // thread 'tokio-runtime-worker' panicked at 'Cannot drop a runtime in a context where blocking is not allowed.
+    // This happens when a runtime is dropped from within an asynchronous context.
+    // let client = reqwest::blocking::Client::new();
+
+    // 下载线程
+    thread::spawn(move || {
+        let client = reqwest::blocking::Client::new();
+        let resp = client.get(path).headers(construct_headers()).send();
+        let mut buf: Vec<u8> = Vec::new();
+        let mut r = resp.unwrap();
+        println!("{:#?}", r.headers());
+        let video_file = PathBuf::from("test_video.mp4");
+        let mut f = File::create(video_file).unwrap();
+        let _ = r.copy_to(&mut f);
+    });
+    Ok(String::from("Download Success"))
+}
+
+fn construct_headers() -> HeaderMap {
+    let mut headers = HeaderMap::new();
+    headers.insert(USER_AGENT, HeaderValue::from_static("reqwest"));
+    headers.insert(CONTENT_TYPE, HeaderValue::from_static("video/mp4"));
+    headers.insert(RANGE, HeaderValue::from_static("bytes=0-"));
+    headers
+}
+
 fn main() {
-    use reqwest::header::{HeaderMap, HeaderValue, CONTENT_TYPE, RANGE, USER_AGENT};
-    use std::fs::File;
-    use std::path::PathBuf;
-    use std::thread;
     use tauri::http::ResponseBuilder;
     // use std::io::prelude::*;
-
-    fn construct_headers() -> HeaderMap {
-        let mut headers = HeaderMap::new();
-        headers.insert(USER_AGENT, HeaderValue::from_static("reqwest"));
-        headers.insert(CONTENT_TYPE, HeaderValue::from_static("video/mp4"));
-        headers.insert(RANGE, HeaderValue::from_static("bytes=0-"));
-        headers
-    }
 
     tauri::Builder::default()
         // register_uri_scheme_protocol 不支持返回数据流？？？
@@ -57,18 +84,6 @@ fn main() {
             println!("current request.uri(): {:#?}", request.uri());
             println!("current web request url: {:#?}", &path);
 
-            // 下载线程
-            thread::spawn(move || {
-                let client = reqwest::blocking::Client::new();
-                let resp = client.get(path).headers(construct_headers()).send();
-                let mut buf: Vec<u8> = Vec::new();
-                let mut r = resp.unwrap();
-                println!("{:#?}", r.headers());
-                let video_file = PathBuf::from("test_video.mp4");
-                let f = File::create(video_file);
-                let _ = r.copy_to(&mut f.unwrap());
-            });
-
             response = response
                 .header("Connection", "Keep-Alive")
                 .header("Access-Control-Allow-Origin", "*")
@@ -77,7 +92,11 @@ fn main() {
                 .header("Content-Range", "bytes 0-3/3");
             response.mimetype("video/mp4").status(206).body(vec![0])
         })
-        .invoke_handler(tauri::generate_handler![greet, close_splashscreen])
+        .invoke_handler(tauri::generate_handler![
+            greet,
+            close_splashscreen,
+            video_download
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
