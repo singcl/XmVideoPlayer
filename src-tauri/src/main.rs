@@ -11,6 +11,9 @@ fn greet(name: &str) -> String {
     format!("Hello, {}! You've been greeted from Rust!", name)
 }
 
+// https://tauri.app/zh/v1/guides/features/splashscreen
+// Waiting for Rust
+// If you are waiting for Rust code to run, put it in the setup function handler so you have access to the App instance:
 #[tauri::command]
 async fn close_splashscreen(window: tauri::Window) {
     // Close splashscreen
