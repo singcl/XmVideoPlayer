@@ -6,6 +6,7 @@ coverage
 #
 src/assets/
 index.html
+splashscreen.html
 
 # auto generate file
 components.d.ts

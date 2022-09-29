@@ -1,5 +1,6 @@
 {
     "words": [
+        "attohttpc",
         "chromecast",
         "danmaku",
         "dashjs",
@@ -9,14 +10,14 @@
         "fullscreen",
         "kiko",
         "redbag",
+        "reqwest",
         "Roadmap",
         "singcl",
+        "splashscreen",
         "tauri",
         "Tiktok",
         "unplugin",
         "vite",
-        "webvtt",
-        "attohttpc",
-        "reqwest"
+        "webvtt"
     ]
 }
