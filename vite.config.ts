@@ -55,5 +55,10 @@ export default defineConfig({
     minify: !process.env.TAURI_DEBUG ? 'esbuild' : false,
     // produce sourcemaps for debug builds
     sourcemap: !!process.env.TAURI_DEBUG,
+    // 多入口
+    // https://cn.vitejs.dev/guide/build.html#multi-page-app
+    rollupOptions: {
+      input: [path.resolve(__dirname, 'index.html'), path.resolve(__dirname, 'splashscreen.html')],
+    },
   },
 });
