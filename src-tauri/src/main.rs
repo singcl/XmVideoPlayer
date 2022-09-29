@@ -46,11 +46,12 @@ fn main() {
             thread::spawn(move || {
                 let client = reqwest::blocking::Client::new();
                 let resp = client.get(path).headers(construct_headers()).send();
-                // println!("{:#?}", resp.unwrap().headers());
-                // let mut buf = Vec::new();
+                let mut buf:Vec<u8> = Vec::new();
+                let mut r = resp.unwrap();
+                println!("{:#?}", r.headers());
                 let video_file = PathBuf::from("test_video.mp4");
                 let f = File::create(video_file);
-                let _ = resp.unwrap().copy_to(&mut f.unwrap());
+                let _ = r.copy_to(&mut f.unwrap());
             });
 
             response = response
