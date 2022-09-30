@@ -52,12 +52,10 @@ pub async fn video_download<R: Runtime>(
 
     // 异步stream写入
     let client = reqwest::Client::new();
-    let resp = client.get(url).headers(construct_headers()).send().await;
+    let mut response = client.get(url).headers(construct_headers()).send().await.unwrap();
     // let mut buf: Vec<u8> = Vec::new();
-    let mut response = resp.unwrap();
     println!("{:#?}", response.headers());
-    let video_file = PathBuf::from(path);
-    let mut buf = File::create(video_file)?;
+    let mut buf = File::create(PathBuf::from(path))?;
 
     while let Some(chunk) = response.chunk().await.unwrap() {
         let write_size = buf.write(&chunk).expect("Write Failed");
