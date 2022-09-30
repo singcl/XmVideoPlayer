@@ -5,8 +5,9 @@
 
 use reqwest::header::{HeaderMap, HeaderValue, CONTENT_TYPE, RANGE, USER_AGENT};
 use std::fs::File;
+use std::io::prelude::*;
 use std::path::PathBuf;
-use std::thread;
+// use std::thread;
 use tauri::Manager;
 use tauri::Runtime;
 
@@ -29,9 +30,8 @@ async fn close_splashscreen(window: tauri::Window) {
     window.get_window("main").unwrap().show().unwrap();
 }
 
-// TODO: 异步stream写入
 #[tauri::command]
-fn video_download<R: Runtime>(
+async fn video_download<R: Runtime>(
     app: tauri::AppHandle<R>,
     window: tauri::Window<R>,
     path: String,
@@ -41,17 +41,32 @@ fn video_download<R: Runtime>(
     // This happens when a runtime is dropped from within an asynchronous context.
     // let client = reqwest::blocking::Client::new();
 
-    // 下载线程
-    thread::spawn(move || {
-        let client = reqwest::blocking::Client::new();
-        let resp = client.get(path).headers(construct_headers()).send();
-        let mut buf: Vec<u8> = Vec::new();
-        let mut r = resp.unwrap();
-        println!("{:#?}", r.headers());
-        let video_file = PathBuf::from("test_video.mp4");
-        let mut f = File::create(video_file).unwrap();
-        let _ = r.copy_to(&mut f);
-    });
+    // // 下载线程
+    // thread::spawn(move || {
+    //     let client = reqwest::blocking::Client::new();
+    //     let resp = client.get(path).headers(construct_headers()).send();
+    //     let mut buf: Vec<u8> = Vec::new();
+    //     let mut r = resp.unwrap();
+    //     println!("{:#?}", r.headers());
+    //     let video_file = PathBuf::from("test_video.mp4");
+    //     let mut f = File::create(video_file).unwrap();
+    //     let _ = r.copy_to(&mut f);
+    // });
+
+    // 异步stream写入
+    let client = reqwest::Client::new();
+    let resp = client.get(path).headers(construct_headers()).send().await;
+    // let mut buf: Vec<u8> = Vec::new();
+    let mut response = resp.unwrap();
+    println!("{:#?}", response.headers());
+    let video_file = PathBuf::from("test_video.mp4");
+    let mut buf = File::create(video_file).unwrap();
+
+    while let Some(chunk) = response.chunk().await.unwrap() {
+        let write_size = buf.write(&chunk).expect("Write Failed");
+        println!("已写入:{:?}", write_size);
+    }
+    println!("写入完成，Success!");
     Ok(String::from("Download Success"))
 }
 
