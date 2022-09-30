@@ -3,7 +3,7 @@ use std::io::prelude::*;
 use std::path::PathBuf;
 use tauri::Manager;
 // use std::thread;
-use tauri::Runtime;
+// use tauri::Runtime;
 
 use reqwest::header::{HeaderMap, HeaderValue, CONTENT_TYPE, RANGE, USER_AGENT};
 
@@ -27,9 +27,9 @@ pub async fn close_splashscreen(window: tauri::Window) {
 }
 
 #[tauri::command]
-pub async fn video_download<R: Runtime>(
-    app: tauri::AppHandle<R>,
-    window: tauri::Window<R>,
+pub async fn video_download/* <R: Runtime> */(
+    // app: tauri::AppHandle<R>,
+    // window: tauri::Window<R>,
     path: String,
     url: String,
 ) -> Result<String, tauri::Error> {
