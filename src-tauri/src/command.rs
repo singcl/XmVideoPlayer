@@ -65,7 +65,7 @@ pub async fn video_download(
     let mut buf = File::create(PathBuf::from(path))?;
 
     while let Some(chunk) = response.chunk().await.unwrap() {
-        let write_size = buf.write(&chunk).expect("Write Failed");
+        let write_size = buf.write(&chunk)?;
         println!("已写入:{:?}", write_size);
     }
     println!("写入完成，Success!");
