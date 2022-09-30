@@ -35,6 +35,7 @@ async fn video_download<R: Runtime>(
     app: tauri::AppHandle<R>,
     window: tauri::Window<R>,
     path: String,
+    url: String,
 ) -> Result<String, String> {
     // 下载线程
     // thread 'tokio-runtime-worker' panicked at 'Cannot drop a runtime in a context where blocking is not allowed.
@@ -55,11 +56,11 @@ async fn video_download<R: Runtime>(
 
     // 异步stream写入
     let client = reqwest::Client::new();
-    let resp = client.get(path).headers(construct_headers()).send().await;
+    let resp = client.get(url).headers(construct_headers()).send().await;
     // let mut buf: Vec<u8> = Vec::new();
     let mut response = resp.unwrap();
     println!("{:#?}", response.headers());
-    let video_file = PathBuf::from("test_video.mp4");
+    let video_file = PathBuf::from(path);
     let mut buf = File::create(video_file).unwrap();
 
     while let Some(chunk) = response.chunk().await.unwrap() {
