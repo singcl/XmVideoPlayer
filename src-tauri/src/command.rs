@@ -32,7 +32,7 @@ pub async fn video_download<R: Runtime>(
     window: tauri::Window<R>,
     path: String,
     url: String,
-) -> Result<String, String> {
+) -> Result<String, tauri::Error> {
     // 下载线程
     // thread 'tokio-runtime-worker' panicked at 'Cannot drop a runtime in a context where blocking is not allowed.
     // This happens when a runtime is dropped from within an asynchronous context.
@@ -57,7 +57,7 @@ pub async fn video_download<R: Runtime>(
     let mut response = resp.unwrap();
     println!("{:#?}", response.headers());
     let video_file = PathBuf::from(path);
-    let mut buf = File::create(video_file).unwrap();
+    let mut buf = File::create(video_file)?;
 
     while let Some(chunk) = response.chunk().await.unwrap() {
         let write_size = buf.write(&chunk).expect("Write Failed");
