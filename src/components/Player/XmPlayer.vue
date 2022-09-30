@@ -2,7 +2,7 @@
   <div class="player">
     <XmSearch v-model="mediaUrl" :placeholder="defaultUrl" @submit="restart" />
     <BannerWrapper>
-      <BannerHeader />
+      <BannerHeader :media-url="mediaUrl" />
     </BannerWrapper>
     <XmVideo ref="playerRef" :default-url="defaultUrl" />
     <BannerWrapper>
