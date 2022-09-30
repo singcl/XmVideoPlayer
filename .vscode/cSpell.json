@@ -1,23 +1,24 @@
 {
-    "words": [
-        "attohttpc",
-        "chromecast",
-        "danmaku",
-        "dashjs",
-        "demux",
-        "dplayer",
-        "elink",
-        "fullscreen",
-        "kiko",
-        "redbag",
-        "reqwest",
-        "Roadmap",
-        "singcl",
-        "splashscreen",
-        "tauri",
-        "Tiktok",
-        "unplugin",
-        "vite",
-        "webvtt"
-    ]
+  "words": [
+    "attohttpc",
+    "chromecast",
+    "danmaku",
+    "dashjs",
+    "demux",
+    "dplayer",
+    "elink",
+    "fullscreen",
+    "kiko",
+    "redbag",
+    "redirections",
+    "reqwest",
+    "Roadmap",
+    "singcl",
+    "splashscreen",
+    "tauri",
+    "Tiktok",
+    "unplugin",
+    "vite",
+    "webvtt"
+  ]
 }

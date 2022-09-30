@@ -20,6 +20,7 @@ tauri = { version = "1.1.1", features = ["api-all"] }
 percent-encoding = "2.2.0"
 reqwest = { version = "0.11", features = ["blocking", "json"] }
 tokio = { version = "1", features = ["full"] }
+futures-util = "0.3.24"
 
 [features]
 # by default Tauri runs in production mode
