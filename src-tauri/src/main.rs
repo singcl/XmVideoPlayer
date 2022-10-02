@@ -38,7 +38,8 @@ fn main() {
         .invoke_handler(tauri::generate_handler![
             command::normal::greet,
             command::splashscreen::close_splashscreen,
-            command::media::video_download
+            command::media::video_download,
+            command::m3u8::m3u8_download,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
