@@ -16,6 +16,7 @@ pub(crate) async fn m3u8_download(
     save_path: String,
     m3u8_url: &str,
 ) -> Result<String, error::M3u8Error> {
+    std::fs::create_dir_all("./temp").unwrap();
     let url_list = request::get_m3u8_list(m3u8_url).await?;
     let url_list_entity = parse::parse_m3u8_list(&url_list, m3u8_url);
     request::get_all_ts(&url_list_entity).await;
