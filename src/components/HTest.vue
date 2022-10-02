@@ -38,9 +38,12 @@ async function handleTestClick() {
       defaultPath: downloadDirPath,
     });
     if (!filePath) return;
-    // console.log('------', filePath);
+    console.log('------', filePath);
     loading.value = true;
-    const res = await invoke('video_download', { url: 'http://vjs.zencdn.net/v/oceans.mp4', path: filePath });
+    const res = await invoke('m3u8_download', {
+      m3u8Url: 'https://bitdash-a.akamaihd.net/content/sintel/hls/video/800kbit.m3u8',
+      savePath: filePath,
+    });
     console.log('------', res);
   } finally {
     loading.value = false;

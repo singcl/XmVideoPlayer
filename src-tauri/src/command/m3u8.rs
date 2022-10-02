@@ -11,7 +11,7 @@ pub mod error;
 // use reqwest::header::{HeaderMap, HeaderValue, CONTENT_TYPE, RANGE, USER_AGENT};
 
 #[tauri::command]
-pub(crate) async fn m3u8_download(path: String, m3u8_url: &str) -> Result<String, error::M3u8Error> {
+pub(crate) async fn m3u8_download(save_path: String, m3u8_url: &str) -> Result<String, error::M3u8Error> {
     let url_list = request::get_m3u8_list(m3u8_url).await?;
     Ok(url_list)
 }
