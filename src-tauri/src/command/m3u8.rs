@@ -18,8 +18,6 @@ pub(crate) async fn m3u8_download(
 ) -> Result<String, error::M3u8Error> {
     let url_list = request::get_m3u8_list(m3u8_url).await?;
     let url_list_entity = parse::parse_m3u8_list(&url_list, m3u8_url);
-    // for i in &url_list_entity {
-    //     println!("{}", i);
-    // }
-    Ok(url_list)
+    request::get_all_ts(&url_list_entity).await;
+    Ok("Success!".into())
 }
