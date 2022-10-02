@@ -36,9 +36,9 @@ fn main() {
             response.mimetype("video/mp4").status(206).body(vec![0])
         })
         .invoke_handler(tauri::generate_handler![
-            command::greet,
-            command::close_splashscreen,
-            command::video_download
+            command::normal::greet,
+            command::splashscreen::close_splashscreen,
+            command::media::video_download
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
