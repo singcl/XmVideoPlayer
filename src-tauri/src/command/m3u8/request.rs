@@ -1,6 +1,6 @@
 use super::error;
 use std::io::Write;
-use std::path::PathBuf;
+use std::path::{PathBuf};
 
 pub(crate) async fn get_m3u8_list(m3u8_url: &str) -> Result<String, error::M3u8Error> {
     match reqwest::get(m3u8_url).await {
@@ -26,20 +26,20 @@ pub(crate) async fn get_m3u8_list(m3u8_url: &str) -> Result<String, error::M3u8E
     }
 }
 
-pub async fn get_ts(url: String, id: usize) -> Result<(), error::M3u8Error> {
+pub async fn get_ts(url: &String, id: &usize, path: &str) -> Result<(), error::M3u8Error> {
     println!("thread {} created", id);
     match reqwest::get(url).await {
-        Ok(response) => match response.status() {
-            reqwest::StatusCode::OK => match response.bytes().await {
-                Ok(bytes) => {
-                    let mut f =
-                        std::fs::File::create(PathBuf::from(format!("./temp/{}.ts", id))).unwrap();
-                    f.write_all(&bytes)
-                        .expect(format!("failed to write {}.ts", id).as_str());
-                    Ok(())
+        Ok(mut response) => match response.status() {
+            reqwest::StatusCode::OK => {
+                let mut ts_path = PathBuf::from(path);
+                ts_path.push(format!("{}.ts", id));
+                let mut f = std::fs::File::create(ts_path).unwrap();
+                while let Some(chunk) = response.chunk().await.unwrap() {
+                    let write_size = f.write(&chunk).unwrap();
+                    println!("已写入:{:?}", write_size);
                 }
-                Err(cause) => Err(error::M3u8Error::HTTPError(cause)),
-            },
+                Ok(())
+            }
             status_code => {
                 println!(
                     "Error getting M3u8 List, Message: {} Try again...",
@@ -56,15 +56,10 @@ pub async fn get_ts(url: String, id: usize) -> Result<(), error::M3u8Error> {
     }
 }
 
-pub async fn get_all_ts(url_list: &Vec<String>) {
-    // pass
-    let mut handlers = Vec::new();
-    for id in 0..url_list.len() {
-        handlers.push(tokio::spawn(get_ts(format!("{}", url_list[0]), id)));
+pub async fn get_all_ts(url_list: &Vec<String>, temp_dir: &str) {
+    for item in 0..url_list.len() {
+        let link = url_list.get(item).unwrap();
+        get_ts(link, &item, &temp_dir).await.unwrap();
     }
-    println!("All {} thread(s) created", url_list.len());
-    for handle in handlers {
-        handle.await.unwrap().unwrap();
-    }
-    println!("All threads finished");
+    println!("下载完成");
 }

@@ -1,6 +1,6 @@
 // use std::fs::File;
 // use std::io::prelude::*;
-// use std::path::PathBuf;
+use std::path::PathBuf;
 // use std::thread;
 // use tauri::Runtime;
 // use futures_util::StreamExt;
@@ -16,9 +16,10 @@ pub(crate) async fn m3u8_download(
     save_path: String,
     m3u8_url: &str,
 ) -> Result<String, error::M3u8Error> {
-    std::fs::create_dir_all("./temp").unwrap();
+  let temp_dir = PathBuf::from(format!("{}/temp", save_path));
+    std::fs::create_dir_all(&temp_dir).unwrap();
     let url_list = request::get_m3u8_list(m3u8_url).await?;
     let url_list_entity = parse::parse_m3u8_list(&url_list, m3u8_url);
-    request::get_all_ts(&url_list_entity).await;
+    request::get_all_ts(&url_list_entity, temp_dir.to_str().unwrap()).await;
     Ok("Success!".into())
 }
