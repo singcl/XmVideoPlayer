@@ -24,6 +24,7 @@ import { /* convertFileSrc */ invoke } from '@tauri-apps/api/tauri';
 import { downloadDir } from '@tauri-apps/api/path';
 import { save } from '@tauri-apps/api/dialog';
 import { Message } from '@arco-design/web-vue';
+import { checkM3U8Url } from '@/utils/validator';
 
 const props = defineProps({
   mediaUrl: {
@@ -54,9 +55,20 @@ async function handleDownloadClick() {
     if (!filePath) return;
     console.log('------', filePath);
     loading.value = true;
+
+    if (checkM3U8Url(props.mediaUrl)) {
+      const res = await invoke('m3u8_download', {
+        m3u8Url: props.mediaUrl,
+        savePath: filePath,
+      });
+      console.log('------', res);
+      Message.success({ content: '下载成功！' });
+      return;
+    }
+
     const res = await invoke('video_download', { url: props.mediaUrl, path: filePath });
-    Message.success({ content: '下载成功！' });
     console.log('------', res);
+    Message.success({ content: '下载成功！' });
   } finally {
     loading.value = false;
   }
