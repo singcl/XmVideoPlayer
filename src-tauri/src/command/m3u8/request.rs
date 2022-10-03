@@ -1,6 +1,6 @@
 use super::error;
 use std::io::Write;
-use std::path::{PathBuf};
+use std::path::PathBuf;
 
 pub(crate) async fn get_m3u8_list(m3u8_url: &str) -> Result<String, error::M3u8Error> {
     match reqwest::get(m3u8_url).await {
@@ -26,7 +26,7 @@ pub(crate) async fn get_m3u8_list(m3u8_url: &str) -> Result<String, error::M3u8E
     }
 }
 
-pub async fn get_ts(url: &String, id: &usize, path: &str) -> Result<(), error::M3u8Error> {
+pub async fn get_ts(url: String, id: usize, path: String) -> Result<(), error::M3u8Error> {
     println!("thread {} created", id);
     match reqwest::get(url).await {
         Ok(mut response) => match response.status() {
@@ -57,9 +57,15 @@ pub async fn get_ts(url: &String, id: &usize, path: &str) -> Result<(), error::M
 }
 
 pub async fn get_all_ts(url_list: &Vec<String>, temp_dir: &str) {
-    for item in 0..url_list.len() {
-        let link = url_list.get(item).unwrap();
-        get_ts(link, &item, &temp_dir).await.unwrap();
+    // pass
+    let mut handlers = Vec::new();
+    for id in 0..url_list.len() {
+        let link = url_list.get(id).unwrap().clone();
+        handlers.push(tokio::spawn(get_ts(link, id, String::from(temp_dir))));
     }
-    println!("下载完成");
+    println!("All {} thread(s) created", url_list.len());
+    for handle in handlers {
+        handle.await.unwrap().unwrap();
+    }
+    println!("All threads finished");
 }
