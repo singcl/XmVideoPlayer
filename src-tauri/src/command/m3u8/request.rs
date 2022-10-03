@@ -1,6 +1,8 @@
 use super::error;
 use std::io::Write;
-use std::path::{PathBuf};
+use std::path::PathBuf;
+use std::time::Duration;
+use tokio::time;
 
 pub(crate) async fn get_m3u8_list(m3u8_url: &str) -> Result<String, error::M3u8Error> {
     match reqwest::get(m3u8_url).await {
@@ -27,7 +29,6 @@ pub(crate) async fn get_m3u8_list(m3u8_url: &str) -> Result<String, error::M3u8E
 }
 
 pub async fn get_ts(url: &String, id: &usize, path: &str) -> Result<(), error::M3u8Error> {
-    println!("thread {} created", id);
     match reqwest::get(url).await {
         Ok(mut response) => match response.status() {
             reqwest::StatusCode::OK => {
@@ -36,6 +37,7 @@ pub async fn get_ts(url: &String, id: &usize, path: &str) -> Result<(), error::M
                 let mut f = std::fs::File::create(ts_path).unwrap();
                 while let Some(chunk) = response.chunk().await.unwrap() {
                     let write_size = f.write(&chunk).unwrap();
+                    time::sleep(Duration::from_millis(10)).await;
                     println!("已写入:{:?}", write_size);
                 }
                 Ok(())
