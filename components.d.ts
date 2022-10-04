@@ -9,6 +9,8 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     AAutoComplete: typeof import('@arco-design/web-vue')['AutoComplete']
     AButton: typeof import('@arco-design/web-vue')['Button']
+    AProgress: typeof import('@arco-design/web-vue')['Progress']
+    ATooltip: typeof import('@arco-design/web-vue')['Tooltip']
     BannerFooter: typeof import('./src/components/Player/BannerFooter.vue')['default']
     BannerHeader: typeof import('./src/components/Player/BannerHeader.vue')['default']
     BannerWrapper: typeof import('./src/components/Player/BannerWrapper.vue')['default']

@@ -1,30 +1,58 @@
 <template>
-  <div class="b-header">
-    <div class="avatar">
-      <div class="avatar-dec"></div>
+  <div class="wrapper">
+    <div class="b-header">
+      <div class="avatar">
+        <div class="avatar-dec"></div>
+      </div>
+      <div class="op">
+        <icon-refresh v-if="loading" class="op-ico" :size="24" :style="{ color: '#a5bcff' }" spin />
+        <icon-cloud-download
+          v-else
+          class="op-ico"
+          :size="24"
+          :style="{ color: '#a5bcff' }"
+          @click="handleDownloadClick"
+        />
+        <icon-heart class="op-ico" :size="24" :style="{ color: '#a5bcff' }" />
+        <icon-thumb-up class="op-ico" :size="24" :style="{ color: '#a5bcff' }" />
+      </div>
     </div>
-    <div class="op">
-      <icon-refresh v-if="loading" class="op-ico" :size="24" :style="{ color: '#a5bcff' }" spin />
-      <icon-cloud-download
-        v-else
-        class="op-ico"
-        :size="24"
-        :style="{ color: '#a5bcff' }"
-        @click="handleDownloadClick"
-      />
-      <icon-heart class="op-ico" :size="24" :style="{ color: '#a5bcff' }" />
-      <icon-thumb-up class="op-ico" :size="24" :style="{ color: '#a5bcff' }" />
-    </div>
+    <a-tooltip>
+      <div v-if="downloadPayload.total > 0" class="progress">
+        <div
+          v-for="item in downloadPayload.total"
+          :key="item"
+          :style="{ width: `${(1 / downloadPayload.total) * 100}%` }"
+          :class="{ success: downloadPayload.current >= item }"
+          class="progress__chunk"
+        ></div>
+      </div>
+      <template #content>
+        <a-progress
+          type="circle"
+          :stroke-width="12"
+          :percent="Number(Number(downloadPayload.current / downloadPayload.total).toFixed(2))"
+        />
+      </template>
+    </a-tooltip>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { appWindow /* WebviewWindow */ } from '@tauri-apps/api/window';
+import { ref, reactive } from 'vue';
 import { /* convertFileSrc */ invoke } from '@tauri-apps/api/tauri';
 import { downloadDir } from '@tauri-apps/api/path';
 import { save } from '@tauri-apps/api/dialog';
 import { Message } from '@arco-design/web-vue';
 import { checkM3U8Url } from '@/utils/validator';
+
+interface PayloadDownload {
+  downloadType: string;
+  message: string;
+  total: number;
+  current: number;
+}
 
 const props = defineProps({
   mediaUrl: {
@@ -33,6 +61,11 @@ const props = defineProps({
   },
 });
 const loading = ref(false);
+const downloadPayload = ref<PayloadDownload>({ downloadType: 'm3u8', message: '', total: 0, current: 0 });
+appWindow.listen('download', (e) => {
+  console.log('-----download:', e.payload);
+  downloadPayload.value = e.payload as PayloadDownload;
+});
 // 下载
 async function handleDownloadClick() {
   if (!props.mediaUrl) return Message.info({ content: '请输入正确的链接' });
@@ -76,17 +109,48 @@ async function handleDownloadClick() {
 </script>
 
 <style scoped>
+.wrapper {
+  position: relative;
+  max-height: 56px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.progress {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  background-color: #f7f7f7;
+}
+
+.progress__chunk {
+  box-sizing: border-box;
+  width: 6px;
+  height: 6px;
+  background-color: #f7f7f7;
+  /* border: 1px solid #f7f7f7; */
+}
+
+/* .progress__chunk + .progress__chunk {
+  border-left: none;
+} */
+
+.progress__chunk.success {
+  background-color: green;
+}
 .b-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 100%;
+  height: 48px;
   margin: 0 12px 0 4px;
 }
 .avatar {
   position: relative;
-  width: 48px;
-  height: 48px;
+  width: 42px;
+  height: 42px;
   background-image: url('./../../assets/avatar.webp');
   background-size: cover;
   border-radius: 2px;
