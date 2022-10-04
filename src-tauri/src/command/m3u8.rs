@@ -29,6 +29,9 @@ pub(crate) async fn m3u8_download(
 
     // 保存目录
     let mut out_path = PathBuf::from(save_path);
+    if !out_path.exists() {
+        std::fs::create_dir_all(&out_path).unwrap();
+    }
     out_path.push("output.ts");
     let out_path_str = out_path.to_str().unwrap();
 
