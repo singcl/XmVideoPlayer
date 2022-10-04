@@ -1,4 +1,3 @@
-use std::fmt::format;
 use std::hash::Hash;
 // use std::fs::File;
 // use std::io::prelude::*;
@@ -8,6 +7,7 @@ use std::path::PathBuf;
 // use futures_util::StreamExt;
 use std::collections::hash_map::DefaultHasher;
 use std::hash::Hasher;
+use tauri::Window;
 
 pub mod error;
 pub mod merge;
@@ -18,6 +18,7 @@ pub mod request;
 
 #[tauri::command]
 pub(crate) async fn m3u8_download(
+    window: Window,
     save_path: String,
     m3u8_url: &str,
 ) -> Result<String, error::M3u8Error> {
@@ -47,7 +48,7 @@ pub(crate) async fn m3u8_download(
     let url_list = request::get_m3u8_list(m3u8_url).await?;
     let url_list_entity = parse::parse_m3u8_list(&url_list, m3u8_url);
     // TODO:断点续下
-    request::get_all_ts(&url_list_entity, temp_dir_str).await;
+    request::get_all_ts(&url_list_entity, temp_dir_str, &window).await;
     merge::merge_ts(temp_dir_str, out_path_str);
 
     Ok("Success!".into())

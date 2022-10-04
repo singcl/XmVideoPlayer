@@ -31,10 +31,15 @@ document.addEventListener('DOMContentLoaded', () => {
   // run this function on whatever trigger you want
   setTimeout(() => invoke('close_splashscreen'), 1000); // 让加载动画多显示一会儿
   invoke('init_process');
-  appWindow.listen('xm-init', (e) => {
+  appWindow.listen('ping', (e) => {
     // event.event is the event name (useful if you want to use a single callback fn for multiple event types)
     // event.payload is the payload object
-    console.log('-----message:', e.payload);
+    console.log('-----ping:', e.payload);
+  });
+  appWindow.listen('download', (e) => {
+    // event.event is the event name (useful if you want to use a single callback fn for multiple event types)
+    // event.payload is the payload object
+    console.log('-----download:', e.payload);
   });
 });
 </script>

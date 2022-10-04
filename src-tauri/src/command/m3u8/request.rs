@@ -1,7 +1,9 @@
 use super::error;
+use crate::command::payload::PayloadDownload;
 use std::io::Write;
 use std::path::PathBuf;
 use std::time::Duration;
+use tauri::Window;
 use tokio::time;
 
 pub(crate) async fn get_m3u8_list(m3u8_url: &str) -> Result<String, error::M3u8Error> {
@@ -58,10 +60,21 @@ pub async fn get_ts(url: &String, id: &usize, path: &str) -> Result<(), error::M
     }
 }
 
-pub async fn get_all_ts(url_list: &Vec<String>, temp_dir: &str) {
+pub async fn get_all_ts(url_list: &Vec<String>, temp_dir: &str, window: &Window) {
     for item in 0..url_list.len() {
         let link = url_list.get(item).unwrap();
         get_ts(link, &item, &temp_dir).await.unwrap();
+        window
+            .emit(
+                "download",
+                PayloadDownload {
+                    download_type: "m3u8".into(),
+                    message: "下载中...".into(),
+                    total: url_list.len(),
+                    current: item,
+                },
+            )
+            .unwrap();
     }
     println!("下载完成");
 }

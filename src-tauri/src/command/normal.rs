@@ -13,7 +13,7 @@ pub fn init_process(window: Window) {
     std::thread::spawn(move || loop {
         window
             .emit(
-                "xm-init",
+                "ping",
                 Payload {
                     message: "XmVideoPlayer@singcl<https://github.com/singcl>".into(),
                 },
