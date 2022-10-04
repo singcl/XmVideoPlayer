@@ -1,9 +1,13 @@
+use std::fmt::format;
+use std::hash::Hash;
 // use std::fs::File;
 // use std::io::prelude::*;
 use std::path::PathBuf;
 // use std::thread;
 // use tauri::Runtime;
 // use futures_util::StreamExt;
+use std::collections::hash_map::DefaultHasher;
+use std::hash::Hasher;
 
 pub mod error;
 pub mod merge;
@@ -17,12 +21,17 @@ pub(crate) async fn m3u8_download(
     save_path: String,
     m3u8_url: &str,
 ) -> Result<String, error::M3u8Error> {
+    let mut hasher = DefaultHasher::new();
+    m3u8_url.hash(&mut hasher);
+    let m3_hash = hasher.finish();
+    // println!("Hash is {:x}!", &m3_hash);
+
     let mut home_dir = tauri::api::path::home_dir().unwrap();
     home_dir.push(".xmvideoplayer");
 
     // 临时目录
     let mut temp_dir = home_dir.clone();
-    temp_dir.push("temp");
+    temp_dir.push(format!("xm_{}", &m3_hash));
 
     std::fs::create_dir_all(&temp_dir).unwrap();
     let temp_dir_str = temp_dir.to_str().unwrap();
@@ -32,7 +41,7 @@ pub(crate) async fn m3u8_download(
     if !out_path.exists() {
         std::fs::create_dir_all(&out_path).unwrap();
     }
-    out_path.push("output.ts");
+    out_path.push(format!("xm_{}.ts", &m3_hash));
     let out_path_str = out_path.to_str().unwrap();
 
     let url_list = request::get_m3u8_list(m3u8_url).await?;
