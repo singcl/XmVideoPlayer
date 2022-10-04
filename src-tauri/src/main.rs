@@ -11,6 +11,13 @@ fn main() {
     // use std::io::prelude::*;
 
     tauri::Builder::default()
+        .setup(|_app| {
+            if let Some(mut home_dir) = tauri::api::path::home_dir() {
+                home_dir.push(".xmvideoplayer");
+                std::fs::create_dir_all(&home_dir)?;
+            }
+            Ok(())
+        })
         // register_uri_scheme_protocol 不支持返回数据流？？？
         .register_uri_scheme_protocol("stream", move |_app, request| {
             let mut response = ResponseBuilder::new();
