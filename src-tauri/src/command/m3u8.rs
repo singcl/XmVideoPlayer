@@ -41,9 +41,19 @@ pub(crate) async fn m3u8_download(
 
     let url_list = request::get_m3u8_list(m3u8_url).await?;
     let url_list_entity = parse::parse_m3u8_list(&url_list, m3u8_url);
+    let url_list_entity_hash = url_list_entity
+        .iter()
+        .map(|r| utils::hash_str(r))
+        .collect::<Vec<_>>();
     // TODO:断点续下
-    request::get_all_ts(&url_list_entity, temp_dir_str, &window).await;
-    merge::merge_ts(temp_dir_str, out_path_str);
+    request::get_all_ts(
+        &url_list_entity,
+        &url_list_entity_hash,
+        temp_dir_str,
+        &window,
+    )
+    .await;
+    merge::merge_ts(&url_list_entity_hash, temp_dir_str, out_path_str);
 
     Ok("Success!".into())
 }

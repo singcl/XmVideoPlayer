@@ -1,5 +1,6 @@
 use super::error;
 use crate::command::payload::PayloadDownload;
+use crate::utils;
 use std::io::Write;
 use std::path::PathBuf;
 use std::time::Duration;
@@ -30,7 +31,7 @@ pub(crate) async fn get_m3u8_list(m3u8_url: &str) -> Result<String, error::M3u8E
     }
 }
 
-pub async fn get_ts(url: &String, id: &usize, path: &str) -> Result<(), error::M3u8Error> {
+pub async fn get_ts(url: &String, id: &u64, path: &str) -> Result<(), error::M3u8Error> {
     match reqwest::get(url).await {
         Ok(mut response) => match response.status() {
             reqwest::StatusCode::OK => {
@@ -60,10 +61,16 @@ pub async fn get_ts(url: &String, id: &usize, path: &str) -> Result<(), error::M
     }
 }
 
-pub async fn get_all_ts(url_list: &Vec<String>, temp_dir: &str, window: &Window) {
+pub async fn get_all_ts(
+    url_list: &Vec<String>,
+    url_list_entity_hash: &Vec<u64>,
+    temp_dir: &str,
+    window: &Window,
+) {
     for item in 0..url_list.len() {
         let link = url_list.get(item).unwrap();
-        get_ts(link, &item, &temp_dir).await.unwrap();
+        let id = url_list_entity_hash.get(item).unwrap();
+        get_ts(link, id, &temp_dir).await.unwrap();
         window
             .emit(
                 "download",
