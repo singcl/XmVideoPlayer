@@ -29,3 +29,16 @@ pub fn read_file_buffer(filepath: &PathBuf, out_file: &mut File) {
         }
     }
 }
+
+// 读取目录下所有文件路径
+// 可能包含其他非ts文件 如.DS_Store
+// TODO:过滤掉无关的文件
+pub fn read_dir_all(temp_dir: &str) {
+    let mut paths = std::fs::read_dir(temp_dir)
+        .unwrap()
+        .map(|res| res.map(|e| e.path()))
+        .collect::<Result<Vec<_>, std::io::Error>>()
+        .unwrap();
+    // 非数字顺序
+    paths.sort();
+}
