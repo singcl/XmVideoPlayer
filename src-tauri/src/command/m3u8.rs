@@ -50,8 +50,8 @@ pub(crate) async fn m3u8_download(
     let url_list_entity_hash_dl = utils::entity_hash_filter(&url_list_entity_hash, temp_dir_str);
     let start = url_list_entity.len() - url_list_entity_hash_dl.len();
 
-    println!("---{:?}", url_list_entity_hash_dl);
-    println!("---{:?}", start);
+    // println!("---{:?}", url_list_entity_hash_dl);
+    // println!("---{:?}", start);
 
     // 断点续下
     request::get_all_ts(
