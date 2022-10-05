@@ -46,10 +46,9 @@ pub(crate) async fn m3u8_download(
         .iter()
         .map(|r| utils::hash_str(r))
         .collect::<Vec<_>>();
-    let mut start = 0;
 
     url_list_entity_hash = utils::entity_hash_filter(&url_list_entity_hash, temp_dir_str);
-    start = url_list_entity.len() - url_list_entity_hash.len();
+    let start = url_list_entity.len() - url_list_entity_hash.len();
 
     // println!("---{:?}", url_list_entity_hash);
     // println!("---{:?}", start);
