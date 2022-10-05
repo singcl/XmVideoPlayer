@@ -1,12 +1,10 @@
-use std::hash::Hash;
 // use std::fs::File;
 // use std::io::prelude::*;
 use std::path::PathBuf;
 // use std::thread;
 // use tauri::Runtime;
 // use futures_util::StreamExt;
-use std::collections::hash_map::DefaultHasher;
-use std::hash::Hasher;
+use crate::utils;
 use tauri::Window;
 
 pub mod error;
@@ -22,11 +20,7 @@ pub(crate) async fn m3u8_download(
     save_path: String,
     m3u8_url: &str,
 ) -> Result<String, error::M3u8Error> {
-    let mut hasher = DefaultHasher::new();
-    m3u8_url.hash(&mut hasher);
-    let m3_hash = hasher.finish();
-    // println!("Hash is {:x}!", &m3_hash);
-
+    let m3_hash = utils::hash_str(m3u8_url);
     let mut home_dir = tauri::api::path::home_dir().unwrap();
     home_dir.push(".xmvideoplayer");
 

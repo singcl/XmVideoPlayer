@@ -1,7 +1,6 @@
 use std::fs::File;
-use std::io::Read;
-use std::io::Write;
 use std::path::PathBuf;
+use crate::utils;
 
 pub fn merge_ts(temp_dir: &str, out_path: &str) {
     // 读取目录下所有文件路径
@@ -23,25 +22,7 @@ pub fn merge_ts(temp_dir: &str, out_path: &str) {
     for id in 0..paths.len() {
         let mut ts_path = PathBuf::from(temp_dir);
         ts_path.push(format!("{}.ts", id));
-        read_file_buffer(&ts_path, &mut f);
+        utils::read_file_buffer(&ts_path, &mut f);
     }
 }
 
-// 带缓冲区的读写
-fn read_file_buffer(filepath: &PathBuf, out_file: &mut File) {
-    const BUFFER_LEN: usize = 512;
-    let mut buffer = [0u8; BUFFER_LEN];
-    if let Ok(mut f) = File::open(&filepath) {
-        loop {
-            let read_count = f.read(&mut buffer).unwrap();
-            // println!("read_size: {}", read_count);
-            // let write_count =
-            out_file.write(&mut buffer[0..read_count]).unwrap();
-            // println!("write_size: {}", write_count);
-            if read_count != BUFFER_LEN {
-                std::fs::remove_file(&filepath).unwrap();
-                break;
-            }
-        }
-    }
-}
