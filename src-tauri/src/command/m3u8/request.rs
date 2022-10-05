@@ -62,13 +62,14 @@ pub async fn get_ts(url: &String, id: &u64, path: &str) -> Result<(), error::M3u
 }
 
 pub async fn get_all_ts(
-    url_list: &Vec<String>,
+    url_list_entity: &Vec<String>,
     url_list_entity_hash: &Vec<u64>,
+    start: usize,
     temp_dir: &str,
     window: &Window,
 ) {
-    for item in 0..url_list.len() {
-        let link = url_list.get(item).unwrap();
+    for item in 0..url_list_entity_hash.len() {
+        let link = url_list_entity.get(item).unwrap();
         let id = url_list_entity_hash.get(item).unwrap();
         get_ts(link, id, &temp_dir).await.unwrap();
         window
@@ -77,8 +78,8 @@ pub async fn get_all_ts(
                 PayloadDownload {
                     download_type: "m3u8".into(),
                     message: "下载中...".into(),
-                    total: url_list.len(),
-                    current: item + 1,
+                    total: url_list_entity.len(),
+                    current: start + item + 1,
                 },
             )
             .unwrap();
