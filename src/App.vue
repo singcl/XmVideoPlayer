@@ -36,11 +36,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // event.payload is the payload object
     console.log('-----ping:', e.payload);
   });
-  appWindow.listen('download', (e) => {
-    // event.event is the event name (useful if you want to use a single callback fn for multiple event types)
-    // event.payload is the payload object
-    console.log('-----download:', e.payload);
-  });
 });
 </script>
 

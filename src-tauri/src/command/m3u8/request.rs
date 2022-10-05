@@ -41,7 +41,7 @@ pub async fn get_ts(url: &String, id: &u64, path: &str) -> Result<(), error::M3u
                 while let Some(chunk) = response.chunk().await.unwrap() {
                     let write_size = f.write(&chunk).unwrap();
                     time::sleep(Duration::from_millis(10)).await;
-                    println!("已写入:{:?}", write_size);
+                    // println!("已写入:{:?}", write_size);
                 }
                 Ok(())
             }
@@ -61,17 +61,20 @@ pub async fn get_ts(url: &String, id: &u64, path: &str) -> Result<(), error::M3u
     }
 }
 
+//  TODO: url_list_entity_hash, url_list_entity id 可以用一个结构体承载
 pub async fn get_all_ts(
     url_list_entity: &Vec<String>,
     url_list_entity_hash: &Vec<u64>,
+    url_list_entity_hash_dl: &Vec<u64>,
     start: usize,
     temp_dir: &str,
     window: &Window,
 ) {
-    for item in 0..url_list_entity_hash.len() {
-        let link = url_list_entity.get(item).unwrap();
-        let id = url_list_entity_hash.get(item).unwrap();
-        get_ts(link, id, &temp_dir).await.unwrap();
+    for item in 0..url_list_entity_hash_dl.len() {
+        let id = url_list_entity_hash_dl.get(item).unwrap();
+        let link = get_dl_url(url_list_entity, url_list_entity_hash, *id);
+        println!("-------uri{}/{}", link, id);
+        get_ts(&link, id, &temp_dir).await.unwrap();
         window
             .emit(
                 "download",
@@ -85,4 +88,17 @@ pub async fn get_all_ts(
             .unwrap();
     }
     println!("下载完成");
+}
+
+fn get_dl_url(url_list_entity: &Vec<String>, url_list_entity_hash: &Vec<u64>, id: u64) -> String {
+    let mut res = String::new();
+    for item in 0..url_list_entity_hash.len() {
+        let c_id = url_list_entity_hash.get(item).unwrap();
+        if *c_id == id {
+            let r = url_list_entity.get(item).unwrap();
+            res = String::from(r);
+            break;
+        }
+    }
+    res
 }

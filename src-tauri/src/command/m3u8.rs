@@ -53,9 +53,10 @@ pub(crate) async fn m3u8_download(
     println!("---{:?}", url_list_entity_hash_dl);
     println!("---{:?}", start);
 
-    // TODO:断点续下
+    // 断点续下
     request::get_all_ts(
         &url_list_entity,
+        &url_list_entity_hash,
         &url_list_entity_hash_dl,
         start,
         temp_dir_str,
