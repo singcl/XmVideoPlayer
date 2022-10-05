@@ -71,7 +71,7 @@ pub async fn get_all_ts(url_list: &Vec<String>, temp_dir: &str, window: &Window)
                     download_type: "m3u8".into(),
                     message: "下载中...".into(),
                     total: url_list.len(),
-                    current: item,
+                    current: item + 1,
                 },
             )
             .unwrap();
