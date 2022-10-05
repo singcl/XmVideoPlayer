@@ -43,7 +43,7 @@ import { appWindow /* WebviewWindow */ } from '@tauri-apps/api/window';
 import { ref, reactive } from 'vue';
 import { /* convertFileSrc */ invoke } from '@tauri-apps/api/tauri';
 import { downloadDir } from '@tauri-apps/api/path';
-import { save } from '@tauri-apps/api/dialog';
+import { save, open } from '@tauri-apps/api/dialog';
 import { Message } from '@arco-design/web-vue';
 import { checkM3U8Url } from '@/utils/validator';
 
@@ -69,6 +69,46 @@ appWindow.listen('download', (e) => {
 // 下载
 async function handleDownloadClick() {
   if (!props.mediaUrl) return Message.info({ content: '请输入正确的链接' });
+  if (checkM3U8Url(props.mediaUrl)) {
+    await downloadM3u8();
+  } else {
+    await downloadNormal();
+  }
+}
+
+async function downloadM3u8() {
+  try {
+    const downloadDirPath = await downloadDir();
+    const filePath = await open({
+      // TODO: 这个filters什么意思？？
+      // filters: [
+      //   {
+      //     name: 'Video',
+      //     extensions: ['mp4'],
+      //   },
+      //   {
+      //     name: 'Image',
+      //     extensions: ['png', 'jpg', 'jpeg'],
+      //   },
+      // ],
+      directory: true,
+      defaultPath: downloadDirPath,
+    });
+    if (!filePath) return;
+    console.log('------', filePath);
+    loading.value = true;
+    const res = await invoke('m3u8_download', {
+      m3u8Url: props.mediaUrl,
+      savePath: filePath,
+    });
+    console.log('------', res);
+    Message.success({ content: '下载成功！' });
+  } finally {
+    loading.value = false;
+  }
+}
+
+async function downloadNormal() {
   try {
     const downloadDirPath = await downloadDir();
     const filePath = await save({
@@ -88,17 +128,6 @@ async function handleDownloadClick() {
     if (!filePath) return;
     console.log('------', filePath);
     loading.value = true;
-
-    if (checkM3U8Url(props.mediaUrl)) {
-      const res = await invoke('m3u8_download', {
-        m3u8Url: props.mediaUrl,
-        savePath: filePath,
-      });
-      console.log('------', res);
-      Message.success({ content: '下载成功！' });
-      return;
-    }
-
     const res = await invoke('video_download', { url: props.mediaUrl, path: filePath });
     console.log('------', res);
     Message.success({ content: '下载成功！' });
@@ -127,8 +156,8 @@ async function handleDownloadClick() {
 
 .progress__chunk {
   box-sizing: border-box;
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
   background-color: #f7f7f7;
   /* border: 1px solid #f7f7f7; */
 }
