@@ -86,4 +86,9 @@ function handleSelect() {}
   color: #666;
   font-size: 10px;
 }
+
+/* 已经加入style.css */
+/* :global(.arco-scrollbar-track.arco-scrollbar-track-direction-vertical) {
+  display: none;
+} */
 </style>
