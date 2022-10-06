@@ -39,6 +39,20 @@ function load(options?: Omit<DPlayerOptions, 'container'>) {
   const vo = formatVideo(url, type);
   //
   const dp = new DPlayer({
+    // screenshot: true,
+    playbackSpeed: [0.5, 0.75, 1, 1.25, 1.5, 2],
+    // contextmenu: [
+    //   {
+    //     text: 'singcl',
+    //     link: 'https://github.com/singcl',
+    //   },
+    //   {
+    //     text: 'Version',
+    //     click: (player: DPlayer) => {
+    //       console.log(player);
+    //     },
+    //   },
+    // ],
     ...(options || {}),
     container: videoRef.value,
     video: vo,
