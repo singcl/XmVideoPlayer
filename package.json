@@ -23,7 +23,7 @@
     "@arco-design/web-vue": "^2.37.1",
     "@tauri-apps/api": "^1.0.2",
     "dashjs": "^4.4.1",
-    "dplayer": "^1.27.0",
+    "dplayer": "git+https://git@github.com/qingbeeFED/DPlayer.git",
     "flv.js": "^1.6.2",
     "hls.js": "^1.2.3",
     "pinyin-match": "^1.2.2",
