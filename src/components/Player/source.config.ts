@@ -40,10 +40,6 @@ export const giftList = [
 
 const list = [
   {
-    label: '海洋世界[MP4]',
-    value: 'http://vjs.zencdn.net/v/oceans.mp4',
-  },
-  {
     label: '毒液[MPEG-DASH]',
     value: 'https://storage.googleapis.com/wvmedia/clear/h264/tears/tears.mpd',
   },
@@ -63,19 +59,14 @@ const list = [
     label: '小松鼠与熊[MPEG-DASH]',
     value: 'https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps.mpd',
   },
-  {
-    label: '监听事件测试[MPEG-DASH]',
-    value: 'https://livesim.dashif.org/livesim/sts_1663490483/sid_a8436cd5/scte35_2/testpic_2s/Manifest.mpd',
-  },
   // 跨域资源
   {
     label: '中国之声-电台[M3U8]',
     value: 'https://ngcdn001.cnr.cn/live/zgzs/index.m3u8',
   },
   {
-    label: 'CCTV-6',
-    value:
-      'https://hlslive.1905.com/live/LIVE2OR14O20ADLYU/index.m3u8?tm=1665061052&sign=2f23852ed17350de63ce39d65a6d536c',
+    label: '海洋世界[MP4]',
+    value: 'http://vjs.zencdn.net/v/oceans.mp4',
   },
 ];
 
