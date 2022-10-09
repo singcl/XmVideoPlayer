@@ -102,7 +102,7 @@ async function loadLocalSource() {
     filters: [
       {
         name: 'Video',
-        extensions: ['mp4'],
+        extensions: ['mp4' /* ,'ts' */],
       },
       // {
       //   name: 'Image',
@@ -116,6 +116,7 @@ async function loadLocalSource() {
   if (typeof filePath === 'string') {
     const path = convertFileSrc(filePath, 'stream');
     emits('update:modelValue', path);
+    emits('submit', path);
   }
 }
 </script>
