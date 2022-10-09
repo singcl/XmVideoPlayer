@@ -38,8 +38,8 @@ fn main() {
                 .to_string();
 
             // debug log
-            println!("current request.uri(): {:#?}", request.uri());
-            println!("current web request url: {:#?}", &path);
+            // println!("current request.uri(): {:#?}", request.uri());
+            println!("current resource: {:#?}", &path);
 
             let video_file = PathBuf::from(&path);
             if !video_file.exists() {
