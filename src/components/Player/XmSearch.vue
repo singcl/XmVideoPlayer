@@ -22,14 +22,32 @@
     </div>
     <!-- allow-clear -->
     <!-- BUG: build后的应用点击清楚没有反应，必须手动绑定onClear事件 -->
-    <a-button type="primary" status="warning" @click="$emit('submit', modelValue)">GO</a-button>
+    <!-- <a-button type="primary" status="warning" @click="$emit('submit', modelValue)">GO</a-button> -->
+
+    <a-dropdown-button
+      type="primary"
+      status="warning"
+      @click="$emit('submit', modelValue)"
+      @select="handleDropdownSelect"
+    >
+      PLAY
+      <template #content>
+        <a-doption :value="1">打开本地资源</a-doption>
+        <!-- <a-doption>Save and Publish</a-doption> -->
+      </template>
+    </a-dropdown-button>
   </div>
   <div class="tips">Tips: 支持mp4,m3u8,flv,mpeg-dash等多种流媒体格式🔥。</div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import { downloadDir } from '@tauri-apps/api/path';
+import { convertFileSrc } from '@tauri-apps/api/tauri';
+import { save, open } from '@tauri-apps/api/dialog';
 import { AutoComplete } from '@arco-design/web-vue';
+// BUG:dropdown-button 没有自动导入button的样式
+import '@arco-design/web-vue/es/button/style/css.js';
 import m3u8List from './source.config';
 import { checkPinYin } from './utils';
 
@@ -65,6 +83,41 @@ function handleClear() {
 }
 
 function handleSelect() {}
+//
+function handleDropdownSelect(v?: number | string | Record<string, any>) {
+  switch (v) {
+    case 1:
+      loadLocalSource();
+      break;
+    default:
+      break;
+  }
+}
+
+// 播报本地资源
+async function loadLocalSource() {
+  const downloadDirPath = await downloadDir();
+  const filePath = await open({
+    // TODO: 这个filters什么意思？？
+    filters: [
+      {
+        name: 'Video',
+        extensions: ['mp4'],
+      },
+      // {
+      //   name: 'Image',
+      //   extensions: ['png', 'jpg', 'jpeg'],
+      // },
+    ],
+    // directory: true,
+    defaultPath: downloadDirPath,
+  });
+  if (!filePath) return;
+  if (typeof filePath === 'string') {
+    const path = convertFileSrc(filePath, 'stream');
+    emits('update:modelValue', path);
+  }
+}
 </script>
 
 <style scoped>
