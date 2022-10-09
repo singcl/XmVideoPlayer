@@ -72,3 +72,15 @@ a:hover {
     color: #24c8db;
   }
 }
+
+.dplayer-video {
+  max-height: calc(100vh - 265px);
+}
+
+:not(:root):fullscreen .dplayer-video {
+  max-height: 100%;
+}
+
+.dplayer-web-fullscreen-fix .dplayer-video {
+  max-height: 100%;
+}
