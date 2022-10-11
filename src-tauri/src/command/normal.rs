@@ -13,12 +13,12 @@ pub fn init_process(window: Window) {
     std::thread::spawn(move || loop {
         window
             .emit(
-                "ping",
+                "pong",
                 Payload {
                     message: "XmVideoPlayer@singcl<https://github.com/singcl>".into(),
                 },
             )
             .unwrap();
-        std::thread::sleep(Duration::from_millis(2000));
+        std::thread::sleep(Duration::from_millis(5000));
     });
 }
