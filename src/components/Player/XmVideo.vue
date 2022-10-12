@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import DPlayer from 'dplayer';
+import DPlayer from '@singcl/dplayer';
 import { formatVideo } from './utils';
 // 本地视频播放
 // import demoVideo from "./../../assets/videos/demo.mp4";
