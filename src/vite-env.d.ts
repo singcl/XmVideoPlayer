@@ -5,6 +5,11 @@ declare module '*.vue' {
   export default component;
 }
 
+declare module '@singcl/dplayer' {
+  import DPlayer from '@types/dplayer';
+  export default DPlayer;
+}
+
 interface ImportMetaEnv {
   readonly VITE_APP_TITLE: string;
   readonly VITE_APP_NAME: string;
