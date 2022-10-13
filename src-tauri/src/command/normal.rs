@@ -1,6 +1,13 @@
 use super::payload::Payload;
-use crate::state::Database;
+use crate::state::{Client, Connection, Counter, Database};
 use std::time::Duration;
+use std::{
+    collections::HashMap,
+    sync::{
+        atomic::{AtomicUsize, Ordering},
+        Arc, Mutex,
+    },
+};
 use tauri::State;
 use tauri::Window;
 
@@ -33,4 +40,31 @@ pub fn db_insert(key: String, value: String, db: State<'_, Database>) {
 #[tauri::command]
 pub fn db_read(key: String, db: State<'_, Database>) -> Option<String> {
     db.0.lock().unwrap().get(&key).cloned()
+}
+
+#[tauri::command]
+pub fn increment_counter(counter: State<'_, Counter>) -> usize {
+    counter.0.fetch_add(1, Ordering::Relaxed) + 1
+}
+
+#[tauri::command]
+pub fn connect(connection: State<'_, Connection>) {
+    *connection.0.lock().unwrap() = Some(Client {})
+}
+
+#[tauri::command]
+pub fn disconnect(connection: State<'_, Connection>) {
+    // drop the connection
+    *connection.0.lock().unwrap() = None;
+}
+
+#[tauri::command]
+pub fn connection_send(connection: State<'_, Connection>) {
+    connection
+        .0
+        .lock()
+        .unwrap()
+        .as_ref()
+        .expect("connection not initialize; use the `connect` command first")
+        .send();
 }

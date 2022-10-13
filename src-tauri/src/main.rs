@@ -4,6 +4,7 @@
 )]
 
 // use std::io::prelude::*;
+use std::sync::atomic::AtomicUsize;
 use std::{
     cmp::min,
     io::{Read, Seek, SeekFrom},
@@ -102,10 +103,17 @@ fn main() {
             response.mimetype("video/mp4").status(status_code).body(buf)
         })
         .manage(state::Database(Default::default()))
+        .manage(state::Connection(Default::default()))
+        .manage(state::Counter(AtomicUsize::new(0)))
         .invoke_handler(tauri::generate_handler![
             command::normal::greet,
             command::normal::init_process,
             command::normal::db_read,
+            command::normal::db_insert,
+            command::normal::increment_counter,
+            command::normal::connect,
+            command::normal::disconnect,
+            command::normal::connection_send,
             command::splashscreen::close_splashscreen,
             command::media::video_download,
             command::m3u8::m3u8_download,
