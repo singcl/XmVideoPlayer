@@ -57,3 +57,11 @@ NODE_OPTIONS=--max-old-space-size=4096
 npm i -g nrm
 nrm ls
 ```
+
+ffmpeg ts 与 mp4 互相转换
+
+```sh
+# 下载地址：https://ffmpeg.org/
+ffmpeg -i 1.mp4 -vcodec copy -acodec copy -vbsf h264_mp4toannexb 1.ts
+ffmpeg -i 2.ts -acodec copy -vcodec copy -absf aac_adtstoasc output.mp4
+```
