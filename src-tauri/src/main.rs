@@ -14,6 +14,7 @@ use tauri::http::{HttpRange, ResponseBuilder};
 
 pub mod command;
 pub mod s;
+pub mod state;
 pub mod utils;
 
 fn main() {
@@ -100,9 +101,11 @@ fn main() {
             }
             response.mimetype("video/mp4").status(status_code).body(buf)
         })
+        .manage(state::Database(Default::default()))
         .invoke_handler(tauri::generate_handler![
             command::normal::greet,
             command::normal::init_process,
+            command::normal::db_read,
             command::splashscreen::close_splashscreen,
             command::media::video_download,
             command::m3u8::m3u8_download,
