@@ -1,5 +1,6 @@
 import Dexie from 'dexie';
 import type { Table } from 'dexie';
+import { historyListDefault } from './config';
 
 export interface PlayHistory {
   id?: number;
@@ -33,6 +34,13 @@ class MySubClassedDexie extends Dexie {
       [XM_TABLE.PLAY_HISTORY_TABLE]: '++id, &name, url', // Primary key and indexed props
       [XM_TABLE.INITIAL_TABLE]: '++id, &name, initialized', // Primary key and indexed props
     });
+  }
+  async initializeHistory() {
+    const initTable: Table<InitialTable> = db.table(XM_TABLE.INITIAL_TABLE);
+    // 插入成功则表明是第一次插入
+    await initTable.add({ name: XM_TABLE.PLAY_HISTORY_TABLE, initial: true });
+    const historyTable: Table<PlayHistory> = db.table(XM_TABLE.PLAY_HISTORY_TABLE);
+    await historyTable.bulkAdd(historyListDefault);
   }
 }
 

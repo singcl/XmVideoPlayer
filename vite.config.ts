@@ -12,6 +12,7 @@ const aliases = {
   '@/components': `${path.resolve(__dirname, 'src')}/components`,
   '@/utils': `${path.resolve(__dirname, 'src')}/utils`,
   '@/stores': `${path.resolve(__dirname, 'src')}/stores`,
+  '@/database': `${path.resolve(__dirname, 'src')}/database`,
   '@package': `${path.resolve(__dirname)}/package.json`,
 };
 

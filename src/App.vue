@@ -16,7 +16,6 @@
 // import { onMounted } from 'vue';
 import { invoke } from '@tauri-apps/api/tauri';
 import { appWindow /* WebviewWindow */ } from '@tauri-apps/api/window';
-import { initial } from '@/stores/db';
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
 // import HGreet from "./components/HGreet.vue";
@@ -30,17 +29,7 @@ const APP_TITLE = import.meta.env.VITE_APP_TITLE;
 document.addEventListener('DOMContentLoaded', () => {
   // This will wait for the window to load, but you could
   // run this function on whatever trigger you want
-  initial()
-    .then(() => {
-      console.log('db：数据库初始化完成');
-    })
-    .catch((e) => {
-      console.log('db：数据库加载完成');
-    })
-    .finally(() => {
-      invoke('close_splashscreen');
-    });
-  // setTimeout(() => invoke('close_splashscreen'), 1000); // 让加载动画多显示一会儿
+  setTimeout(() => invoke('close_splashscreen'), 1000); // 让加载动画多显示一会儿
   invoke('init_process');
   appWindow.listen('ping', (e) => {
     // event.event is the event name (useful if you want to use a single callback fn for multiple event types)
