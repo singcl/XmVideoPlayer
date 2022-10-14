@@ -21,11 +21,14 @@
   },
   "dependencies": {
     "@arco-design/web-vue": "^2.37.1",
+    "@singcl/dplayer": "^1.27.0",
     "@tauri-apps/api": "^1.0.2",
     "dashjs": "^4.4.1",
-    "@singcl/dplayer": "^1.27.0",
+    "dexie": "^3.2.2",
     "flv.js": "^1.6.2",
     "hls.js": "^1.2.3",
+    "install": "^0.13.0",
+    "npm": "^8.19.2",
     "pinyin-match": "^1.2.2",
     "vue": "^3.2.37"
   },
