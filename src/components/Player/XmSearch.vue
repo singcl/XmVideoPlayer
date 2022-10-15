@@ -145,9 +145,9 @@ function handleClear() {
 // Submit
 async function handleSubmit(url?: string) {
   const val = url ?? props.modelValue;
-  emits('submit', val);
   // TODO: URI校验
   if (!val) return Message.info({ content: '请输入正确的链接' });
+  emits('submit', val);
   await API.idb.savePlayerHistory({ name: val, url: val });
   await getPlayList();
   console.log('-----新增成功:', val);
