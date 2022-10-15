@@ -7,3 +7,10 @@ export function queryHistoryList() {
     return list;
   });
 }
+
+export function deleteHistory(id: number) {
+  return db.transaction('rw', [db[XM_TABLE.PLAY_HISTORY_TABLE]], async () => {
+    await db[XM_TABLE.PLAY_HISTORY_TABLE].delete(id);
+    return null;
+  });
+}

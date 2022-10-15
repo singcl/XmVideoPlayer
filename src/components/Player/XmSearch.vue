@@ -18,7 +18,16 @@
         @press-enter="$emit('submit', modelValue)"
         @search="handleSearch"
         @select="handleSelect"
-      />
+      >
+        <template #option="optInfos">
+          <div v-for="opt in optInfos" :key="opt.value" class="play-opt">
+            <span class="play-opt__operation">
+              <icon-delete style="color: red" @click="handleOptDelete($event, opt.raw)" />
+            </span>
+            <span>{{ opt.label }}</span>
+          </div>
+        </template>
+      </a-auto-complete>
     </div>
     <!-- allow-clear -->
     <!-- BUG: build后的应用点击清楚没有反应，必须手动绑定onClear事件 -->
@@ -45,9 +54,10 @@ import { ref, onMounted } from 'vue';
 import { downloadDir } from '@tauri-apps/api/path';
 import { convertFileSrc } from '@tauri-apps/api/tauri';
 import { save, open } from '@tauri-apps/api/dialog';
-import { AutoComplete } from '@arco-design/web-vue';
+import { AutoComplete, Modal, Message } from '@arco-design/web-vue';
 // BUG:dropdown-button 没有自动导入button的样式
 import '@arco-design/web-vue/es/button/style/css.js';
+import '@arco-design/web-vue/es/modal/style/css.js';
 import API from '@/api';
 import { checkPinYin } from './utils';
 
@@ -68,13 +78,34 @@ const emits = defineEmits<{
   (e: 'submit', v?: string): void;
 }>();
 
-const options = ref<{ label: string; value: string }[]>([]);
+const options = ref<{ label: string; value: string; id: number }[]>([]);
 const searchRef = ref<InstanceType<typeof AutoComplete>>();
 
-onMounted(async () => {
-  const { data = [] } = await API.idb.getPlayerHistoryList();
-  options.value = data.map((item) => ({ label: item.name, value: item.url }));
+onMounted(() => {
+  getPlayList();
 });
+
+// 获取播放列表
+async function getPlayList() {
+  const { data = [] } = await API.idb.getPlayerHistoryList();
+  options.value = data.map((item) => ({ label: item.name, value: item.url, id: item.id }));
+}
+
+//
+async function handleOptDelete(e: Event, opt: { label: string; value: string; id: number }) {
+  e.stopPropagation();
+  Modal.confirm({
+    title: '删除确认',
+    titleAlign: 'start',
+    content: `确定删除[${opt.label}]吗？`,
+    async onBeforeOk(done) {
+      await API.idb.deletePlayerHistory(opt.id);
+      await getPlayList();
+      Message.success('删除成功');
+      done(true);
+    },
+  });
+}
 
 // 可以发起请求远程获取
 function handleSearch(v: string) {
@@ -144,6 +175,21 @@ async function loadLocalSource() {
   margin-bottom: 5px;
   color: #666;
   font-size: 10px;
+}
+
+.play-opt {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.play-opt:hover .play-opt__operation {
+  display: block;
+}
+
+.play-opt__operation {
+  display: none;
+  margin-right: 5px;
 }
 
 /* 已经加入style.css */

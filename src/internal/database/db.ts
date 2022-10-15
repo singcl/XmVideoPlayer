@@ -36,7 +36,7 @@ class MySubClassedDexie extends Dexie {
     // （populate 事件只在创建数据库时调用，更新时不调用）
     this.on('populate', (trans) => {
       console.log('-------IDB初始化--------:', this.verno);
-      return trans.table<PlayHistory>(XM_TABLE.PLAY_HISTORY_TABLE).bulkAdd(historyListDefault);
+      return trans.table<Omit<PlayHistory, 'id'>>(XM_TABLE.PLAY_HISTORY_TABLE).bulkAdd(historyListDefault);
     });
   }
 }
