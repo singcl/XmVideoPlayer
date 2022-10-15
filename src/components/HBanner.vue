@@ -2,7 +2,7 @@
   <div class="banner">
     <span class="address">{{ address }}</span>
     <span class="address"
-      ><a href="https://github.com/singcl/XmVideoPlayer" target="_blank">版本:v{{ pkg.version }}</a></span
+      ><a href="https://github.com/singcl/XmVideoPlayer" target="_blank">{{ appName }}@v{{ version }}</a></span
     >
     <span>Powered by</span>
     <a href="https://vitejs.dev" target="_blank">
@@ -18,8 +18,18 @@
 </template>
 
 <script setup lang="ts">
-import pkg from '@package';
+import { ref } from 'vue';
+import { getTauriVersion, getVersion, getName } from '@tauri-apps/api/app';
+// import pkg from '@package';
+
 const address = window.location.href;
+const appName = ref<string>();
+const version = ref<string>();
+
+(async function () {
+  appName.value = await getName();
+  version.value = await getVersion();
+})();
 </script>
 
 <style scoped>
