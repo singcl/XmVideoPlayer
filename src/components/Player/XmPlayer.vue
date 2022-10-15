@@ -15,6 +15,7 @@
 import { ref } from 'vue';
 import { Message } from '@arco-design/web-vue';
 import '@arco-design/web-vue/lib/message/style';
+// import API from '@/api';
 
 import XmSearch from './XmSearch.vue';
 import XmVideo from './XmVideo.vue';
@@ -36,6 +37,10 @@ function restart(v?: string) {
     },
   });
   player?.play();
+  // player?.on('canplay' as DPlayerEvents, async () => {
+  //   await API.idb.savePlayerHistory({ name: v, url: v });
+  //   console.log('-----新增成功:', v);
+  // });
 }
 </script>
 

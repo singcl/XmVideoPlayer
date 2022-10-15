@@ -15,7 +15,7 @@
         :allow-clear="true"
         @change="(v) => $emit('update:modelValue', v)"
         @clear="handleClear"
-        @press-enter="$emit('submit', modelValue)"
+        @press-enter="() => handleSubmit()"
         @search="handleSearch"
         @select="handleSelect"
       >
@@ -33,12 +33,7 @@
     <!-- BUG: build后的应用点击清楚没有反应，必须手动绑定onClear事件 -->
     <!-- <a-button type="primary" status="warning" @click="$emit('submit', modelValue)">GO</a-button> -->
 
-    <a-dropdown-button
-      type="primary"
-      status="warning"
-      @click="$emit('submit', modelValue)"
-      @select="handleDropdownSelect"
-    >
+    <a-dropdown-button type="primary" status="warning" @click="() => handleSubmit()" @select="handleDropdownSelect">
       PLAY
       <template #content>
         <a-doption :value="1">打开本地资源</a-doption>
@@ -50,7 +45,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, h } from 'vue';
 import { downloadDir } from '@tauri-apps/api/path';
 import { convertFileSrc } from '@tauri-apps/api/tauri';
 import { save, open } from '@tauri-apps/api/dialog';
@@ -61,7 +56,7 @@ import '@arco-design/web-vue/es/modal/style/css.js';
 import API from '@/api';
 import { checkPinYin } from './utils';
 
-defineProps({
+const props = defineProps({
   modelValue: {
     type: String,
     default: undefined,
@@ -91,13 +86,18 @@ async function getPlayList() {
   options.value = data.map((item) => ({ label: item.name, value: item.url, id: item.id }));
 }
 
-//
+// 删除播放记录
 async function handleOptDelete(e: Event, opt: { label: string; value: string; id: number }) {
   e.stopPropagation();
   Modal.confirm({
     title: '删除确认',
     titleAlign: 'start',
-    content: `确定删除[${opt.label}]吗？`,
+    content: () =>
+      h('div', { style: 'word-break: break-all' }, [
+        h('span', null, '确认删除'),
+        h('span', { style: 'color: red; margin: 0 3px' }, opt.label),
+        h('span', null, '吗？'),
+      ]),
     async onBeforeOk(done) {
       await API.idb.deletePlayerHistory(opt.id);
       await getPlayList();
@@ -112,10 +112,21 @@ function handleSearch(v: string) {
   // 可以不要
   // options.value = m3u8List.filter((item) => checkPinYin(item.label, v));
 }
-//
+// Clear
 function handleClear() {
   emits('update:modelValue', undefined);
   // options.value = m3u8List;
+}
+
+// Submit
+async function handleSubmit(url?: string) {
+  const val = url ?? props.modelValue;
+  emits('submit', val);
+  // TODO: URI校验
+  if (!val) return Message.info({ content: '请输入正确的链接' });
+  await API.idb.savePlayerHistory({ name: val, url: val });
+  await getPlayList();
+  console.log('-----新增成功:', val);
 }
 
 function handleSelect() {}
@@ -152,7 +163,8 @@ async function loadLocalSource() {
   if (typeof filePath === 'string') {
     const path = convertFileSrc(filePath, 'stream');
     emits('update:modelValue', path);
-    emits('submit', path);
+    // emits('submit', path);
+    handleSubmit(path);
   }
 }
 </script>
