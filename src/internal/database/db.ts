@@ -1,15 +1,8 @@
 import Dexie from 'dexie';
 import type { Table } from 'dexie';
 import type { PlayHistory } from '@/internal/repository/model';
+import { XM_DB, XM_TABLE } from '@/internal/repository/model';
 import { historyListDefault } from './config';
-
-export enum XM_DB {
-  PLAYER_DB = 'player',
-}
-
-export enum XM_TABLE {
-  PLAY_HISTORY_TABLE = 'play_history',
-}
 
 class MySubClassedDexie extends Dexie {
   // 'friends' is added by dexie when declaring the stores()
