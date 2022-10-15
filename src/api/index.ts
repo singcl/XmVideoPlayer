@@ -1,3 +1,3 @@
-import * as player from './player';
+import * as idb from './idb';
 
-export default { player };
+export default { idb };
