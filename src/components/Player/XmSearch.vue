@@ -73,7 +73,6 @@ const searchRef = ref<InstanceType<typeof AutoComplete>>();
 
 onMounted(async () => {
   const { data = [] } = await API.idb.getPlayerHistoryList();
-  console.log('------data', data);
   options.value = data.map((item) => ({ label: item.name, value: item.url }));
 });
 
