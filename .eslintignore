@@ -5,6 +5,7 @@ coverage
 
 #
 src/assets/
+src/libs/
 index.html
 splashscreen.html
 
