@@ -5,6 +5,7 @@
 </template>
 
 <script setup lang="ts">
+import { appWindow /* WebviewWindow */ } from '@tauri-apps/api/window';
 import { ref, onMounted } from 'vue';
 import DPlayer from '@singcl/dplayer';
 import { formatVideo } from './utils';
@@ -58,11 +59,23 @@ function load(options?: Omit<DPlayerOptions, 'container'>) {
     video: vo,
   });
   //
-  dp.on('play' as DPlayerEvents.play, () => {
+  dp.on('play' as DPlayerEvents, () => {
     isPlay.value = true;
   });
-  dp.on('pause' as DPlayerEvents.pause, () => {
+  dp.on('pause' as DPlayerEvents, () => {
     isPlay.value = false;
+  });
+  // dp?.on('canplay' as DPlayerEvents, async () => {
+  //   await API.idb.savePlayerHistory({ name: v, url: v });
+  //   console.log('-----新增成功:', v);
+  // });
+  dp.on('fullscreen' as DPlayerEvents, async () => {
+    const full = await appWindow.isFullscreen();
+    if (!full) await appWindow.setFullscreen(true);
+  });
+  dp.on('fullscreen_cancel' as DPlayerEvents, async () => {
+    const full = await appWindow.isFullscreen();
+    if (full) await appWindow.setFullscreen(false);
   });
   dplayer = dp;
   return dp;

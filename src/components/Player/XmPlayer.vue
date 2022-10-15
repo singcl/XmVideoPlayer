@@ -37,10 +37,6 @@ function restart(v?: string) {
     },
   });
   player?.play();
-  // player?.on('canplay' as DPlayerEvents, async () => {
-  //   await API.idb.savePlayerHistory({ name: v, url: v });
-  //   console.log('-----新增成功:', v);
-  // });
 }
 </script>
 
