@@ -26,6 +26,15 @@
       "@project": ["./project.config.json"]
     }
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "typings/**/*.d.ts", "*.d.ts"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "typings/**/*.d.ts",
+    "*.d.ts",
+    "src/libs/x.js",
+    "src/libs/heart.js"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
