@@ -1,12 +1,14 @@
 <template>
   <div class="container">
-    <a-button :loading="loading" type="primary" @click="handleTestClick">测试按钮</a-button>
+    <a-button :loading="loading" type="primary" @click="handleTestClick">下载测试按钮</a-button>
+    <a-button :loading="loading" type="primary" @click="handleTestClick2">全屏测试按钮</a-button>
   </div>
 </template>
 
 <script setup lang="ts">
 // import { ResponseType, fetch } from '@tauri-apps/api/http';
 import { convertFileSrc, invoke } from '@tauri-apps/api/tauri';
+import { appWindow /* WebviewWindow */ } from '@tauri-apps/api/window';
 import { downloadDir } from '@tauri-apps/api/path';
 import { ref } from 'vue';
 import { save } from '@tauri-apps/api/dialog';
@@ -49,10 +51,17 @@ async function handleTestClick() {
     loading.value = false;
   }
 }
+
+async function handleTestClick2() {
+  const full = await appWindow.isFullscreen();
+  await appWindow.setFullscreen(!full);
+}
 </script>
 
 <style scoped>
 .container {
+  display: flex;
+  flex-direction: row;
   margin-top: 12px;
   width: 100%;
 }
