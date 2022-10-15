@@ -7,7 +7,7 @@
     <!-- <HDescription /> -->
     <XmPlayer />
     <HBanner />
-    <HTest />
+    <!-- <HTest /> -->
     <!-- <HGreet /> -->
   </div>
 </template>
