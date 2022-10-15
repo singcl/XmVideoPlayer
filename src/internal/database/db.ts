@@ -12,9 +12,10 @@ class MySubClassedDexie extends Dexie {
     super(XM_DB['PLAYER_DB']);
     this.version(1)
       .stores({
-        [XM_TABLE.PLAY_HISTORY_TABLE]: '++id, &name, url', // Primary key and indexed props
+        [XM_TABLE.PLAY_HISTORY_TABLE]: '++id, name, &url', // Primary key and indexed props
       })
       .upgrade((trans) => {
+        console.log('-------IDB升级--------:', this.verno);
         return trans.table<PlayHistory>(XM_TABLE.PLAY_HISTORY_TABLE).bulkAdd(historyListDefault);
       });
   }

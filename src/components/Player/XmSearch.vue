@@ -41,14 +41,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { downloadDir } from '@tauri-apps/api/path';
 import { convertFileSrc } from '@tauri-apps/api/tauri';
 import { save, open } from '@tauri-apps/api/dialog';
 import { AutoComplete } from '@arco-design/web-vue';
 // BUG:dropdown-button 没有自动导入button的样式
 import '@arco-design/web-vue/es/button/style/css.js';
-import m3u8List from './source.config';
+import API from '@/api';
 import { checkPinYin } from './utils';
 
 defineProps({
@@ -68,8 +68,14 @@ const emits = defineEmits<{
   (e: 'submit', v?: string): void;
 }>();
 
-const options = ref(m3u8List);
+const options = ref<{ label: string; value: string }[]>([]);
 const searchRef = ref<InstanceType<typeof AutoComplete>>();
+
+onMounted(async () => {
+  const { data = [] } = await API.idb.getPlayerHistoryList();
+  console.log('------data', data);
+  options.value = data.map((item) => ({ label: item.name, value: item.url }));
+});
 
 // 可以发起请求远程获取
 function handleSearch(v: string) {
