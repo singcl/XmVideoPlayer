@@ -23,6 +23,7 @@
           <div v-for="opt in optInfos" :key="opt.value" class="play-opt">
             <span class="play-opt__operation">
               <icon-delete style="color: red" @click="handleOptDelete($event, opt.raw)" />
+              <icon-edit style="color: blue; margin-left: 3px" @click="handleOptEdit($event, opt.raw)" />
             </span>
             <span>{{ opt.label }}</span>
           </div>
@@ -42,6 +43,7 @@
     </a-dropdown-button>
   </div>
   <div class="tips">Tips: 支持mp4,m3u8,flv,mpeg-dash等多种流媒体格式🔥。</div>
+  <xm-history-edit-dialog v-model:visible="hisEditVisible" :data="hisEditData" @success="handleOptEditSuccess" />
 </template>
 
 <script setup lang="ts">
@@ -55,6 +57,12 @@ import '@arco-design/web-vue/es/button/style/css.js';
 import '@arco-design/web-vue/es/modal/style/css.js';
 import API from '@/api';
 import { checkPinYin } from './utils';
+
+interface HistoryOpt {
+  label: string;
+  value: string;
+  id: number;
+}
 
 const props = defineProps({
   modelValue: {
@@ -73,8 +81,10 @@ const emits = defineEmits<{
   (e: 'submit', v?: string): void;
 }>();
 
-const options = ref<{ label: string; value: string; id: number }[]>([]);
+const options = ref<HistoryOpt[]>([]);
 const searchRef = ref<InstanceType<typeof AutoComplete>>();
+const hisEditVisible = ref(false);
+const hisEditData = ref<HistoryOpt>();
 
 onMounted(() => {
   getPlayList();
@@ -87,7 +97,7 @@ async function getPlayList() {
 }
 
 // 删除播放记录
-async function handleOptDelete(e: Event, opt: { label: string; value: string; id: number }) {
+async function handleOptDelete(e: Event, opt: HistoryOpt) {
   e.stopPropagation();
   Modal.confirm({
     title: '删除确认',
@@ -105,6 +115,20 @@ async function handleOptDelete(e: Event, opt: { label: string; value: string; id
       done(true);
     },
   });
+}
+
+// 编辑播放记录
+async function handleOptEdit(e: Event, opt: HistoryOpt) {
+  e.stopPropagation();
+  hisEditVisible.value = true;
+  hisEditData.value = opt;
+}
+
+//
+async function handleOptEditSuccess() {
+  await getPlayList();
+  Message.success('编辑成功');
+  hisEditVisible.value = false;
 }
 
 // 可以发起请求远程获取
