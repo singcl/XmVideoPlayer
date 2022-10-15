@@ -48,3 +48,5 @@ node >= 16
 - [x] UI 兼容竖版视频
 - [ ] 提供简单的视频格式转换工具
 - [ ] 提供主题界面
+- [ ] Window Customization
+- [ ] Updater
