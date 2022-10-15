@@ -20,6 +20,7 @@
       "@/styles/*": ["./src/styles/*"],
       "@/utils/*": ["./src/utils/*"],
       "@/stores/*": ["./src/stores/*"],
+      "@/libs/*": ["./src/libs/*"],
       "@/internal/*": ["src/internal/*"],
       "@/assets/*": ["./src/assets/*"],
       "@package": ["./package.json"],
@@ -33,7 +34,6 @@
     "src/**/*.vue",
     "typings/**/*.d.ts",
     "*.d.ts",
-    "src/libs/x.js",
     "src/libs/heart.js"
   ],
   "references": [{ "path": "./tsconfig.node.json" }]
