@@ -20,7 +20,7 @@
       "@/styles/*": ["./src/styles/*"],
       "@/utils/*": ["./src/utils/*"],
       "@/stores/*": ["./src/stores/*"],
-      "@/database/*": ["src/database/*"],
+      "@/internal/*": ["src/internal/*"],
       "@/assets/*": ["./src/assets/*"],
       "@package": ["./package.json"],
       "@project": ["./project.config.json"]
