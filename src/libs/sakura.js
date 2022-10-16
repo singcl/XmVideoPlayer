@@ -148,7 +148,7 @@
   }
 
   window.onresize = function () {
-    var canvasSnow = document.getElementById('canvas_snow');
+    var canvasSnow = document.getElementById('canvas_sakura');
     canvasSnow.width = window.innerWidth;
     canvasSnow.height = window.innerHeight;
   };
