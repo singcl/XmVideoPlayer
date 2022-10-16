@@ -42,6 +42,8 @@ function restart(v?: string) {
 
 <style scoped>
 .player {
+  position: relative;
+  z-index: 1;
   width: 100%;
   max-width: var(--area-width-max);
   margin: 0 auto;

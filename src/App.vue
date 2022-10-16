@@ -40,6 +40,18 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 
 <style scoped>
+.container {
+  margin: 0 auto;
+  /* padding-top: 10vh; */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  text-align: center;
+  height: 100vh;
+  width: var(--area-width);
+  max-width: var(--area-width-max);
+  background-color: rgba(0, 0, 0, 0.01);
+}
 .home-title {
   display: flex;
   align-items: center;
