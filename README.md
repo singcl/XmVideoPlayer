@@ -8,7 +8,8 @@
 [![macos](https://img.shields.io/badge/mac%20os-000000?style=for-the-badge&logo=apple&logoColor=white)](https://github.com/singcl/XmVideoPlayer/releases)
 [![linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)](https://github.com/singcl/XmVideoPlayer/releases)
 
-一款支持 mp4,m3u8,flv,mpeg-dash 等多种视频格式或流媒体的在线播放客户端 🔥。
+一款高颜值的支持播放 mp4, m3u8,flv,mpeg-dash 等多种流媒体格式的客户端 🔥。
+支持播放本地视频资源，下载在线资源，播放列表&播放历史记录。
 
 ### Prerequisites
 
