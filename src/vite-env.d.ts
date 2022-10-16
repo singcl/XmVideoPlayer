@@ -10,6 +10,8 @@ declare module '@singcl/dplayer' {
   export default DPlayer;
 }
 
+declare module '@/libs/*.js';
+
 interface ImportMetaEnv {
   readonly VITE_APP_TITLE: string;
   readonly VITE_APP_NAME: string;
