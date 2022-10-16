@@ -8,6 +8,9 @@ src/assets/
 src/libs/
 index.html
 splashscreen.html
+particle.html
+stars.html
+boom.html
 
 # auto generate file
 components.d.ts
