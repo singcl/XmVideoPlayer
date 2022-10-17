@@ -61,7 +61,7 @@
         "width": 960,
         "visible": false,
         "center": true,
-        "transparent": true
+        "transparent": false
       },
       {
         "width": 400,
@@ -71,7 +71,7 @@
         "label": "splashscreen",
         "center": true,
         "skipTaskbar": true,
-        "transparent": true
+        "transparent": false
       }
     ]
   }
