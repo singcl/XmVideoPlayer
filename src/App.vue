@@ -14,6 +14,7 @@
 
 <script setup lang="ts">
 // import { onMounted } from 'vue';
+import debounce from '@singcl/throttle-debounce/debounce';
 import { storeToRefs } from 'pinia';
 import { invoke } from '@tauri-apps/api/tauri';
 import { appWindow /* WebviewWindow */ } from '@tauri-apps/api/window';
@@ -41,10 +42,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // event.payload is the payload object
     console.log('-----ping:', e.payload);
   });
-  appWindow.onResized(() => {
-    // TODO: throttle
-    heightStore.change();
-  });
+  appWindow.onResized(
+    debounce(500, () => {
+      heightStore.change();
+    })
+  );
 });
 </script>
 

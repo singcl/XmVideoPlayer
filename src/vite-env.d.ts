@@ -12,6 +12,13 @@ declare module '@singcl/dplayer' {
 
 declare module '@/libs/*.js';
 
+declare module '@singcl/throttle-debounce/debounce' {
+  declare function debounce(delay: number, callback: () => void);
+  declare function debounce(delay: number, atBegin: boolean, callback: () => void);
+
+  export default debounce;
+}
+
 interface ImportMetaEnv {
   readonly VITE_APP_TITLE: string;
   readonly VITE_APP_NAME: string;

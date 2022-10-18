@@ -253,6 +253,11 @@
     "balloon-css" "^1.0.3"
     "promise-polyfill" "8.2.3"
 
+"@singcl/throttle-debounce@^1.1.1":
+  "integrity" "sha512-a9YG1xhtyaFfx/PXCpW1LXENi/V15HueJA2ODV7AAfXDu0/Fl5kyIR3KvIFqy1TxuR+ipmRWr5LaT3NPpWDQ2w=="
+  "resolved" "https://registry.npmjs.org/@singcl/throttle-debounce/-/throttle-debounce-1.1.1.tgz"
+  "version" "1.1.1"
+
 "@tauri-apps/api@^1.0.2":
   "integrity" "sha512-n13pIqdPd3KtaMmmAcrU7BTfdMtIlGNnfZD0dNX8L4p8dgmuNyikm6JAA+yCpl9gqq6I8x5cV2Y0muqdgD0cWw=="
   "resolved" "https://registry.npmmirror.com/@tauri-apps/api/-/api-1.1.0.tgz"
