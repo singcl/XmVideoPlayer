@@ -13,6 +13,7 @@
     "Hasher",
     "indexeddb",
     "kiko",
+    "pinia",
     "redbag",
     "redirections",
     "reqwest",
