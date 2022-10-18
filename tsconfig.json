@@ -21,6 +21,7 @@
       "@/utils/*": ["./src/utils/*"],
       "@/stores/*": ["./src/stores/*"],
       "@/libs/*": ["./src/libs/*"],
+      "@/hooks/*": ["./src/hooks/*"],
       "@/internal/*": ["src/internal/*"],
       "@/assets/*": ["./src/assets/*"],
       "@package": ["./package.json"],

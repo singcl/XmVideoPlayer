@@ -13,6 +13,7 @@ const aliases = {
   '@/utils': `${path.resolve(__dirname, 'src')}/utils`,
   '@/stores': `${path.resolve(__dirname, 'src')}/stores`,
   '@/libs': `${path.resolve(__dirname, 'src')}/libs`,
+  '@/hooks': `${path.resolve(__dirname, 'src')}/hooks`,
   '@/internal': `${path.resolve(__dirname, 'src')}/internal`,
   '@package': `${path.resolve(__dirname)}/package.json`,
 };
