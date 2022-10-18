@@ -8,6 +8,7 @@
 import { appWindow /* WebviewWindow */ } from '@tauri-apps/api/window';
 import { ref, onMounted } from 'vue';
 import DPlayer from '@singcl/dplayer';
+import { useHeightStore } from '@/stores';
 import { formatVideo } from './utils';
 // 本地视频播放
 // import demoVideo from "./../../assets/videos/demo.mp4";
@@ -27,6 +28,7 @@ let dplayer: DPlayer | undefined;
 //
 const videoRef = ref<HTMLElement>();
 const isPlay = ref(false);
+const heightStore = useHeightStore();
 
 onMounted(() => {
   load();
@@ -72,10 +74,12 @@ function load(options?: Omit<DPlayerOptions, 'container'>) {
   dp.on('fullscreen' as DPlayerEvents, async () => {
     const full = await appWindow.isFullscreen();
     if (!full) await appWindow.setFullscreen(true);
+    heightStore.change();
   });
   dp.on('fullscreen_cancel' as DPlayerEvents, async () => {
     const full = await appWindow.isFullscreen();
     if (full) await appWindow.setFullscreen(false);
+    heightStore.change();
   });
   dplayer = dp;
   return dp;

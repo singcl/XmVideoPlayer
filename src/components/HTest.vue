@@ -2,6 +2,7 @@
   <div class="container">
     <a-button :loading="loading" type="primary" @click="handleTestClick">下载测试按钮</a-button>
     <a-button :loading="loading" type="primary" @click="handleTestClick2">全屏测试按钮</a-button>
+    <a-button :loading="loading" type="primary" @click="handleTestClick3">pinia测试按钮</a-button>
   </div>
 </template>
 
@@ -12,9 +13,11 @@ import { appWindow /* WebviewWindow */ } from '@tauri-apps/api/window';
 import { downloadDir } from '@tauri-apps/api/path';
 import { ref } from 'vue';
 import { save } from '@tauri-apps/api/dialog';
+import { useHeightStore } from '@/stores';
 
 // import HDescription from "./components/HDescription.vue";
 const loading = ref(false);
+const heightStore = useHeightStore();
 // 测试按钮
 async function handleTestClick() {
   // const url = convertFileSrc('https://media.w3.org/2010/05/sintel/trailer.mp4', 'stream');
@@ -55,6 +58,9 @@ async function handleTestClick() {
 async function handleTestClick2() {
   const full = await appWindow.isFullscreen();
   await appWindow.setFullscreen(!full);
+}
+async function handleTestClick3() {
+  heightStore.$patch({ height: '50vh' });
 }
 </script>
 

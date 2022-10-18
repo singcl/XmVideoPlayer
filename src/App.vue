@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" :style="{ height: cHeight }">
     <h1 class="home-title">
       <img src="/vite.svg" class="logo vite" alt="Vite logo" />
       <span class="txt typing">{{ APP_TITLE }}</span>
@@ -14,8 +14,10 @@
 
 <script setup lang="ts">
 // import { onMounted } from 'vue';
+import { storeToRefs } from 'pinia';
 import { invoke } from '@tauri-apps/api/tauri';
 import { appWindow /* WebviewWindow */ } from '@tauri-apps/api/window';
+import { useHeightStore } from '@/stores';
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
 // import HGreet from "./components/HGreet.vue";
@@ -23,6 +25,9 @@ import XmPlayer from './components/Player/XmPlayer.vue';
 import HBanner from './components/HBanner.vue';
 // import HDescription from "./components/HDescription.vue";
 const APP_TITLE = import.meta.env.VITE_APP_TITLE;
+const heightStore = useHeightStore();
+const cHeight = storeToRefs(heightStore).height;
+
 // onMounted(() => {
 //   invoke('close_splashscreen');
 // });
