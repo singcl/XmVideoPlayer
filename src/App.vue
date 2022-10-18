@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-// import { onMounted } from 'vue';
+import { computed } from 'vue';
 import debounce from '@singcl/throttle-debounce/debounce';
 import { storeToRefs } from 'pinia';
 import { invoke } from '@tauri-apps/api/tauri';
@@ -28,6 +28,9 @@ import HBanner from './components/HBanner.vue';
 const APP_TITLE = import.meta.env.VITE_APP_TITLE;
 const heightStore = useHeightStore();
 const cHeight = storeToRefs(heightStore).height;
+const cHeightPlayer = computed(() => {
+  return `calc(${cHeight.value} - 265px)`;
+});
 
 // onMounted(() => {
 //   invoke('close_splashscreen');
@@ -117,5 +120,11 @@ document.addEventListener('DOMContentLoaded', () => {
   50% {
     border-color: currentColor;
   }
+}
+</style>
+
+<style>
+.dplayer-video {
+  max-height: v-bind(cHeightPlayer);
 }
 </style>

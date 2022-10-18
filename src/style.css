@@ -60,10 +60,6 @@ a:hover {
   }
 }
 
-.dplayer-video {
-  max-height: calc(100vh - 265px);
-}
-
 :not(:root):fullscreen .dplayer-video {
   max-height: 100%;
 }
