@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@arco-design/web-vue": "^2.37.1",
-    "@singcl/dplayer": "^1.27.0",
+    "@singcl/dplayer": "^2.0.0",
     "@tauri-apps/api": "^1.0.2",
     "@vueuse/rxjs": "^9.3.0",
     "dashjs": "^4.4.1",
