@@ -41,6 +41,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // event.payload is the payload object
     console.log('-----ping:', e.payload);
   });
+  appWindow.onResized(() => {
+    // TODO: throttle
+    heightStore.change();
+  });
 });
 </script>
 
