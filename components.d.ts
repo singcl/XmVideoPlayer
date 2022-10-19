@@ -18,8 +18,6 @@ declare module '@vue/runtime-core' {
     AProgress: typeof import('@arco-design/web-vue')['Progress']
     ARadio: typeof import('@arco-design/web-vue')['Radio']
     ARadioGroup: typeof import('@arco-design/web-vue')['RadioGroup']
-    ASpace: typeof import('@arco-design/web-vue')['Space']
-    ATag: typeof import('@arco-design/web-vue')['Tag']
     ATooltip: typeof import('@arco-design/web-vue')['Tooltip']
     ATypographyText: typeof import('@arco-design/web-vue')['TypographyText']
     BannerFooter: typeof import('./src/components/Player/BannerFooter.vue')['default']

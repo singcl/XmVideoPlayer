@@ -1,6 +1,11 @@
 body {
   margin: 0;
-  background: linear-gradient(91deg, #f1eefc, #9dc6ff 70%, #a5bcff);
+  background: linear-gradient(
+    91deg,
+    rgb(var(--xm-bg-1, #f1eefc)),
+    rgb(var(--xm-bg-5, #9dc6ff)) 70%,
+    rgb(var(--xm-bg-7, #a5bcff))
+  );
 }
 .start-wrapper {
   --start-width: 60%;
@@ -18,14 +23,7 @@ body {
 }
 .start-name {
   letter-spacing: 0.2rem;
-  background-image: linear-gradient(
-    90deg,
-    #22434c,
-    #898137 25%,
-    #147b96 50%,
-    #998e24 75%,
-    #22434c
-  );
+  background-image: linear-gradient(90deg, #22434c, #898137 25%, #147b96 50%, #998e24 75%, #22434c);
   -webkit-text-fill-color: transparent;
   -webkit-background-clip: text;
   background-size: 200% 100%;
