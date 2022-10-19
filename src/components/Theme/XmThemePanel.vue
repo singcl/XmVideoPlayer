@@ -37,21 +37,6 @@
   line-height: 1;
   /* color: rgb(255, 154, 46); */
 }
-
-.theme {
-  display: flex;
-  flex-direction: row;
-}
-
-.theme__item {
-  width: 80px;
-  height: 60px;
-  background-color: red;
-}
-
-.theme__item:not(:last-child) {
-  margin-right: 5px;
-}
 </style>
 
 <style>
