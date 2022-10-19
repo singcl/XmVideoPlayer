@@ -27,11 +27,13 @@ declare module '@vue/runtime-core' {
     IconDelete: typeof import('@arco-design/web-vue/es/icon')['IconDelete']
     IconEdit: typeof import('@arco-design/web-vue/es/icon')['IconEdit']
     IconHeart: typeof import('@arco-design/web-vue/es/icon')['IconHeart']
+    IconPalette: typeof import('@arco-design/web-vue/es/icon')['IconPalette']
     IconRefresh: typeof import('@arco-design/web-vue/es/icon')['IconRefresh']
     IconThumbUp: typeof import('@arco-design/web-vue/es/icon')['IconThumbUp']
     XmHistoryEditDialog: typeof import('./src/components/Player/XmHistoryEditDialog.vue')['default']
     XmPlayer: typeof import('./src/components/Player/XmPlayer.vue')['default']
     XmSearch: typeof import('./src/components/Player/XmSearch.vue')['default']
+    XmThemePanel: typeof import('./src/components/Theme/XmThemePanel.vue')['default']
     XmVideo: typeof import('./src/components/Player/XmVideo.vue')['default']
   }
 }
