@@ -1,3 +1,5 @@
+@import './styles/theme/cssVars.css';
+
 :root {
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
   font-size: 16px;
@@ -19,7 +21,7 @@
 
 body {
   margin: 0;
-  background: linear-gradient(91deg, rgb(var(--blue-1)), rgb(var(--blue-5)) 70%, rgb(var(--blue-7)));
+  background: linear-gradient(91deg, rgb(var(--xm-bg-1)), rgb(var(--xm-bg-5)) 70%, rgb(var(--xm-bg-7)));
 }
 
 /* fix autocomplete组件弹窗高度异常 */

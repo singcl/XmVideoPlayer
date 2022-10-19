@@ -1,12 +1,12 @@
 <template>
   <div class="theme-wrapper">
     <a-popover trigger="click" content-class="theme-popover">
-      <icon-palette :size="16" />
+      <icon-palette :size="18" />
       <template #title>
         <span>主题切换</span>
       </template>
       <template #content>
-        <a-radio-group>
+        <a-radio-group v-model="themeSelected" @change="handleThemeChange">
           <template v-for="theme in themes" :key="theme.value">
             <a-radio :value="theme.value">
               <template #radio="{ checked }">
@@ -18,7 +18,9 @@
                     <div className="theme-radio-card-mask-dot" />
                   </div>
                   <div>
-                    <a-typography-text type="secondary">{{ theme.label }}</a-typography-text>
+                    <a-typography-text type="secondary" class="theme-radio-card-txt">
+                      {{ theme.label }}
+                    </a-typography-text>
                   </div>
                 </div>
               </template>
@@ -31,6 +33,8 @@
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted } from 'vue';
+const themeSelected = ref('blue');
 const themes = [
   {
     label: '深海蓝',
@@ -44,7 +48,22 @@ const themes = [
     label: '清新绿',
     value: 'green',
   },
+  {
+    label: '金秋黄',
+    value: 'gold',
+  },
 ];
+onMounted(() => {
+  const defaultTheme = localStorage.getItem('xm-theme');
+  if (defaultTheme) {
+    themeSelected.value = defaultTheme;
+    document.body.setAttribute('xm-theme', defaultTheme);
+  }
+});
+function handleThemeChange(v: string | number | boolean) {
+  document.body.setAttribute('xm-theme', v as string);
+  localStorage.setItem('xm-theme', v as string);
+}
 </script>
 
 <style scoped>
@@ -107,6 +126,10 @@ const themes = [
   border-radius: 100%;
 }
 
+.theme-popover .theme-radio-card-txt {
+  color: rgb(var(--xm-txt-10));
+}
+
 .theme-popover .theme-radio-card.theme-blue {
   background: linear-gradient(91deg, rgb(var(--blue-1)), rgb(var(--blue-5)) 70%, rgb(var(--blue-7)));
 }
@@ -115,6 +138,9 @@ const themes = [
 }
 .theme-popover .theme-radio-card.theme-green {
   background: linear-gradient(91deg, rgb(var(--green-1)), rgb(var(--green-5)) 70%, rgb(var(--green-7)));
+}
+.theme-popover .theme-radio-card.theme-gold {
+  background: linear-gradient(91deg, rgb(var(--gold-1)), rgb(var(--gold-5)) 70%, rgb(var(--gold-7)));
 }
 
 .theme-popover .theme-blue.theme-radio-card:hover,
@@ -160,5 +186,20 @@ const themes = [
 
 .theme-popover .theme-green.theme-radio-card-checked .theme-radio-card-mask-dot {
   background-color: rgb(var(--green-6));
+}
+
+.theme-popover .theme-gold.theme-radio-card:hover,
+.theme-popover .theme-gold.theme-radio-card-checked,
+.theme-popover .theme-gold.theme-radio-card:hover .theme-radio-card-mask,
+.theme-popover .theme-gold.theme-radio-card-checked .theme-radio-card-mask {
+  border-color: rgb(var(--gold-6));
+}
+
+.theme-popover .theme-gold.theme-radio-card-checked {
+  background-color: var(--color-gold-light-1);
+}
+
+.theme-popover .theme-gold.theme-radio-card-checked .theme-radio-card-mask-dot {
+  background-color: rgb(var(--gold-6));
 }
 </style>
