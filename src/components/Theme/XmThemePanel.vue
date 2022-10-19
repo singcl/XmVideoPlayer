@@ -69,8 +69,8 @@ function handleThemeChange(v: string | number | boolean) {
 <style scoped>
 .theme-wrapper {
   position: absolute;
-  top: 3px;
-  right: 5px;
+  top: 5px;
+  right: 8px;
   line-height: 1;
   /* color: rgb(255, 154, 46); */
 }

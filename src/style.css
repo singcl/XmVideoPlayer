@@ -22,6 +22,7 @@
 body {
   margin: 0;
   background: linear-gradient(91deg, rgb(var(--xm-bg-1)), rgb(var(--xm-bg-5)) 70%, rgb(var(--xm-bg-7)));
+  overflow-x: hidden;
 }
 
 /* fix autocomplete组件弹窗高度异常 */
