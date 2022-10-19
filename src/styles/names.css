@@ -1,12 +1,3 @@
-body {
-  margin: 0;
-  background: linear-gradient(
-    91deg,
-    rgb(var(--xm-bg-1, #f1eefc)),
-    rgb(var(--xm-bg-5, #9dc6ff)) 70%,
-    rgb(var(--xm-bg-7, #a5bcff))
-  );
-}
 .start-wrapper {
   --start-width: 60%;
   --start-width-max: 900px;
