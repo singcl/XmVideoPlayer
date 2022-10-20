@@ -39,7 +39,7 @@
   "homepage": "https://github.com/singcl/XmVideoPlayer",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/singcl/XmVideoPlayer"
+    "url": "git+https://github.com/singcl/XmVideoPlayer.git"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^1.0.5",
