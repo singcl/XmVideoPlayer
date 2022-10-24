@@ -173,6 +173,12 @@ fn main() {
             command::media::video_download,
             command::m3u8::m3u8_download,
         ])
-        .run(tauri::generate_context!())
-        .expect("error while running tauri application");
+        .build(tauri::generate_context!())
+        .expect("error while running tauri application")
+        .run(|_app_handle, event| match event {
+            tauri::RunEvent::ExitRequested { api, .. } => {
+                api.prevent_exit();
+            }
+            _ => {}
+        });
 }
