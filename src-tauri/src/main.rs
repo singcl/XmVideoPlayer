@@ -12,6 +12,8 @@ use std::{
     // process::{Command, Stdio},
 };
 use tauri::http::{HttpRange, ResponseBuilder};
+use tauri::Manager;
+use tauri::{CustomMenuItem, SystemTray, SystemTrayEvent, SystemTrayMenu, SystemTrayMenuItem};
 
 pub mod command;
 pub mod s;
@@ -19,7 +21,56 @@ pub mod state;
 pub mod utils;
 
 fn main() {
+    // here `"quit".to_string()` defines the menu item id, and the second parameter is the menu item label.
+    let quit = CustomMenuItem::new("quit".to_string(), "退出");
+    let hide = CustomMenuItem::new("hide".to_string(), "隐藏");
+    let show = CustomMenuItem::new("show".to_string(), "显示");
+    let tray_menu = SystemTrayMenu::new()
+        .add_item(quit)
+        .add_native_item(SystemTrayMenuItem::Separator)
+        .add_item(hide) // insert the menu items here
+        .add_item(show); // insert the menu items here
+    let system_tray = SystemTray::new().with_menu(tray_menu);
     tauri::Builder::default()
+        .system_tray(system_tray)
+        .on_system_tray_event(|app, event| match event {
+            SystemTrayEvent::LeftClick {
+                position: _,
+                size: _,
+                ..
+            } => {
+                println!("system tray received a left click");
+            }
+            SystemTrayEvent::RightClick {
+                position: _,
+                size: _,
+                ..
+            } => {
+                println!("system tray received a right click");
+            }
+            SystemTrayEvent::DoubleClick {
+                position: _,
+                size: _,
+                ..
+            } => {
+                println!("system tray received a double click");
+            }
+            SystemTrayEvent::MenuItemClick { id, .. } => match id.as_str() {
+                "quit" => {
+                    std::process::exit(0);
+                }
+                "hide" => {
+                    let window = app.get_window("main").unwrap();
+                    window.hide().unwrap();
+                }
+                "show" => {
+                    let window = app.get_window("main").unwrap();
+                    window.show().unwrap();
+                }
+                _ => {}
+            },
+            _ => {}
+        })
         .setup(|_app| {
             if let Some(mut home_dir) = tauri::api::path::home_dir() {
                 home_dir.push(".xmvideoplayer");

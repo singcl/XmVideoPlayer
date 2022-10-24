@@ -68,3 +68,4 @@ pub fn connection_send(connection: State<'_, Connection>) {
         .expect("connection not initialize; use the `connect` command first")
         .send();
 }
+
