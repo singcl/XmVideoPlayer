@@ -24,12 +24,10 @@ fn main() {
     // here `"quit".to_string()` defines the menu item id, and the second parameter is the menu item label.
     let quit = CustomMenuItem::new("quit".to_string(), "退出");
     let hide = CustomMenuItem::new("hide".to_string(), "隐藏");
-    let show = CustomMenuItem::new("show".to_string(), "显示");
     let tray_menu = SystemTrayMenu::new()
         .add_item(quit)
         .add_native_item(SystemTrayMenuItem::Separator)
-        .add_item(hide) // insert the menu items here
-        .add_item(show); // insert the menu items here
+        .add_item(hide); // insert the menu items here
     let system_tray = SystemTray::new().with_menu(tray_menu);
     tauri::Builder::default()
         .system_tray(system_tray)
@@ -55,20 +53,26 @@ fn main() {
             } => {
                 println!("system tray received a double click");
             }
-            SystemTrayEvent::MenuItemClick { id, .. } => match id.as_str() {
-                "quit" => {
-                    std::process::exit(0);
+            SystemTrayEvent::MenuItemClick { id, .. } => {
+                // get a handle to the clicked menu item
+                // note that `tray_handle` can be called anywhere,
+                // just get a `AppHandle` instance with `app.handle()` on the setup hook
+                // and move it to another function or thread
+                let item_handle = app.tray_handle().get_item(&id);
+                match id.as_str() {
+                    "quit" => {
+                        std::process::exit(0);
+                    }
+                    "hide" => {
+                        let window = app.get_window("main").unwrap();
+                        window.hide().unwrap();
+                        // you can also `set_selected`, `set_enabled` and `set_native_image` (macOS only).
+                        // TODO:如何让显示生效？
+                        item_handle.set_title("显示").unwrap();
+                    }
+                    _ => {}
                 }
-                "hide" => {
-                    let window = app.get_window("main").unwrap();
-                    window.hide().unwrap();
-                }
-                "show" => {
-                    let window = app.get_window("main").unwrap();
-                    window.show().unwrap();
-                }
-                _ => {}
-            },
+            }
             _ => {}
         })
         .setup(|_app| {
