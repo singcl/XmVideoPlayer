@@ -1,6 +1,6 @@
 use std::{
     collections::HashMap,
-    sync::{atomic::AtomicUsize, Arc, Mutex},
+    sync::{atomic::AtomicBool, atomic::AtomicUsize, Arc, Mutex},
 };
 
 #[derive(Default)]
@@ -16,3 +16,6 @@ impl Client {
 
 #[derive(Default)]
 pub struct Connection(pub(crate) Mutex<Option<Client>>);
+
+#[derive(Default, Debug)]
+pub struct WindowVisible(pub(crate) AtomicBool);

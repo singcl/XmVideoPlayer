@@ -4,7 +4,7 @@
 )]
 
 // use std::io::prelude::*;
-use std::sync::atomic::AtomicUsize;
+use std::sync::atomic::{AtomicBool, AtomicUsize, Ordering};
 use std::{
     cmp::min,
     io::{Read, Seek, SeekFrom},
@@ -23,11 +23,11 @@ pub mod utils;
 fn main() {
     // here `"quit".to_string()` defines the menu item id, and the second parameter is the menu item label.
     let quit = CustomMenuItem::new("quit".to_string(), "退出");
-    let hide = CustomMenuItem::new("hide".to_string(), "隐藏");
+    let visible = CustomMenuItem::new("visible".to_string(), "隐藏");
     let tray_menu = SystemTrayMenu::new()
         .add_item(quit)
         .add_native_item(SystemTrayMenuItem::Separator)
-        .add_item(hide); // insert the menu items here
+        .add_item(visible); // insert the menu items here
     let system_tray = SystemTray::new().with_menu(tray_menu);
     tauri::Builder::default()
         .system_tray(system_tray)
@@ -37,7 +37,8 @@ fn main() {
                 size: _,
                 ..
             } => {
-                println!("system tray received a left click");
+                let visible = app.state::<state::WindowVisible>();
+                println!("system tray received a left click, and {:?}", visible);
             }
             SystemTrayEvent::RightClick {
                 position: _,
@@ -59,16 +60,25 @@ fn main() {
                 // just get a `AppHandle` instance with `app.handle()` on the setup hook
                 // and move it to another function or thread
                 let item_handle = app.tray_handle().get_item(&id);
+                let window_visible = app.state::<state::WindowVisible>();
                 match id.as_str() {
                     "quit" => {
                         std::process::exit(0);
                     }
-                    "hide" => {
+                    "visible" => {
                         let window = app.get_window("main").unwrap();
-                        window.hide().unwrap();
-                        // you can also `set_selected`, `set_enabled` and `set_native_image` (macOS only).
-                        // TODO:如何让显示生效？
-                        item_handle.set_title("显示").unwrap();
+                        let visible = window_visible.0.load(Ordering::Relaxed);
+                        if visible {
+                            window_visible.0.store(false, Ordering::Relaxed);
+                            window.hide().unwrap();
+                            // you can also `set_selected`, `set_enabled` and `set_native_image` (macOS only).
+                            item_handle.set_title("显示").unwrap();
+                        } else {
+                            window_visible.0.store(true, Ordering::Relaxed);
+                            window.show().unwrap();
+                            // you can also `set_selected`, `set_enabled` and `set_native_image` (macOS only).
+                            item_handle.set_title("隐藏").unwrap();
+                        }
                     }
                     _ => {}
                 }
@@ -160,6 +170,7 @@ fn main() {
         .manage(state::Database(Default::default()))
         .manage(state::Connection(Default::default()))
         .manage(state::Counter(AtomicUsize::new(0)))
+        .manage(state::WindowVisible(AtomicBool::new(true)))
         .invoke_handler(tauri::generate_handler![
             command::normal::greet,
             command::normal::init_process,
