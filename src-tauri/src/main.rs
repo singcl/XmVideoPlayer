@@ -25,65 +25,79 @@ fn main() {
     let quit = CustomMenuItem::new("quit".to_string(), "退出");
     let visible = CustomMenuItem::new("visible".to_string(), "隐藏");
     let tray_menu = SystemTrayMenu::new()
-    .add_item(visible) // insert the menu items here
-    .add_native_item(SystemTrayMenuItem::Separator)
-    .add_item(quit);
+        .add_item(visible) // insert the menu items here
+        .add_native_item(SystemTrayMenuItem::Separator)
+        .add_item(quit);
     let system_tray = SystemTray::new().with_menu(tray_menu);
     tauri::Builder::default()
         .system_tray(system_tray)
-        .on_system_tray_event(|app, event| match event {
-            SystemTrayEvent::LeftClick {
-                position: _,
-                size: _,
-                ..
-            } => {
-                let visible = app.state::<state::WindowVisible>();
-                println!("system tray received a left click, and {:?}", visible);
-            }
-            SystemTrayEvent::RightClick {
-                position: _,
-                size: _,
-                ..
-            } => {
-                println!("system tray received a right click");
-            }
-            SystemTrayEvent::DoubleClick {
-                position: _,
-                size: _,
-                ..
-            } => {
-                println!("system tray received a double click");
-            }
-            SystemTrayEvent::MenuItemClick { id, .. } => {
-                // get a handle to the clicked menu item
-                // note that `tray_handle` can be called anywhere,
-                // just get a `AppHandle` instance with `app.handle()` on the setup hook
-                // and move it to another function or thread
-                let item_handle = app.tray_handle().get_item(&id);
-                let window_visible = app.state::<state::WindowVisible>();
-                match id.as_str() {
-                    "quit" => {
-                        std::process::exit(0);
-                    }
-                    "visible" => {
-                        let window = app.get_window("main").unwrap();
-                        let visible = window_visible.0.load(Ordering::Relaxed);
-                        if visible {
-                            window_visible.0.store(false, Ordering::Relaxed);
-                            window.hide().unwrap();
-                            // you can also `set_selected`, `set_enabled` and `set_native_image` (macOS only).
-                            item_handle.set_title("显示").unwrap();
-                        } else {
-                            window_visible.0.store(true, Ordering::Relaxed);
-                            window.show().unwrap();
-                            // you can also `set_selected`, `set_enabled` and `set_native_image` (macOS only).
-                            item_handle.set_title("隐藏").unwrap();
-                        }
-                    }
-                    _ => {}
+        .on_system_tray_event(|app, event| {
+            let window_visible = app.state::<state::WindowVisible>();
+            let window = app.get_window("main").unwrap();
+            let item_handle = app.tray_handle().get_item("visible");
+            match event {
+                SystemTrayEvent::LeftClick {
+                    position: _,
+                    size: _,
+                    ..
+                } => {
+                    window_visible.0.store(true, Ordering::Relaxed);
+                    window.show().unwrap();
+                    item_handle.set_title("隐藏").unwrap();
+                    println!(
+                        "system tray received a left click, and {:?}",
+                        window_visible
+                    );
                 }
+                SystemTrayEvent::RightClick {
+                    position: _,
+                    size: _,
+                    ..
+                } => {
+                    window_visible.0.store(true, Ordering::Relaxed);
+                    window.show().unwrap();
+                    item_handle.set_title("隐藏").unwrap();
+                    println!("system tray received a right click");
+                }
+                SystemTrayEvent::DoubleClick {
+                    position: _,
+                    size: _,
+                    ..
+                } => {
+                    window_visible.0.store(true, Ordering::Relaxed);
+                    window.show().unwrap();
+                    item_handle.set_title("隐藏").unwrap();
+                    println!("system tray received a double click");
+                }
+                SystemTrayEvent::MenuItemClick { id, .. } => {
+                    // get a handle to the clicked menu item
+                    // note that `tray_handle` can be called anywhere,
+                    // just get a `AppHandle` instance with `app.handle()` on the setup hook
+                    // and move it to another function or thread
+                    let item_handle = app.tray_handle().get_item(&id);
+                    match id.as_str() {
+                        "quit" => {
+                            std::process::exit(0);
+                        }
+                        "visible" => {
+                            let visible = window_visible.0.load(Ordering::Relaxed);
+                            if visible {
+                                window_visible.0.store(false, Ordering::Relaxed);
+                                window.hide().unwrap();
+                                // you can also `set_selected`, `set_enabled` and `set_native_image` (macOS only).
+                                item_handle.set_title("显示").unwrap();
+                            } else {
+                                window_visible.0.store(true, Ordering::Relaxed);
+                                window.show().unwrap();
+                                // you can also `set_selected`, `set_enabled` and `set_native_image` (macOS only).
+                                item_handle.set_title("隐藏").unwrap();
+                            }
+                        }
+                        _ => {}
+                    }
+                }
+                _ => {}
             }
-            _ => {}
         })
         .setup(|_app| {
             if let Some(mut home_dir) = tauri::api::path::home_dir() {
