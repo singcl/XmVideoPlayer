@@ -25,9 +25,9 @@ fn main() {
     let quit = CustomMenuItem::new("quit".to_string(), "退出");
     let visible = CustomMenuItem::new("visible".to_string(), "隐藏");
     let tray_menu = SystemTrayMenu::new()
-        .add_item(quit)
-        .add_native_item(SystemTrayMenuItem::Separator)
-        .add_item(visible); // insert the menu items here
+    .add_item(visible) // insert the menu items here
+    .add_native_item(SystemTrayMenuItem::Separator)
+    .add_item(quit);
     let system_tray = SystemTray::new().with_menu(tray_menu);
     tauri::Builder::default()
         .system_tray(system_tray)
@@ -91,6 +91,19 @@ fn main() {
                 std::fs::create_dir_all(&home_dir)?;
             }
             Ok(())
+        })
+        .on_window_event(|event| match event.event() {
+            tauri::WindowEvent::CloseRequested { api, .. } => {
+                api.prevent_close();
+                let window = event.window();
+                let app = window.app_handle();
+                let item_handle = app.tray_handle().get_item("visible");
+                let window_visible = app.state::<state::WindowVisible>();
+                window_visible.0.store(false, Ordering::Relaxed);
+                window.hide().unwrap();
+                item_handle.set_title("显示").unwrap();
+            }
+            _ => {}
         })
         // register_uri_scheme_protocol 不支持返回数据流？？？
         .register_uri_scheme_protocol("stream", move |_app, request| {
