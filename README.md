@@ -19,10 +19,10 @@
 
 #### MACOS
 
-|        macos 截图        |        macos 截图        |
-| :----------------------: | :----------------------: |
-| ![macos](./xmvideo1.jpg) | ![macos](./xmvideo2.jpg) |
-| ![macos](./xmvideo3.jpg) | ![macos](./xmvideo4.jpg) |
+|                          macos 截图                          |                          macos 截图                          |
+| :----------------------------------------------------------: | :----------------------------------------------------------: |
+| ![macos](https://s2.loli.net/2022/10/31/Kr2BkOsG4RbUtjL.jpg) | ![macos](https://s2.loli.net/2022/10/31/sgWo4AHpKqFLlRr.jpg) |
+| ![macos](https://s2.loli.net/2022/10/31/YbprKqoi7OI1Zhf.jpg) | ![macos](https://s2.loli.net/2022/10/31/qnY7IGduLh415JQ.jpg) |
 
 #### Windows
 
