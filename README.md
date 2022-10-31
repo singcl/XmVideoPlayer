@@ -17,18 +17,19 @@
 
 ### 学习资料 🤩
 
+#### MACOS
+
+|        macos 截图        |        macos 截图        |
+| :----------------------: | :----------------------: |
+| ![macos](./xmvideo1.jpg) | ![macos](./xmvideo2.jpg) |
+| ![macos](./xmvideo3.jpg) | ![macos](./xmvideo4.jpg) |
+
 #### Windows
 
 |                          Windows 截图                           |                          Windows 截图                           |
 | :-------------------------------------------------------------: | :-------------------------------------------------------------: |
 |   ![界面](https://s2.loli.net/2022/09/18/4Yid5Ql81wnV2bU.png)   |   ![界面](https://s2.loli.net/2022/09/18/cbzwIdaXvoxWMi9.png)   |
 | ![下载进度](https://s2.loli.net/2022/10/08/74otrlVCgKR2hfE.png) | ![本地视频](https://s2.loli.net/2022/10/10/jVI1m54AwbckHR2.png) |
-
-#### MACOS
-
-|                          macos 截图                          |                          macos 截图                          |
-| :----------------------------------------------------------: | :----------------------------------------------------------: |
-| ![macos](https://s2.loli.net/2022/10/08/VbsWAty7cxP62vN.jpg) | ![macos](https://s2.loli.net/2022/10/08/jvWPs7QMr34KEeY.jpg) |
 
 ## Roadmap
 
