@@ -47,7 +47,7 @@
   - [x] 常规资源下载 WOW🎉！
 - [x] 本地媒体资源播放 - 暂时只支持 mp4🎉
 - [x] UI 兼容竖版视频
+- [x] 提供主题界面 🎉！
+- [x] Updater 🎉！
 - [ ] 提供简单的视频格式转换工具
-- [x] 提供主题界面
 - [ ] Window Customization
-- [ ] Updater
