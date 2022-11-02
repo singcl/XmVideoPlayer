@@ -42,6 +42,8 @@
     "url": "git+https://github.com/singcl/XmVideoPlayer.git"
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.2.0",
+    "@commitlint/config-conventional": "^17.2.0",
     "@tauri-apps/cli": "^1.0.5",
     "@types/dplayer": "^1.25.2",
     "@types/hls.js": "^1.0.0",
