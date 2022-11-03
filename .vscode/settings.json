@@ -1,5 +1,8 @@
 {
-    "cSpell.words": [
-        "tauri"
-    ]
+  "cSpell.words": ["tauri"],
+  "postcssSorting.config": {
+    "order": ["custom-properties", "dollar-variables", "declarations", "at-rules", "rules"],
+    "properties-order": ["display", "position", "top", "right", "bottom", "left"]
+  },
+  "stylelint.validate": ["vue"]
 }

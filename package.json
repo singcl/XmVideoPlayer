@@ -10,13 +10,21 @@
     "tauri": "tauri",
     "prepare": "husky install",
     "eslint": "eslint src",
+    "stylelint": "stylelint **/*.{css,less,scss,styl}",
+    "lint": "npm run eslint && npm run stylelint",
     "lint-staged": "lint-staged --allow-empty",
     "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx",
-    "changelog": "standard-changelog"
+    "changelog": "standard-changelog",
+    "tsc": "vue-tsc --noEmit --skipLibCheck",
+    "cz": "cz"
   },
   "lint-staged": {
-    "**/*.{js,jsx,ts,tsx}": "npm run lint-staged:js",
-    "**/*.{js,jsx,ts,tsx,less,css,md,json}": [
+    "**/*.{js,jsx,ts,tsx,vue}": [
+      "npm run lint-staged:js",
+      "npm run tsc"
+    ],
+    "**/*.{less,css,scss}": "npm run stylelint",
+    "**/*.{js,jsx,ts,tsx,vue,less,css,md,json}": [
       "prettier --write"
     ]
   },
@@ -63,8 +71,17 @@
     "husky-init": "^8.0.0",
     "less": "^4.1.3",
     "lint-staged": "^13.0.3",
+    "postcss": "^8.4.18",
+    "postcss-cli": "^10.0.0",
+    "postcss-html": "^1.5.0",
+    "postcss-sorting": "^7.0.1",
     "prettier": "^2.7.1",
     "standard-changelog": "^2.0.27",
+    "stylelint": "^14.14.0",
+    "stylelint-config-html": "^1.1.0",
+    "stylelint-config-prettier": "^9.0.3",
+    "stylelint-config-recommended-vue": "^1.4.0",
+    "stylelint-config-standard": "^29.0.0",
     "typescript": "^4.6.4",
     "unplugin-auto-import": "^0.11.2",
     "unplugin-vue-components": "^0.22.7",
