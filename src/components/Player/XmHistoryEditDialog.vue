@@ -76,4 +76,6 @@ async function handleOk() {
 function handleCancel() {}
 </script>
 
-<style scoped></style>
+<style scoped>
+/* style */
+</style>

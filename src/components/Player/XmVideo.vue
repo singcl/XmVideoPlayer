@@ -90,4 +90,6 @@ function toggle() {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+/* style */
+</style>
