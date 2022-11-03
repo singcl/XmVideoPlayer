@@ -4482,7 +4482,7 @@
   "resolved" "https://registry.npmjs.org/postcss-value-parser/-/postcss-value-parser-4.2.0.tgz"
   "version" "4.2.0"
 
-"postcss@^8.0.0", "postcss@^8.1.0", "postcss@^8.1.10", "postcss@^8.2", "postcss@^8.3.3", "postcss@^8.3.9", "postcss@^8.4.0", "postcss@^8.4.16", "postcss@^8.4.17", "postcss@^8.4.18", "postcss@>=8.0.9":
+"postcss@^8.0.0", "postcss@^8.1.0", "postcss@^8.1.10", "postcss@^8.2", "postcss@^8.3.11", "postcss@^8.3.3", "postcss@^8.3.9", "postcss@^8.4.0", "postcss@^8.4.16", "postcss@^8.4.17", "postcss@^8.4.18", "postcss@>=8.0.9":
   "integrity" "sha512-Wi8mWhncLJm11GATDaQKobXSNEYGUHeQLiQqDFG1qQ5UTDPTEvKw0Xt5NsTpktGTwLps3ByrWsBrG0rB8YQ9oA=="
   "resolved" "https://registry.npmjs.org/postcss/-/postcss-8.4.18.tgz"
   "version" "8.4.18"
@@ -5206,6 +5206,13 @@
   "resolved" "https://registry.npmjs.org/stylelint-config-html/-/stylelint-config-html-1.1.0.tgz"
   "version" "1.1.0"
 
+"stylelint-config-idiomatic-order@^9.0.0":
+  "integrity" "sha512-+LtfPycY1Paayf1MaERyh6BzVPnZxemX5NtzdUPqi4u8hyAR7859f/4EL02+Kr9va76iX7mbYC4HendocXKJZQ=="
+  "resolved" "https://registry.npmjs.org/stylelint-config-idiomatic-order/-/stylelint-config-idiomatic-order-9.0.0.tgz"
+  "version" "9.0.0"
+  dependencies:
+    "stylelint-order" "^5.0.0"
+
 "stylelint-config-prettier@^9.0.3":
   "integrity" "sha512-5n9gUDp/n5tTMCq1GLqSpA30w2sqWITSSEiAWQlpxkKGAUbjcemQ0nbkRvRUa0B1LgD3+hCvdL7B1eTxy1QHJg=="
   "resolved" "https://registry.npmjs.org/stylelint-config-prettier/-/stylelint-config-prettier-9.0.3.tgz"
@@ -5232,7 +5239,15 @@
   dependencies:
     "stylelint-config-recommended" "^9.0.0"
 
-"stylelint@^14.10.0", "stylelint@^14.14.0", "stylelint@>=11.0.0", "stylelint@>=14.0.0":
+"stylelint-order@^5.0.0":
+  "integrity" "sha512-OWQ7pmicXufDw5BlRqzdz3fkGKJPgLyDwD1rFY3AIEfIH/LQY38Vu/85v8/up0I+VPiuGRwbc2Hg3zLAsJaiyw=="
+  "resolved" "https://registry.npmjs.org/stylelint-order/-/stylelint-order-5.0.0.tgz"
+  "version" "5.0.0"
+  dependencies:
+    "postcss" "^8.3.11"
+    "postcss-sorting" "^7.0.1"
+
+"stylelint@^14.0.0", "stylelint@^14.10.0", "stylelint@^14.14.0", "stylelint@>=11", "stylelint@>=11.0.0", "stylelint@>=14.0.0":
   "integrity" "sha512-yUI+4xXfPHVnueYddSQ/e1GuEA/2wVhWQbGj16AmWLtQJtn28lVxfS4b0CsWyVRPgd3Auzi0NXOthIEUhtQmmA=="
   "resolved" "https://registry.npmjs.org/stylelint/-/stylelint-14.14.0.tgz"
   "version" "14.14.0"

@@ -12,6 +12,7 @@ module.exports = {
     'stylelint-config-html',
     // If you are using Vue.
     'stylelint-config-recommended-vue',
+    'stylelint-config-idiomatic-order',
   ],
   // plugins: [
   //   // add this plugin here:
