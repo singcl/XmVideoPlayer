@@ -29,7 +29,7 @@ module.exports = {
     // "stylus/declaration-colon": "never"
     // @see https://stylelint.io/user-guide/rules/list/selector-pseudo-class-no-unknown/#ignorepseudoclasses-regex-string
     'selector-pseudo-class-no-unknown': [true, { ignorePseudoClasses: ['global', 'local'] }],
-    'value-keyword-case': ['lower', { camelCaseSvgKeywords: true }],
+    'value-keyword-case': ['lower', { camelCaseSvgKeywords: true, ignoreFunctions: ['v-bind'] }],
     'property-no-vendor-prefix': [true, { ignoreProperties: ['text-size-adjust'] }],
   },
 };

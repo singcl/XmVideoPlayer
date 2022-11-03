@@ -10,7 +10,8 @@
     "tauri": "tauri",
     "prepare": "husky install",
     "eslint": "eslint src",
-    "stylelint": "stylelint **/*.{css,less,scss,styl}",
+    "stylelint": "stylelint **/*.{css,less,scss,styl,vue}",
+    "stylelint:fix": "stylelint --fix **/*.{css,less,scss,styl,vue}",
     "lint": "npm run eslint && npm run stylelint",
     "lint-staged": "lint-staged --allow-empty",
     "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx",
@@ -23,7 +24,7 @@
       "npm run lint-staged:js",
       "npm run tsc"
     ],
-    "**/*.{less,css,scss}": "npm run stylelint",
+    "**/*.{less,css,scss,vue}": "npm run stylelint",
     "**/*.{js,jsx,ts,tsx,vue,less,css,md,json}": [
       "prettier --write"
     ]
