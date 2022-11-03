@@ -140,25 +140,26 @@ async function downloadNormal() {
 <style scoped>
 .wrapper {
   position: relative;
-  max-height: 56px;
-  height: 100%;
   display: flex;
+  height: 100%;
+  max-height: 56px;
   flex-direction: column;
   justify-content: space-between;
 }
 
 .progress {
-  width: 100%;
   display: flex;
+  width: 100%;
   align-items: center;
   background-color: #f7f7f7;
 }
 
 .progress__chunk {
-  box-sizing: border-box;
   width: 5px;
   height: 5px;
+  box-sizing: border-box;
   background-color: #f7f7f7;
+
   /* border: 1px solid #f7f7f7; */
 }
 
@@ -169,21 +170,24 @@ async function downloadNormal() {
 .progress__chunk.success {
   background-color: green;
 }
+
 .b-header {
   display: flex;
+  height: 48px;
   align-items: center;
   justify-content: space-between;
-  height: 48px;
   margin: 0 12px 0 4px;
 }
+
 .avatar {
   position: relative;
   width: 42px;
   height: 42px;
+  border-radius: 2px;
   background-image: url('./../../assets/avatar.webp');
   background-size: cover;
-  border-radius: 2px;
 }
+
 .avatar-dec {
   position: relative;
   width: 100%;

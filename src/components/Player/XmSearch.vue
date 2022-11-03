@@ -13,7 +13,7 @@
         :data="options"
         :placeholder="placeholder"
         :allow-clear="true"
-        @change="(v) => $emit('update:modelValue', v)"
+        @change="(v: string) => $emit('update:modelValue', v)"
         @clear="handleClear"
         @press-enter="() => handleSubmit()"
         @search="handleSearch"
@@ -23,7 +23,7 @@
           <div v-for="opt in optInfos" :key="opt.value" class="play-opt">
             <span class="play-opt__operation">
               <icon-delete style="color: red" @click="handleOptDelete($event, opt.raw)" />
-              <icon-edit style="color: blue; margin-left: 3px" @click="handleOptEdit($event, opt.raw)" />
+              <icon-edit style="margin-left: 3px; color: blue" @click="handleOptEdit($event, opt.raw)" />
             </span>
             <span>{{ opt.label }}</span>
           </div>
@@ -195,22 +195,22 @@ async function loadLocalSource() {
 
 <style scoped>
 .wrapper {
+  position: relative;
   display: flex;
   margin-bottom: 5px;
-  position: relative;
 }
 
 .search {
+  width: calc(100% - 5px - 55px);
   box-sizing: border-box;
   margin-right: 5px;
-  width: calc(100% - 5px - 55px);
 }
 
 .tips {
-  text-align: left;
   margin-bottom: 5px;
   color: #666;
   font-size: 10px;
+  text-align: left;
 }
 
 .play-opt {
@@ -219,16 +219,17 @@ async function loadLocalSource() {
   justify-content: space-between;
 }
 
-.play-opt:hover .play-opt__operation {
-  display: block;
-}
-
 .play-opt__operation {
   display: none;
   margin-right: 5px;
 }
 
+.play-opt:hover .play-opt__operation {
+  display: block;
+}
+
 /* 已经加入style.css */
+
 /* :global(.arco-scrollbar-track.arco-scrollbar-track-direction-vertical) {
   display: none;
 } */
