@@ -11,18 +11,21 @@ body[xm-theme='blue'] {
   --xm-bg-7: var(--blue-7);
   --xm-txt-10: var(--blue-10);
 }
+
 body[xm-theme='red'] {
   --xm-bg-1: var(--red-1);
   --xm-bg-5: var(--red-5);
   --xm-bg-7: var(--red-7);
   --xm-txt-10: var(--red-10);
 }
+
 body[xm-theme='green'] {
   --xm-bg-1: var(--green-1);
   --xm-bg-5: var(--green-5);
   --xm-bg-7: var(--green-7);
   --xm-txt-10: var(--green-10);
 }
+
 body[xm-theme='gold'] {
   --xm-bg-1: var(--gold-1);
   --xm-bg-5: var(--gold-5);

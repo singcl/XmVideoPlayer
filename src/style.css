@@ -1,16 +1,16 @@
 @import url('./styles/theme/cssVars.css');
 
 :root {
+  background-color: #f6f6f6;
+  color: #0f0f0f;
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
   font-size: 16px;
-  line-height: 24px;
-  font-weight: 400;
-  color: #0f0f0f;
-  background-color: #f6f6f6;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-synthesis: none;
+  font-weight: 400;
+  line-height: 24px;
+  text-rendering: optimizeLegibility;
   -webkit-text-size-adjust: 100%;
 
   --area-width: 60%;
@@ -31,8 +31,8 @@ body {
 .logo {
   height: 6em;
   padding: 1.5em;
-  will-change: filter;
   transition: 0.75s;
+  will-change: filter;
 }
 
 .logo.tauri:hover {
@@ -40,8 +40,8 @@ body {
 }
 
 a {
-  font-weight: 500;
   color: #646cff;
+  font-weight: 500;
   text-decoration: inherit;
 }
 
@@ -51,8 +51,8 @@ a:hover {
 
 @media (prefers-color-scheme: dark) {
   :root {
-    color: #f6f6f6;
     background-color: #2f2f2f;
+    color: #f6f6f6;
   }
 
   a:hover {

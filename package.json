@@ -14,7 +14,8 @@
     "stylelint:fix": "stylelint --fix \"**/*.{css,less,scss,styl,vue}\"",
     "lint": "npm run eslint && npm run stylelint",
     "lint-staged": "lint-staged --allow-empty",
-    "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx",
+    "lint-staged:js": "eslint",
+    "lint-staged:css": "stylelint",
     "changelog": "standard-changelog",
     "tsc": "vue-tsc --noEmit --skipLibCheck",
     "cz": "cz"
@@ -24,7 +25,7 @@
       "npm run lint-staged:js",
       "npm run tsc"
     ],
-    "**/*.{less,css,scss,vue}": "npm run stylelint",
+    "**/*.{less,css,scss,vue}": "npm run lint-staged:css",
     "**/*.{js,jsx,ts,tsx,vue,less,css,md,json}": [
       "prettier --write"
     ]

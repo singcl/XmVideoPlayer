@@ -3,40 +3,48 @@
   height: 15px;
   margin: 0 auto;
 }
+
 .start.loading span {
   display: inline-block;
   width: 15px;
   height: 100%;
   margin-right: 5px;
+  animation: load 1s ease infinite;
   background: #2d197c;
-  -webkit-transform-origin: right bottom;
-  -webkit-animation: load 1s ease infinite;
+  transform-origin: right bottom;
 }
+
 .start.loading span:last-child {
-  margin-right: 0px;
+  margin-right: 0;
 }
-@-webkit-keyframes load {
+@keyframes load {
   0% {
     opacity: 1;
-    -webkit-transform: scale(1);
+    transform: scale(1);
   }
+
   100% {
     opacity: 0;
-    -webkit-transform: rotate(90deg) scale(0.3);
+    transform: rotate(90deg) scale(0.3);
   }
 }
+
 .start.loading span:nth-child(1) {
-  -webkit-animation-delay: 0.13s;
+  animation-delay: 0.13s;
 }
+
 .start.loading span:nth-child(2) {
-  -webkit-animation-delay: 0.26s;
+  animation-delay: 0.26s;
 }
+
 .start.loading span:nth-child(3) {
-  -webkit-animation-delay: 0.39s;
+  animation-delay: 0.39s;
 }
+
 .start.loading span:nth-child(4) {
-  -webkit-animation-delay: 0.52s;
+  animation-delay: 0.52s;
 }
+
 .start.loading span:nth-child(5) {
-  -webkit-animation-delay: 0.65s;
+  animation-delay: 0.65s;
 }
