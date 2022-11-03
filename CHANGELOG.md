@@ -1,3 +1,9 @@
+## [0.4.9](https://github.com/singcl/XmVideoPlayer/compare/v0.4.8...v0.4.9) (2022-11-03)
+
+### Bug Fixes
+
+- **stylelint:** linting not working for subdirectories ([a684cda](https://github.com/singcl/XmVideoPlayer/commit/a684cdaa388cf3642a6d1e8696d4725c80f1c7ac))
+
 ## [0.4.7](https://github.com/singcl/XmVideoPlayer/compare/v0.4.4...v0.4.7) (2022-10-31)
 
 ### Bug Fixes
