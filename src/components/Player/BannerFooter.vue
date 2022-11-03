@@ -16,18 +16,20 @@ import { giftList } from './source.config';
 <style scoped>
 .b-footer {
   display: flex;
+  height: 100%;
   align-items: center;
   justify-content: flex-end;
-  height: 100%;
   margin: 0 12px;
 }
+
 .gift {
   position: relative;
   width: 36px;
   height: 36px;
+  border-radius: 2px;
+
   /* background-image: url("./../../assets/flour.webp"); */
   background-size: cover;
-  border-radius: 2px;
 }
 
 .gift + .gift {

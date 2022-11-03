@@ -37,25 +37,27 @@ const version = ref<string>();
   position: fixed;
   bottom: 0;
   display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  margin: 0 auto;
   width: var(--area-width);
   max-width: var(--area-width-max);
+  align-items: center;
+  justify-content: flex-end;
+  margin: 0 auto;
   font-size: 10px;
 }
+
 .banner a {
   display: inline-block;
 }
 
 .banner .address {
-  color: #666;
   padding-right: 5px;
+  color: #666;
 }
+
 .logo {
+  display: block;
   width: 12px;
   height: 12px;
   padding: 5px;
-  display: block;
 }
 </style>

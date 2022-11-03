@@ -56,17 +56,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
 <style scoped>
 .container {
-  margin: 0 auto;
   /* padding-top: 10vh; */
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  text-align: center;
-  height: 100vh;
   width: var(--area-width);
   max-width: var(--area-width-max);
-  background-color: rgba(0, 0, 0, 0.01);
+  height: 100vh;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin: 0 auto;
+  background-color: rgb(0 0 0 / 1%);
+  text-align: center;
 }
+
 .home-title {
   display: flex;
   align-items: center;
@@ -80,11 +81,12 @@ document.addEventListener('DOMContentLoaded', () => {
 }
 
 .home-title .txt {
-  margin-left: 5px;
   height: 36px;
+  margin-left: 5px;
   line-height: 36px;
   text-align: left;
 }
+
 .logo.vite:hover {
   filter: drop-shadow(0 0 2em #747bff);
 }
@@ -94,10 +96,10 @@ document.addEventListener('DOMContentLoaded', () => {
 }
 
 .typing {
+  overflow: hidden;
   border-right: 2px solid transparent;
   animation: typing 3s steps(42, end) infinite, blink-caret 0.55s step-end infinite;
   word-break: break-all;
-  overflow: hidden;
 }
 
 /* 打印效果 */
@@ -113,8 +115,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /* 光标 */
 @keyframes blink-caret {
-  from,
-  to {
+  0%,
+  100% {
     border-color: transparent;
   }
 

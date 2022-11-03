@@ -22,8 +22,7 @@
   },
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx,vue}": [
-      "npm run lint-staged:js",
-      "npm run tsc"
+      "npm run lint-staged:js"
     ],
     "**/*.{less,css,scss,vue}": "npm run lint-staged:css",
     "**/*.{js,jsx,ts,tsx,vue,less,css,md,json}": [

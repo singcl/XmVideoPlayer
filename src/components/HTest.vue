@@ -67,8 +67,8 @@ async function handleTestClick3() {
 <style scoped>
 .container {
   display: flex;
+  width: 100%;
   flex-direction: row;
   margin-top: 12px;
-  width: 100%;
 }
 </style>
