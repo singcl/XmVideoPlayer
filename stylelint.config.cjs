@@ -38,5 +38,7 @@ module.exports = {
         message: 'Class names should match the BEM naming convention',
       },
     ],
+    // 'no-descending-specificity': [true, { severity: 'warning' }],
+    'no-descending-specificity': null,
   },
 };

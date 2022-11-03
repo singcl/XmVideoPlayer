@@ -72,6 +72,7 @@ function handleThemeChange(v: string | number | boolean) {
   top: 5px;
   right: 8px;
   line-height: 1;
+
   /* color: rgb(255, 154, 46); */
 }
 </style>
@@ -82,9 +83,9 @@ function handleThemeChange(v: string | number | boolean) {
 }
 
 .theme-popover .arco-popover-title {
-  line-height: 1;
-  font-size: 12px;
   margin-bottom: 3px;
+  font-size: 12px;
+  line-height: 1;
 }
 
 .theme-popover .arco-radio-group {
@@ -93,8 +94,8 @@ function handleThemeChange(v: string | number | boolean) {
 }
 
 .theme-popover .arco-radio-group .arco-radio {
-  margin-right: 0;
   padding-left: 0;
+  margin-right: 0;
 }
 
 .theme-popover .arco-radio-group .arco-radio:not(:last-child) {
@@ -102,22 +103,22 @@ function handleThemeChange(v: string | number | boolean) {
 }
 
 .theme-popover .theme-radio-card {
+  width: 200px;
+  box-sizing: border-box;
   padding: 10px 16px;
   border: 1px solid var(--color-border-2);
   border-radius: 4px;
-  width: 200px;
-  box-sizing: border-box;
 }
 
 .theme-popover .theme-radio-card-mask {
-  height: 14px;
-  width: 14px;
   display: inline-flex;
+  width: 14px;
+  height: 14px;
+  box-sizing: border-box;
   align-items: center;
   justify-content: center;
-  border-radius: 100%;
   border: 1px solid var(--color-border-2);
-  box-sizing: border-box;
+  border-radius: 100%;
 }
 
 .theme-popover .theme-radio-card-mask-dot {
@@ -133,12 +134,15 @@ function handleThemeChange(v: string | number | boolean) {
 .theme-popover .theme-radio-card.theme-blue {
   background: linear-gradient(91deg, rgb(var(--blue-1)), rgb(var(--blue-5)) 70%, rgb(var(--blue-7)));
 }
+
 .theme-popover .theme-radio-card.theme-red {
   background: linear-gradient(91deg, rgb(var(--red-1)), rgb(var(--red-5)) 70%, rgb(var(--red-7)));
 }
+
 .theme-popover .theme-radio-card.theme-green {
   background: linear-gradient(91deg, rgb(var(--green-1)), rgb(var(--green-5)) 70%, rgb(var(--green-7)));
 }
+
 .theme-popover .theme-radio-card.theme-gold {
   background: linear-gradient(91deg, rgb(var(--gold-1)), rgb(var(--gold-5)) 70%, rgb(var(--gold-7)));
 }
