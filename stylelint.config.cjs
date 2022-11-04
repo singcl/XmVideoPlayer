@@ -30,7 +30,7 @@ module.exports = {
     // @see https://stylelint.io/user-guide/rules/list/selector-pseudo-class-no-unknown/#ignorepseudoclasses-regex-string
     'selector-pseudo-class-no-unknown': [true, { ignorePseudoClasses: ['global', 'local'] }],
     'value-keyword-case': ['lower', { camelCaseSvgKeywords: true, ignoreFunctions: ['v-bind'] }],
-    'property-no-vendor-prefix': [true, { ignoreProperties: ['text-size-adjust'] }],
+    'property-no-vendor-prefix': [true, { ignoreProperties: ['text-size-adjust', 'background-clip'] }],
     // @see https://github.com/RockefellerArchiveCenter/styles/pull/73
     'selector-class-pattern': [
       '^[a-z]([a-z0-9-]+)?(__([a-z0-9]+-?)+)?(--([a-z0-9]+-?)+){0,2}$',
