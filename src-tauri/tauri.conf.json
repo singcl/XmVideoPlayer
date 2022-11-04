@@ -57,7 +57,10 @@
       "active": true,
       "dialog": true,
       "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEQ0OTc4QkYxMTgyNzdERDEKUldUUmZTY1k4WXVYMUx3NUE1Z3RXVWpHZE13THpHT3VyWGdPR0hxWmVCZW1BK0J4NVIyakIzUHIK",
-      "endpoints": ["https://tauri-update-server-chi.vercel.app/update/{{target}}/{{current_version}}"]
+      "endpoints": [
+        "https://singcl-xmvideoplayer-fresh.deno.dev/xmvideo/update/{{target}}/{{current_version}}",
+        "https://tauri-update-server-chi.vercel.app/update/{{target}}/{{current_version}}"
+      ]
     },
     "windows": [
       {
