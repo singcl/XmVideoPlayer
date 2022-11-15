@@ -58,3 +58,9 @@
 
 - [在线下载最新发布](https://singcl-xmvideoplayer-fresh.deno.dev/)
 - [在线下载最新发布](https://tauri-update-server-chi.vercel.app/)
+
+### Contributors
+
+[![](https://contrib.rocks/image?repo=singcl/XmVideoPlayer)](https://github.com/singcl/XmVideoPlayer/graphs/contributors)
+
+Made with [contrib.rocks](https://contrib.rocks).
