@@ -53,3 +53,8 @@
 - [x] Updater 🎉！
 - [ ] 提供简单的视频格式转换工具
 - [ ] Window Customization
+
+### XmVideoPlayer Releases
+
+- [在线下载最新发布](https://singcl-xmvideoplayer-fresh.deno.dev/)
+- [在线下载最新发布](https://tauri-update-server-chi.vercel.app/)
