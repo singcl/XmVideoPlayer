@@ -15,13 +15,13 @@
 //   transcode-x264 input.flv output.mp4
 //   transcode-x264 input.mkv output.mkv 'preset=veryslow,crf=18'
 
-// extern crate ffmpeg_next as ffmpeg;
+extern crate ffmpeg_next as ffmpeg;
 
 use std::collections::HashMap;
 use std::env;
 use std::time::Instant;
 
-use ffmpeg_next::{
+use ffmpeg::{
     codec, decoder, encoder, format, frame, log, media, picture, Dictionary, Packet, Rational,
 };
 
