@@ -1,6 +1,6 @@
 use super::error;
 use crate::command::payload::PayloadDownload;
-use crate::utils;
+// use crate::utils;
 use std::io::Write;
 use std::path::PathBuf;
 use std::time::Duration;

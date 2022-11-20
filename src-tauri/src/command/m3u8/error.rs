@@ -1,4 +1,4 @@
-use serde::ser::{Serialize, SerializeTupleVariant, Serializer};
+use serde::ser::{Serialize, SerializeTupleVariant};
 use std::fmt::{self, Display};
 
 #[derive(Debug)]

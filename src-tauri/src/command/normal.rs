@@ -1,13 +1,14 @@
 use super::payload::Payload;
 use crate::state::{Client, Connection, Counter, Database};
 use std::time::Duration;
-use std::{
-    collections::HashMap,
-    sync::{
-        atomic::{AtomicUsize, Ordering},
-        Arc, Mutex,
-    },
-};
+// use std::{
+//     collections::HashMap,
+//     sync::{
+//         atomic::{AtomicUsize, Ordering},
+//         Arc, Mutex,
+//     },
+// };
+use std::sync::atomic::Ordering;
 use tauri::State;
 use tauri::Window;
 
@@ -68,4 +69,3 @@ pub fn connection_send(connection: State<'_, Connection>) {
         .expect("connection not initialize; use the `connect` command first")
         .send();
 }
-
