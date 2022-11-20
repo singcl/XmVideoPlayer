@@ -33,18 +33,18 @@ impl Serialize for M3u8Error {
         S: serde::Serializer,
     {
         match *self {
-            M3u8Error::HTTPError(ref a) => {
-                let mut tv = serializer.serialize_tuple_variant("M3u8Error", 0, "HTTPError", 1)?;
+            M3u8Error::HTTPError(ref _a) => {
+                let /* mut */ tv = serializer.serialize_tuple_variant("M3u8Error", 0, "HTTPError", 1)?;
                 // tv.serialize_field(a)?;
                 tv.end()
             }
-            M3u8Error::HTTPCode(ref a) => {
-                let mut tv = serializer.serialize_tuple_variant("M3u8Error", 1, "HTTPCode", 1)?;
+            M3u8Error::HTTPCode(ref _a) => {
+                let /* mut */ tv = serializer.serialize_tuple_variant("M3u8Error", 1, "HTTPCode", 1)?;
                 // tv.serialize_field(a)?;
                 tv.end()
             }
             M3u8Error::Other => {
-                let mut tv = serializer.serialize_tuple_variant("M3u8Error", 2, "Other", 0)?;
+                let /* mut */ tv = serializer.serialize_tuple_variant("M3u8Error", 2, "Other", 0)?;
                 tv.end()
             }
         }

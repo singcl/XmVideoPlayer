@@ -41,7 +41,7 @@ pub async fn get_ts(url: &String, id: &u64, path: &str) -> Result<(), error::M3u
                 while let Some(chunk) = response.chunk().await.unwrap() {
                     let write_size = f.write(&chunk).unwrap();
                     time::sleep(Duration::from_millis(10)).await;
-                    // println!("已写入:{:?}", write_size);
+                    println!("已写入:{:?}", write_size);
                 }
                 Ok(())
             }
