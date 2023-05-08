@@ -66,6 +66,9 @@ watchEffect(() => {
 });
 
 async function handleOk() {
+  if (!props.data) {
+    return;
+  }
   const params = {
     ...form,
     id: props.data.id,
