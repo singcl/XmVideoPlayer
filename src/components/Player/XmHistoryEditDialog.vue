@@ -15,13 +15,16 @@
       </a-form-item>
       <a-form-item field="url" label="资源URI">
         <a-input v-model="form.url" placeholder="please enter your post..." disabled />
+        <icon-copy class="icon-copy icon-clipboard" :data-clipboard-text="form.url" />
       </a-form-item>
     </a-form>
   </a-modal>
 </template>
 
 <script setup lang="ts">
-import { reactive, computed, watchEffect } from 'vue';
+import { reactive, ref, computed, watchEffect, onMounted, onBeforeUnmount } from 'vue';
+import ClipboardJS from 'clipboard';
+import { Message } from '@arco-design/web-vue';
 import API from '@/api';
 
 interface HistoryData {
@@ -48,6 +51,7 @@ const form = reactive({
   name: '',
   url: '',
 });
+const clipboard = ref<InstanceType<typeof ClipboardJS>>();
 
 // v-model
 const modalVisible = computed({
@@ -58,6 +62,20 @@ const modalVisible = computed({
     emits('update:visible', newValue);
   },
 });
+
+onMounted(() => {
+  const c = new ClipboardJS('.icon-clipboard');
+  c.on('success', (e) => {
+    Message.success({ content: '复制成功' });
+    e.clearSelection();
+  });
+  clipboard.value = c;
+});
+
+onBeforeUnmount(() => {
+  clipboard.value?.destroy();
+});
+
 watchEffect(() => {
   if (props.visible && props.data) {
     form.name = props.data.label;
@@ -80,5 +98,8 @@ function handleCancel() {}
 </script>
 
 <style scoped>
-/* style */
+.icon-copy {
+  margin-left: 5px;
+  font-size: 16px;
+}
 </style>

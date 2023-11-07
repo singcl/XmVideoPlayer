@@ -35,6 +35,7 @@
     "@singcl/throttle-debounce": "^1.1.1",
     "@tauri-apps/api": "^1.0.2",
     "@vueuse/rxjs": "^9.3.0",
+    "clipboard": "^2.0.11",
     "dashjs": "^4.4.1",
     "dexie": "^3.2.2",
     "flv.js": "^1.6.2",

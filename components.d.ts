@@ -28,6 +28,7 @@ declare module '@vue/runtime-core' {
     HGreet: typeof import('./src/components/HGreet.vue')['default']
     HTest: typeof import('./src/components/HTest.vue')['default']
     IconCloudDownload: typeof import('@arco-design/web-vue/es/icon')['IconCloudDownload']
+    IconCopy: typeof import('@arco-design/web-vue/es/icon')['IconCopy']
     IconDelete: typeof import('@arco-design/web-vue/es/icon')['IconDelete']
     IconEdit: typeof import('@arco-design/web-vue/es/icon')['IconEdit']
     IconHeart: typeof import('@arco-design/web-vue/es/icon')['IconHeart']
