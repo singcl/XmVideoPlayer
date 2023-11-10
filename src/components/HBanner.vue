@@ -4,7 +4,7 @@
     <span class="address"
       ><a href="https://github.com/singcl/XmVideoPlayer" target="_blank">{{ appName }}@v{{ version }}</a></span
     >
-    <span>Powered by</span>
+    <!-- <span>Powered by</span>
     <a href="https://vitejs.dev" target="_blank">
       <img src="/vite.svg" class="logo vite" alt="Vite logo" />
     </a>
@@ -13,7 +13,7 @@
     </a>
     <a href="https://vuejs.org/" target="_blank">
       <img src="./../assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
+    </a> -->
   </div>
 </template>
 

@@ -2,7 +2,7 @@
   <div class="container" :style="{ height: cHeight }">
     <XmThemePanel />
     <h1 class="home-title">
-      <img src="/vite.svg" class="logo vite" alt="Vite logo" />
+      <img src="/logo.svg" class="logo vite" alt="XmVideoPlayer logo" />
       <span class="txt typing">{{ APP_TITLE }}</span>
     </h1>
     <!-- <HDescription /> -->
