@@ -42,7 +42,7 @@ const version = ref<string>();
   align-items: center;
   justify-content: flex-end;
   margin: 0 auto;
-  font-size: 10px;
+  font-size: 12px;
 }
 
 .banner a {

@@ -8,6 +8,7 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     AAutoComplete: typeof import('@arco-design/web-vue')['AutoComplete']
+    AButton: typeof import('@arco-design/web-vue')['Button']
     ADoption: typeof import('@arco-design/web-vue')['Doption']
     ADropdownButton: typeof import('@arco-design/web-vue')['DropdownButton']
     AForm: typeof import('@arco-design/web-vue')['Form']
@@ -35,6 +36,7 @@ declare module '@vue/runtime-core' {
     IconPalette: typeof import('@arco-design/web-vue/es/icon')['IconPalette']
     IconRefresh: typeof import('@arco-design/web-vue/es/icon')['IconRefresh']
     IconThumbUp: typeof import('@arco-design/web-vue/es/icon')['IconThumbUp']
+    XmFeedback: typeof import('./src/components/XmFeedback.vue')['default']
     XmHistoryEditDialog: typeof import('./src/components/Player/XmHistoryEditDialog.vue')['default']
     XmPlayer: typeof import('./src/components/Player/XmPlayer.vue')['default']
     XmSearch: typeof import('./src/components/Player/XmSearch.vue')['default']

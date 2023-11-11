@@ -209,7 +209,7 @@ async function loadLocalSource() {
 .tips {
   margin-bottom: 5px;
   color: #666;
-  font-size: 10px;
+  font-size: 12px;
   text-align: left;
 }
 

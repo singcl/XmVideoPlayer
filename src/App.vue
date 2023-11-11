@@ -10,6 +10,7 @@
     <HBanner />
     <!-- <HTest /> -->
     <!-- <HGreet /> -->
+    <XmFeedback />
   </div>
 </template>
 
@@ -25,6 +26,7 @@ import { useHeightStore } from '@/stores';
 // import HGreet from "./components/HGreet.vue";
 import XmPlayer from './components/Player/XmPlayer.vue';
 import HBanner from './components/HBanner.vue';
+import XmFeedback from './components/XmFeedback.vue';
 // import HDescription from "./components/HDescription.vue";
 const APP_TITLE = import.meta.env.VITE_APP_TITLE;
 const heightStore = useHeightStore();
