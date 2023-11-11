@@ -4,6 +4,7 @@ import AutoImport from 'unplugin-auto-import/vite';
 import Components from 'unplugin-vue-components/vite';
 import { ArcoResolver } from 'unplugin-vue-components/resolvers';
 import path from 'path';
+import UnpluginSvgComponent from 'unplugin-svg-component/vite';
 
 // aliases
 const aliases = {
@@ -37,6 +38,24 @@ export default defineConfig({
           resolveIcons: true,
         }),
       ],
+    }),
+    UnpluginSvgComponent({
+      iconDir: [path.resolve(__dirname, 'src/assets/icons')],
+      dts: true,
+      preserveColor: path.resolve(__dirname, 'src/assets/icons/common'),
+      dtsDir: path.resolve(__dirname, 'typings'),
+      svgSpriteDomId: 'xm-svg-id',
+      prefix: 'icon',
+      componentName: 'XmSvgIcon',
+      symbolIdFormatter: (svgName: string, prefix: string): string => {
+        const nameArr = svgName.split('/');
+        if (prefix) nameArr.unshift(prefix);
+        return nameArr.join('-').replace(/\.svg$/, '');
+      },
+      optimizeOptions: undefined,
+      vueVersion: 3,
+      scanStrategy: 'component',
+      treeShaking: true,
     }),
   ],
 
