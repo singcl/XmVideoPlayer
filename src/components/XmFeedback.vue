@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { ref, reactive, computed } from 'vue';
-import { invoke } from '@tauri-apps/api/tauri';
+import { getClient, Body, ResponseType } from '@tauri-apps/api/http';
 import type { FormInstance } from '@arco-design/web-vue/es/form';
 import { Message } from '@arco-design/web-vue';
 
+const loading = ref(false);
 const visible = ref(false);
 const feedModalVisible = computed(() => ({
   hide: !visible.value,
@@ -33,10 +34,21 @@ const handleSubmit = async () => {
   const err = await formRef.value?.validate();
   if (err) return;
   // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-  const r = await invoke('api/xmvideo/feedback/update', form);
-  console.log('----r', r);
-  Message.success('反馈成功');
-  handleClose();
+  const client = await getClient();
+  try {
+    loading.value = true;
+    const response = await client.post<{ id: string }>(
+      'https://singcl-xmvideoplayer-fresh.deno.dev/api/xmvideo/feedback/update',
+      Body.json(form),
+      { responseType: ResponseType.JSON }
+    );
+    Message.success(`反馈成功:${response.data?.id}`);
+    handleClose();
+  } catch (e) {
+    console.error('请求出错：', e);
+  } finally {
+    loading.value = false;
+  }
 };
 </script>
 
@@ -94,7 +106,7 @@ const handleSubmit = async () => {
           >
             <a-input v-model="form.email" placeholder="少年何不留下你的联系方式(*￣︶￣)" />
           </a-form-item>
-          <a-button type="primary" html-type="submit" long>提交</a-button>
+          <a-button type="primary" html-type="submit" long :loading="loading">提交</a-button>
         </div>
       </a-form>
     </div>
