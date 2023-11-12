@@ -22,6 +22,7 @@ declare module '@singcl/throttle-debounce/debounce' {
 interface ImportMetaEnv {
   readonly VITE_APP_TITLE: string;
   readonly VITE_APP_NAME: string;
+  readonly VITE_APP_XM_VIDEO_BASE_URL: string;
 }
 
 // interface ImportMeta {

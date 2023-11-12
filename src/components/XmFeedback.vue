@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, reactive, computed } from 'vue';
-import { getClient, Body, ResponseType } from '@tauri-apps/api/http';
+import API from '@/api';
 import type { FormInstance } from '@arco-design/web-vue/es/form';
 import { Message } from '@arco-design/web-vue';
 
@@ -34,15 +34,10 @@ const handleSubmit = async () => {
   const err = await formRef.value?.validate();
   if (err) return;
   // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-  const client = await getClient();
   try {
     loading.value = true;
-    const response = await client.post<{ id: string }>(
-      'https://singcl-xmvideoplayer-fresh.deno.dev/api/xmvideo/feedback/update',
-      Body.json(form),
-      { responseType: ResponseType.JSON }
-    );
-    Message.success(`反馈成功:${response.data?.id}`);
+    const response = await API.xmvideo.feedback.feedbackUpdate(form);
+    Message.success(`反馈成功:${response?.id}`);
     handleClose();
   } catch (e) {
     console.error('请求出错：', e);

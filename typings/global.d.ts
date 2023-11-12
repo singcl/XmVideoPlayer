@@ -41,3 +41,10 @@ interface ServerTableResponse<S = Record<string, any>> extends ServerResponse<Ta
 interface ServerTableV2Response<S = Record<string, any>> extends ServerResponse<TableRecordData<S>> {}
 
 type Await<T> = T extends Promise<infer U> ? U : T;
+
+// XM 一般接口返回数据结构
+declare interface XmServerResponse<T> {
+  code: number;
+  msg: string;
+  data?: T;
+}
