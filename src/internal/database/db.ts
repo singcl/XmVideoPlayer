@@ -4,12 +4,22 @@ import type { PlayHistory } from '@/internal/repository/model';
 import { XM_DB, XM_TABLE } from '@/internal/repository/model';
 import { historyListDefault } from './config';
 
-class MySubClassedDexie extends Dexie {
+export class DexieDb extends Dexie {
+  protected static client: DexieDb;
   // 'friends' is added by dexie when declaring the stores()
   // We just tell the typing system this is the case
   [XM_TABLE.PLAY_HISTORY_TABLE]!: Table<PlayHistory>;
-  constructor() {
+  private constructor() {
+    if (DexieDb.client) {
+      const error = new Error('Error - Please use DbClient.create() create DbClient instance');
+      error.cause = 'build_class_instance';
+      throw error;
+    }
     super(XM_DB['PLAYER_DB']);
+    this._build();
+  }
+
+  private _build() {
     this.version(1)
       .stores({
         [XM_TABLE.PLAY_HISTORY_TABLE]: '++id, name, &url', // Primary key and indexed props
@@ -39,6 +49,11 @@ class MySubClassedDexie extends Dexie {
       return trans.table<Omit<PlayHistory, 'id'>>(XM_TABLE.PLAY_HISTORY_TABLE).bulkAdd(historyListDefault);
     });
   }
-}
 
-export const db = new MySubClassedDexie();
+  public static create() {
+    if (!DexieDb.client) {
+      DexieDb.client = new DexieDb();
+    }
+    return DexieDb.client;
+  }
+}

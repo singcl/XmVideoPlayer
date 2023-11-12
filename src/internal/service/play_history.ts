@@ -1,4 +1,4 @@
-import { db } from './../database/db';
+import { DexieDb } from './../database/db';
 import { XM_TABLE } from './../repository/model';
 import { PlayHistory } from '@/internal/repository/model';
 
@@ -6,6 +6,8 @@ export type SavePlayHistory = Omit<PlayHistory, 'id'>;
 export interface UpdatePlayHistory extends Partial<PlayHistory> {
   id: number;
 }
+//
+const db = DexieDb.create();
 
 export function queryHistoryList() {
   return db.transaction('r', [db[XM_TABLE.PLAY_HISTORY_TABLE]], async () => {
