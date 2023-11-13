@@ -56,4 +56,13 @@ export class DexieDb extends Dexie {
     }
     return DexieDb.client;
   }
+
+  public static singleton() {
+    if (!DexieDb.client) {
+      const error = new Error('Error - Please use DbClient.create() create DbClient instance');
+      error.cause = 'build_class_instance';
+      throw error;
+    }
+    return DexieDb.client;
+  }
 }
