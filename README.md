@@ -38,6 +38,7 @@ npm run tauri dev
 | :-------------------------------------------------------------: | :-------------------------------------------------------------: |
 |   ![界面](https://s2.loli.net/2022/09/18/4Yid5Ql81wnV2bU.png)   |   ![界面](https://s2.loli.net/2022/09/18/cbzwIdaXvoxWMi9.png)   |
 | ![下载进度](https://s2.loli.net/2022/10/08/74otrlVCgKR2hfE.png) | ![本地视频](https://s2.loli.net/2022/10/10/jVI1m54AwbckHR2.png) |
+|   ![界面](https://s2.loli.net/2023/11/13/7RVG1XvjNcSDBgz.png)   |                                                                 |
 
 ## Roadmap
 
