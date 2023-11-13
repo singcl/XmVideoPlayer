@@ -2,7 +2,8 @@
 import { ref, reactive, computed } from 'vue';
 import API from '@/api';
 import type { FormInstance } from '@arco-design/web-vue/es/form';
-import { Message } from '@arco-design/web-vue';
+import { Notification } from '@arco-design/web-vue';
+// import '@arco-design/web-vue/es/notification/style/css.js';
 
 const loading = ref(false);
 const visible = ref(false);
@@ -37,7 +38,12 @@ const handleSubmit = async () => {
   try {
     loading.value = true;
     const response = await API.xmvideo.feedback.feedbackUpdate(form);
-    Message.success(`反馈成功:${response?.id}`);
+    // Message.success(`反馈成功:${response?.id}`);
+    Notification.success({
+      title: '成功',
+      content: `反馈成功:${response?.id}`,
+      position: 'bottomRight',
+    });
     handleClose();
   } catch (e) {
     console.error('请求出错：', e);

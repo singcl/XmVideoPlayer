@@ -52,9 +52,9 @@ import { downloadDir } from '@tauri-apps/api/path';
 import { convertFileSrc } from '@tauri-apps/api/tauri';
 import { save, open } from '@tauri-apps/api/dialog';
 import { AutoComplete, Modal, Message } from '@arco-design/web-vue';
-// BUG:dropdown-button 没有自动导入button的样式
-import '@arco-design/web-vue/es/button/style/css.js';
-import '@arco-design/web-vue/es/modal/style/css.js';
+// dropdown-button 没有自动导入button的样式  UPDATE:@arco-plugins/vite-vue 插件会自动加载组件样式 https://arco.design/vue/docs/start
+// import '@arco-design/web-vue/es/button/style/css.js';
+// import '@arco-design/web-vue/es/modal/style/css.js';
 import API from '@/api';
 import { checkPinYin } from './utils';
 

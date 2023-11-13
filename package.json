@@ -54,6 +54,7 @@
     "url": "git+https://github.com/singcl/XmVideoPlayer.git"
   },
   "devDependencies": {
+    "@arco-plugins/vite-vue": "^1.4.5",
     "@commitlint/cli": "^17.2.0",
     "@commitlint/config-conventional": "^17.2.0",
     "@tauri-apps/cli": "^1.0.5",

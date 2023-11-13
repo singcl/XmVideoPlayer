@@ -5,6 +5,7 @@ import Components from 'unplugin-vue-components/vite';
 import { ArcoResolver } from 'unplugin-vue-components/resolvers';
 import path from 'path';
 import UnpluginSvgComponent from 'unplugin-svg-component/vite';
+import { vitePluginForArco } from '@arco-plugins/vite-vue';
 
 // aliases
 const aliases = {
@@ -38,6 +39,9 @@ export default defineConfig({
           resolveIcons: true,
         }),
       ],
+    }),
+    vitePluginForArco({
+      style: 'css',
     }),
     UnpluginSvgComponent({
       iconDir: [path.resolve(__dirname, 'src/assets/icons')],
