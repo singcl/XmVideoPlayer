@@ -60,6 +60,7 @@ npm run tauri dev
 - [x] Updater 🎉！
 - [ ] 提供简单的视频格式转换工具
 - [ ] Window Customization
+- [ ] 截图功能
 
 ## XmVideoPlayer Releases
 
