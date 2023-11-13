@@ -40,8 +40,8 @@ const handleSubmit = async () => {
     const response = await API.xmvideo.feedback.feedbackUpdate(form);
     // Message.success(`反馈成功:${response?.id}`);
     Notification.success({
-      title: '成功',
-      content: `反馈成功:${response?.id}`,
+      title: '反馈成功',
+      content: `ID:${response?.id}`,
       position: 'bottomRight',
     });
     handleClose();
