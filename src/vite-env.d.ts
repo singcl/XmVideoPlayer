@@ -1,7 +1,7 @@
 /// <reference types="vite/client" />
 declare module '*.vue' {
   import type { DefineComponent } from 'vue';
-  const component: DefineComponent<Record<string, unknown>, Record<string, unknown>, any>;
+  const component: DefineComponent<Record<string, unknown>, Record<string, unknown>, unknown>;
   export default component;
 }
 
@@ -28,3 +28,8 @@ interface ImportMetaEnv {
 // interface ImportMeta {
 //   readonly env: ImportMetaEnv
 // }
+
+// 全局arco icon 类型提示修复
+declare global {
+  import '@arco-design/web-vue/es/icon';
+}

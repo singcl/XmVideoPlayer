@@ -14,14 +14,14 @@
   dependencies:
     "color" "^3.1.3"
 
-"@arco-design/web-vue@^2.37.1":
-  "integrity" "sha512-h8mK/I0jxlYKG/q5EiOOTqOdE12bRLxMFIkmNYr5XiixbvlI2YBYuyOjoDtlr1FY68cp6o77ysPmmedG5rmeng=="
-  "resolved" "https://registry.npmmirror.com/@arco-design/web-vue/-/web-vue-2.37.4.tgz"
-  "version" "2.37.4"
+"@arco-design/web-vue@^2.53.2":
+  "integrity" "sha512-hcrlCkvyjDD9xwWgXLnE48+TEpappP6e8TSLSrlmD9xVQNes4uZIBs+xR90zAUDHOyCokRrJsY1kG+OsZU+FSg=="
+  "resolved" "https://registry.npmmirror.com/@arco-design/web-vue/-/web-vue-2.53.2.tgz"
+  "version" "2.53.2"
   dependencies:
     "@arco-design/color" "^0.4.0"
     "b-tween" "^0.3.3"
-    "b-validate" "^1.3.1"
+    "b-validate" "^1.4.4"
     "compute-scroll-into-view" "^1.0.17"
     "dayjs" "^1.10.3"
     "number-precision" "^1.5.0"
@@ -791,20 +791,20 @@
   "resolved" "https://registry.npmmirror.com/@vue/shared/-/shared-3.3.8.tgz"
   "version" "3.3.8"
 
-"@vueuse/rxjs@^9.3.0":
-  "integrity" "sha512-K3Z7tTe/jTr5DuqAkb+mxglgZ+hHdt7rbjd9xuJKudZncxBIu5UdMMq+8Y5m6NwcqP2HMbS/ugQ60pW6dkqtzg=="
-  "resolved" "https://registry.npmmirror.com/@vueuse/rxjs/-/rxjs-9.3.0.tgz"
-  "version" "9.3.0"
+"@vueuse/rxjs@^10.6.1":
+  "integrity" "sha512-LDDivS6pXI39Io476xf3M7RVByJYqWOwl0OMe7EAdwLfWFMPRJXFKyGotEuWtXOKH3Q9P0U46qlbaKkIk4xfUA=="
+  "resolved" "https://registry.npmmirror.com/@vueuse/rxjs/-/rxjs-10.6.1.tgz"
+  "version" "10.6.1"
   dependencies:
-    "@vueuse/shared" "9.3.0"
-    "vue-demi" "*"
+    "@vueuse/shared" "10.6.1"
+    "vue-demi" ">=0.14.6"
 
-"@vueuse/shared@9.3.0":
-  "integrity" "sha512-caGUWLY0DpPC6l31KxeUy6vPVNA0yKxx81jFYLoMpyP6cF84FG5Dkf69DfSUqL57wX8JcUkJDMnQaQIZPWFEQQ=="
-  "resolved" "https://registry.npmmirror.com/@vueuse/shared/-/shared-9.3.0.tgz"
-  "version" "9.3.0"
+"@vueuse/shared@10.6.1":
+  "integrity" "sha512-TECVDTIedFlL0NUfHWncf3zF9Gc4VfdxfQc8JFwoVZQmxpONhLxFrlm0eHQeidHj4rdTPL3KXJa0TZCk1wnc5Q=="
+  "resolved" "https://registry.npmmirror.com/@vueuse/shared/-/shared-10.6.1.tgz"
+  "version" "10.6.1"
   dependencies:
-    "vue-demi" "*"
+    "vue-demi" ">=0.14.6"
 
 "acorn-jsx@^5.3.2":
   "integrity" "sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ=="
@@ -1029,10 +1029,10 @@
   "resolved" "https://registry.npmmirror.com/b-tween/-/b-tween-0.3.3.tgz"
   "version" "0.3.3"
 
-"b-validate@^1.3.1":
-  "integrity" "sha512-UJ9Wvol6ogFQ+YBwtPwSg7uKWQ8ORUTD5RVE8SASu3oXOmuEynCLkeZJYJsSMnvK3RYrQx3/s352FX6o1ha24A=="
-  "resolved" "https://registry.npmmirror.com/b-validate/-/b-validate-1.4.2.tgz"
-  "version" "1.4.2"
+"b-validate@^1.4.4":
+  "integrity" "sha512-iCvCkGFskbaYtfQ0a3GmcQCHl/Sv1GufXFGuUQ+FE+WJa7A/espLOuFIn09B944V8/ImPj71T4+rTASxO2PAuA=="
+  "resolved" "https://registry.npmmirror.com/b-validate/-/b-validate-1.5.3.tgz"
+  "version" "1.5.3"
 
 "balanced-match@^1.0.0":
   "integrity" "sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw=="
@@ -5851,6 +5851,11 @@
   "integrity" "sha512-IR8HoEEGM65YY3ZJYAjMlKygDQn25D5ajNFNoKh9RSDMQtlzCxtfQjdQgv9jjK+m3377SsJXY8ysq8kLCZL25A=="
   "resolved" "https://registry.npmmirror.com/vue-demi/-/vue-demi-0.13.11.tgz"
   "version" "0.13.11"
+
+"vue-demi@>=0.14.6":
+  "integrity" "sha512-8QA7wrYSHKaYgUxDA5ZC24w+eHm3sYCbp0EzcDwKqN3p6HqtTCGR/GVsPyZW92unff4UlcSh++lmqDWN3ZIq4w=="
+  "resolved" "https://registry.npmmirror.com/vue-demi/-/vue-demi-0.14.6.tgz"
+  "version" "0.14.6"
 
 "vue-eslint-parser@^9.0.1", "vue-eslint-parser@^9.1.0":
   "integrity" "sha512-NGn/iQy8/Wb7RrRa4aRkokyCZfOUWk19OP5HP6JEozQFX5AoS/t+Z0ZN7FY4LlmWc4FNI922V7cvX28zctN8dQ=="
