@@ -40,7 +40,7 @@
     "dexie": "^3.2.2",
     "flv.js": "^1.6.2",
     "hls.js": "^1.2.3",
-    "pinia": "^2.0.23",
+    "pinia": "^2.1.7",
     "pinyin-match": "^1.2.2",
     "unplugin-svg-component": "^0.7.6",
     "vue": "^3.3.8"
