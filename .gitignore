@@ -25,3 +25,7 @@ dist-ssr
 
 #
 *.mp4
+
+# auto generate file
+auto-imports.d.ts
+components.d.ts
