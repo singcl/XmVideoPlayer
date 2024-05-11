@@ -3,7 +3,7 @@ import flv from 'flv.js';
 import dash from 'dashjs';
 import pinyinMatch from 'pinyin-match';
 import FetchLoader from '@/utils/hls/fetch-loader';
-import Normal from '@/utils/normal';
+// import Normal from '@/utils/normal';
 
 export function formatVideo(url: string, type?: string) {
   // HLS流媒体

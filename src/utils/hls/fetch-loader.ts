@@ -78,7 +78,7 @@ class FetchLoader implements Loader<LoaderContext> {
     const initParams = getRequestParameters(context, this.controller.signal);
     const onProgress: LoaderOnProgress<LoaderContext> | undefined = callbacks.onProgress;
     const isArrayBuffer = context.responseType === 'arraybuffer';
-    const LENGTH = isArrayBuffer ? 'byteLength' : 'length';
+    // const LENGTH = isArrayBuffer ? 'byteLength' : 'length';
 
     this.context = context;
     this.config = config;
