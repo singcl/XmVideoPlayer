@@ -19,6 +19,7 @@ pub mod command;
 pub mod s;
 pub mod state;
 pub mod utils;
+pub mod vsd;
 
 fn main() {
     // here `"quit".to_string()` defines the menu item id, and the second parameter is the menu item label.
