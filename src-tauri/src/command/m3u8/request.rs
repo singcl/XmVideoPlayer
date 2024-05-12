@@ -1,14 +1,23 @@
 use super::error;
 use crate::command::payload::PayloadDownload;
 // use crate::utils;
+// use reqwest::header;
 use std::io::Write;
 use std::path::PathBuf;
 use std::time::Duration;
 use tauri::Window;
 use tokio::time;
 
+const USER_AGENT: &str = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36";
+
 pub(crate) async fn get_m3u8_list(m3u8_url: &str) -> Result<String, error::M3u8Error> {
-    match reqwest::get(m3u8_url).await {
+    let client = reqwest::Client::new();
+    match client
+        .get(m3u8_url)
+        .header("User-Agent", USER_AGENT)
+        .send()
+        .await
+    {
         Ok(response) => match response.status() {
             reqwest::StatusCode::OK => {
                 let response_text = response.text().await?;
@@ -32,7 +41,13 @@ pub(crate) async fn get_m3u8_list(m3u8_url: &str) -> Result<String, error::M3u8E
 }
 
 pub async fn get_ts(url: &String, id: &u64, path: &str) -> Result<(), error::M3u8Error> {
-    match reqwest::get(url).await {
+    let client = reqwest::Client::new();
+    match client
+        .get(url)
+        .header("User-Agent", USER_AGENT)
+        .send()
+        .await
+    {
         Ok(mut response) => match response.status() {
             reqwest::StatusCode::OK => {
                 let mut ts_path = PathBuf::from(path);
@@ -73,7 +88,7 @@ pub async fn get_all_ts(
     for item in 0..url_list_entity_hash_dl.len() {
         let id = url_list_entity_hash_dl.get(item).unwrap();
         let link = get_dl_url(url_list_entity, url_list_entity_hash, *id);
-        println!("-------uri{}/{}", link, id);
+        println!("---uri---:{}/{}", link, id);
         get_ts(&link, id, &temp_dir).await.unwrap();
         window
             .emit(
