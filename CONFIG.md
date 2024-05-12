@@ -65,3 +65,9 @@ ffmpeg ts 与 mp4 互相转换
 ffmpeg -i 1.mp4 -vcodec copy -acodec copy -vbsf h264_mp4toannexb 1.ts
 ffmpeg -i 2.ts -acodec copy -vcodec copy -absf aac_adtstoasc output.mp4
 ```
+
+清除 git 缓存，使.gitignore 修改生效
+
+```
+git rm -r --cached .
+```
