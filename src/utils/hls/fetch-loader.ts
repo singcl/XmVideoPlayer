@@ -91,7 +91,12 @@ class FetchLoader implements Loader<LoaderContext> {
     }, config.timeout);
 
     const { url, method, headers } = this.request;
-    const rustHeader: Record<string, unknown> = {};
+
+    // WEB API Request 类中无法设置内置headers属性
+    const rustHeader: Record<string, unknown> = {
+      'User-Agent':
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+    };
     headers.forEach((v, k) => (rustHeader[k] = v));
     fetch<string | ArrayBuffer>(url, {
       method: method as HttpVerb,
@@ -101,6 +106,7 @@ class FetchLoader implements Loader<LoaderContext> {
       responseType: checkM3U8Url(url) ? ResponseType.Text : ResponseType.Binary,
     })
       .then((rustResponse): Promise<string | ArrayBuffer> => {
+        // console.log('----RUST_RESPONSE----', rustResponse);
         const { data, headers, status, url } = rustResponse;
         const response = new Response(checkBuffer(data, isArrayBuffer) ? new Uint8Array(data) : data, {
           headers: new Headers(Object.assign({}, headers)),
@@ -108,7 +114,6 @@ class FetchLoader implements Loader<LoaderContext> {
           statusText: 'ok',
         });
         Object.defineProperty(response, 'url', { value: url });
-        // console.log('----response', response);
         this.response = this.loader = response;
 
         if (!response.ok) {
@@ -147,6 +152,7 @@ class FetchLoader implements Loader<LoaderContext> {
         callbacks.onSuccess(loaderResponse, stats, context, response);
       })
       .catch((error: FError) => {
+        // console.error('-----RUST_FETCH_ERROR------', error);
         self.clearTimeout(this.requestTimeout);
         if (stats.aborted) {
           return;
