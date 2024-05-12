@@ -15,3 +15,5 @@ boom.html
 # auto generate file
 components.d.ts
 auto-imports.d.ts
+typings/svg-component-global.d.ts
+typings/svg-component.d.ts
