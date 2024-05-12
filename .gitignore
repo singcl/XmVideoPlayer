@@ -25,9 +25,3 @@ dist-ssr
 
 #
 *.mp4
-
-# auto generate file
-auto-imports.d.ts
-components.d.ts
-typings/svg-component-global.d.ts
-typings/svg-component.d.ts
