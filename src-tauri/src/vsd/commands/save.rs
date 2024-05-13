@@ -6,9 +6,11 @@ use anyhow::Result;
 use cookie::Cookie;
 use kdam::term::Colorizer;
 use reqwest::{
-    blocking::Client,
     header::{HeaderMap, HeaderName, HeaderValue},
-    Proxy, Url,
+    // blocking::Client,
+    Client,
+    Proxy,
+    Url,
 };
 use std::{
     path::{Path, PathBuf},
@@ -335,7 +337,7 @@ impl Save {
             self.raw_prompts,
             self.retry_count,
             self.threads,
-        )?;
+        ).await?;
 
         Ok(())
     }
