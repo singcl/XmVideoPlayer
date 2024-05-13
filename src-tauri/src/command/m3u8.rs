@@ -39,8 +39,10 @@ pub(crate) async fn m3u8_download(
     out_path.push(format!("xm_{}.ts", &m3_hash));
     let out_path_str = out_path.to_str().unwrap();
 
-    let url_list = request::get_m3u8_list(m3u8_url).await?;
-    let url_list_entity = parse::parse_m3u8_list(&url_list, m3u8_url);
+    let url_list_str = request::get_m3u8_list(m3u8_url).await?;
+    let url_list_entity = parse::parse_m3u8_list(&url_list_str, m3u8_url);
+
+    println!("---{:?}", url_list_entity);
     
     let url_list_entity_hash = url_list_entity
         .iter()
