@@ -249,7 +249,35 @@ fn proxy_address_parser(s: &str) -> Result<Proxy, String> {
 }
 
 impl Save {
-    pub fn execute(self) -> Result<()> {
+    pub fn new(input: &str) -> Self {
+        Save {
+            input: input.to_string(),
+            base_url: None,
+            directory: None,
+            output: None,
+            raw_prompts: true,
+            prefer_audio_lang: None,
+            prefer_subs_lang: None,
+            quality: Quality::Highest,
+            skip_prompts: true,
+            cookies: vec![],
+            header:vec![],
+            no_certificate_checks: true,
+            proxy: None,
+            set_cookie: vec![],
+            user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36".to_string(),
+            all_keys: false,
+            key: vec![],
+            no_decrypt: true,
+            retry_count: 3,
+            no_merge: false,
+            threads: 5,
+        }
+    }
+}
+
+impl Save {
+    pub async fn execute(self) -> Result<()> {
         let mut client_builder = Client::builder()
             .danger_accept_invalid_certs(self.no_certificate_checks)
             .user_agent(self.user_agent)

@@ -14,7 +14,7 @@ pub use save::{Quality, Save};
 
 // use clap::{ColorChoice, Parser, Subcommand};
 
-#[derive(Debug, Clone /*  Parser */)]
+// #[derive(Debug, Clone /*  Parser */)]
 // #[command(
 //     about,
 //     author = "clitic <clitic21@gmail.com>",
@@ -28,13 +28,14 @@ pub use save::{Quality, Save};
 //     ),
 //     version,
 // )]
-pub struct Args {
-    // #[command(subcommand)]
-    pub command: Commands,
-    // When to output colored text.
-    // #[arg(long, global = true, default_value_t = ColorChoice::Auto)]
-    // pub color: ColorChoice,
-}
+
+// pub struct Args {
+//     // #[command(subcommand)]
+//     pub command: Commands,
+//     // When to output colored text.
+//     // #[arg(long, global = true, default_value_t = ColorChoice::Auto)]
+//     // pub color: ColorChoice,
+// }
 
 #[derive(Debug, Clone /*  Subcommand */)]
 pub enum Commands {
