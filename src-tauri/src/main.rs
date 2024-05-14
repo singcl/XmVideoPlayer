@@ -4,7 +4,9 @@
 )]
 
 // use std::io::prelude::*;
+use crate::command::payload::Payload;
 use std::sync::atomic::{AtomicBool, AtomicUsize, Ordering};
+// use std::time::Duration;
 use std::{
     cmp::min,
     io::{Read, Seek, SeekFrom},
@@ -14,8 +16,6 @@ use std::{
 use tauri::http::{HttpRange, ResponseBuilder};
 use tauri::Manager;
 use tauri::{CustomMenuItem, SystemTray, SystemTrayEvent, SystemTrayMenu, SystemTrayMenuItem};
-use crate::command::payload::Payload;
-use std::time::Duration;
 
 pub mod command;
 pub mod s;
@@ -108,17 +108,31 @@ fn main() {
                 std::fs::create_dir_all(&home_dir)?;
             }
             let main_window = app.get_window("main").unwrap();
-            std::thread::spawn(move || loop {
-                main_window
-                    .emit(
-                        "pong",
-                        Payload {
-                            message: "XmVideoPlayer@singcl<https://github.com/singcl>".into(),
-                        },
-                    )
-                    .unwrap();
-                std::thread::sleep(Duration::from_millis(5000));
+            tauri::async_runtime::spawn(async move {
+                loop {
+                    main_window
+                        .emit(
+                            "pong",
+                            Payload {
+                                message: "XmVideoPlayer@singcl<https://github.com/singcl>".into(),
+                            },
+                        )
+                        .unwrap();
+                    // std::thread::sleep(std::time::Duration::from_secs(5));
+                    async_std::task::sleep(std::time::Duration::from_secs(5)).await;
+                }
             });
+            // std::thread::spawn(move || loop {
+            //     main_window
+            //         .emit(
+            //             "pong",
+            //             Payload {
+            //                 message: "XmVideoPlayer@singcl<https://github.com/singcl>".into(),
+            //             },
+            //         )
+            //         .unwrap();
+            //     std::thread::sleep(Duration::from_millis(5000));
+            // });
             Ok(())
         })
         .on_window_event(|event| match event.event() {
