@@ -131,6 +131,7 @@ pub(crate) fn push_segments(m3u8: &m3u8_rs::MediaPlaylist, playlist: &mut playli
     let mut previous_byterange_end = 0;
 
     for segment in &m3u8.segments {
+        // println!("-------segment:{:?}", segment);
         let map = segment.map.as_ref().map(|x| playlist::Map {
             uri: x.uri.to_owned(),
             range: x.byte_range.as_ref().map(|x| {
@@ -166,7 +167,7 @@ pub(crate) fn push_segments(m3u8: &m3u8_rs::MediaPlaylist, playlist: &mut playli
             playlist::Range { start, end }
         });
 
-        playlist.segments.push(playlist::Segment {
+        let seg = playlist::Segment {
             duration: segment.duration,
             key: if let Some(m3u8_rs::Key {
                 iv,
@@ -211,7 +212,9 @@ pub(crate) fn push_segments(m3u8: &m3u8_rs::MediaPlaylist, playlist: &mut playli
             map,
             range,
             uri: segment.uri.to_owned(),
-        });
+        };
+        // println!("-----seg:{:?}", seg);
+        playlist.segments.push(seg);
     }
 
     if let Some(segment) = playlist.segments.get(0) {

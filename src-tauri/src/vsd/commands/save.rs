@@ -251,12 +251,12 @@ fn proxy_address_parser(s: &str) -> Result<Proxy, String> {
 }
 
 impl Save {
-    pub fn new(input: &str) -> Self {
+    pub fn new(input: &str, directory: Option<PathBuf>, output: Option<String>) -> Self {
         Save {
             input: input.to_string(),
             base_url: None,
-            directory: None,
-            output: None,
+            directory,
+            output,
             raw_prompts: true,
             prefer_audio_lang: None,
             prefer_subs_lang: None,
