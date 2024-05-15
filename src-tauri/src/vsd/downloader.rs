@@ -210,164 +210,164 @@ pub(crate) async fn download(
     // Parse Playlist & Select Streams & Push Segments
     // -----------------------------------------------------------------------------------------
 
-    // let (mut video_audio_streams, subtitle_streams) = match playlist_type {
-    //     Some(PlaylistType::Dash) => {
-    //         let mpd = dash_mpd::parse(&playlist).map_err(|x| {
-    //             anyhow!(
-    //                 "couldn't parse response as dash playlist (failed with {}).\n\n{}",
-    //                 x,
-    //                 playlist
-    //             )
-    //         })?;
-    //         let (mut video_audio_streams, mut subtitle_streams) =
-    //             crate::vsd::dash::parse_as_master(&mpd, playlist_url.as_str())
-    //                 .sort_streams(prefer_audio_lang, prefer_subs_lang)
-    //                 .select_streams(quality, skip_prompts, raw_prompts)?;
+    let (mut video_audio_streams, subtitle_streams) = match playlist_type {
+        Some(PlaylistType::Dash) => {
+            let mpd = dash_mpd::parse(&playlist).map_err(|x| {
+                anyhow!(
+                    "couldn't parse response as dash playlist (failed with {}).\n\n{}",
+                    x,
+                    playlist
+                )
+            })?;
+            let (mut video_audio_streams, mut subtitle_streams) =
+                crate::vsd::dash::parse_as_master(&mpd, playlist_url.as_str())
+                    .sort_streams(prefer_audio_lang, prefer_subs_lang)
+                    .select_streams(quality, skip_prompts, raw_prompts)?;
 
-    //         for stream in video_audio_streams
-    //             .iter_mut()
-    //             .chain(subtitle_streams.iter_mut())
-    //         {
-    //             crate::vsd::dash::push_segments(
-    //                 &mpd,
-    //                 stream,
-    //                 base_url.as_ref().unwrap_or(&playlist_url).as_str(),
-    //             )?;
-    //             stream.uri = playlist_url.as_str().to_owned();
-    //         }
+            for stream in video_audio_streams
+                .iter_mut()
+                .chain(subtitle_streams.iter_mut())
+            {
+                crate::vsd::dash::push_segments(
+                    &mpd,
+                    stream,
+                    base_url.as_ref().unwrap_or(&playlist_url).as_str(),
+                )?;
+                stream.uri = playlist_url.as_str().to_owned();
+            }
 
-    //         (video_audio_streams, subtitle_streams)
-    //     }
-    //     Some(PlaylistType::Hls) => match m3u8_rs::parse_playlist_res(playlist.as_bytes()) {
-    //         Ok(m3u8_rs::Playlist::MasterPlaylist(m3u8)) => {
-    //             let (mut video_audio_streams, mut subtitle_streams) =
-    //                 crate::vsd::hls::parse_as_master(&m3u8, playlist_url.as_str())
-    //                     .sort_streams(prefer_audio_lang, prefer_subs_lang)
-    //                     .select_streams(quality, skip_prompts, raw_prompts)?;
+            (video_audio_streams, subtitle_streams)
+        }
+        Some(PlaylistType::Hls) => match m3u8_rs::parse_playlist_res(playlist.as_bytes()) {
+            Ok(m3u8_rs::Playlist::MasterPlaylist(m3u8)) => {
+                let (mut video_audio_streams, mut subtitle_streams) =
+                    crate::vsd::hls::parse_as_master(&m3u8, playlist_url.as_str())
+                        .sort_streams(prefer_audio_lang, prefer_subs_lang)
+                        .select_streams(quality, skip_prompts, raw_prompts)?;
 
-    //             for stream in video_audio_streams
-    //                 .iter_mut()
-    //                 .chain(subtitle_streams.iter_mut())
-    //             {
-    //                 stream.uri = base_url
-    //                     .as_ref()
-    //                     .unwrap_or(&playlist_url)
-    //                     .join(&stream.uri)?
-    //                     .to_string();
-    //                 let response = client.get(&stream.uri).send()?;
-    //                 let text = response.text()?;
-    //                 let media_playlist = m3u8_rs::parse_media_playlist_res(text.as_bytes())
-    //                     .map_err(|x| {
-    //                         anyhow!(
-    //                             "couldn't parse response as hls playlist (failed with {}).\n\n{}\n\n{}",
-    //                             x,
-    //                             stream.uri,
-    //                             text
-    //                         )
-    //                     })?;
-    //                 crate::vsd::hls::push_segments(&media_playlist, stream);
-    //             }
+                for stream in video_audio_streams
+                    .iter_mut()
+                    .chain(subtitle_streams.iter_mut())
+                {
+                    stream.uri = base_url
+                        .as_ref()
+                        .unwrap_or(&playlist_url)
+                        .join(&stream.uri)?
+                        .to_string();
+                    let response = client.get(&stream.uri).send().await?;
+                    let text = response.text().await?;
+                    let media_playlist = m3u8_rs::parse_media_playlist_res(text.as_bytes())
+                        .map_err(|x| {
+                            anyhow!(
+                                "couldn't parse response as hls playlist (failed with {}).\n\n{}\n\n{}",
+                                x,
+                                stream.uri,
+                                text
+                            )
+                        })?;
+                    crate::vsd::hls::push_segments(&media_playlist, stream);
+                }
 
-    //             (video_audio_streams, subtitle_streams)
-    //         }
-    //         Ok(m3u8_rs::Playlist::MediaPlaylist(m3u8)) => {
-    //             let mut media_playlist = crate::vsd::playlist::MediaPlaylist {
-    //                 uri: playlist_url.to_string(),
-    //                 ..Default::default()
-    //             };
-    //             crate::vsd::hls::push_segments(&m3u8, &mut media_playlist);
-    //             (vec![media_playlist], vec![])
-    //         }
-    //         Err(x) => bail!(
-    //             "couldn't parse response as hls playlist (failed with {}).\n\n{}\n\n{}",
-    //             x,
-    //             playlist_url,
-    //             playlist
-    //         ),
-    //     },
-    //     _ => bail!("couldn't determine playlist type, only DASH and HLS playlists are supported."),
-    // };
+                (video_audio_streams, subtitle_streams)
+            }
+            Ok(m3u8_rs::Playlist::MediaPlaylist(m3u8)) => {
+                let mut media_playlist = crate::vsd::playlist::MediaPlaylist {
+                    uri: playlist_url.to_string(),
+                    ..Default::default()
+                };
+                crate::vsd::hls::push_segments(&m3u8, &mut media_playlist);
+                (vec![media_playlist], vec![])
+            }
+            Err(x) => bail!(
+                "couldn't parse response as hls playlist (failed with {}).\n\n{}\n\n{}",
+                x,
+                playlist_url,
+                playlist
+            ),
+        },
+        _ => bail!("couldn't determine playlist type, only DASH and HLS playlists are supported."),
+    };
 
-    // // -----------------------------------------------------------------------------------------
-    // // Parse Key Ids
-    // // -----------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------
+    // Parse Key Ids
+    // -----------------------------------------------------------------------------------------
 
-    // let mut default_kids = HashSet::new();
+    let mut default_kids = HashSet::new();
 
-    // for stream in &video_audio_streams {
-    //     if let Some(segment) = stream.segments.get(0) {
-    //         if let Some(key) = &segment.key {
-    //             if !no_decrypt {
-    //                 match &key.method {
-    //                     KeyMethod::Other(x) => bail!("{} decryption is not supported. Use {} flag to download encrypted streams.", x, "--no-decrypt".colorize("bold green")),
-    //                     KeyMethod::SampleAes => {
-    //                         if stream.is_hls() {
-    //                             bail!("sample-aes (HLS) decryption is not supported. Use {} flag to download encrypted streams.", "--no-decrypt".colorize("bold green"));
-    //                         }
-    //                     }
-    //                     _ => (),
-    //                 }
-    //             }
+    for stream in &video_audio_streams {
+        if let Some(segment) = stream.segments.get(0) {
+            if let Some(key) = &segment.key {
+                if !no_decrypt {
+                    match &key.method {
+                        KeyMethod::Other(x) => bail!("{} decryption is not supported. Use {} flag to download encrypted streams.", x, "--no-decrypt".colorize("bold green")),
+                        KeyMethod::SampleAes => {
+                            if stream.is_hls() {
+                                bail!("sample-aes (HLS) decryption is not supported. Use {} flag to download encrypted streams.", "--no-decrypt".colorize("bold green"));
+                            }
+                        }
+                        _ => (),
+                    }
+                }
 
-    //             if let Some(default_kid) = &key.default_kid {
-    //                 default_kids.insert(default_kid.replace('-', ""));
-    //             }
-    //         }
-    //     }
-    // }
+                if let Some(default_kid) = &key.default_kid {
+                    default_kids.insert(default_kid.replace('-', ""));
+                }
+            }
+        }
+    }
 
-    // let mut kids = HashSet::new();
+    let mut kids = HashSet::new();
 
-    // for stream in &video_audio_streams {
-    //     let stream_base_url = base_url
-    //         .clone()
-    //         .unwrap_or(stream.uri.parse::<Url>().unwrap());
+    for stream in &video_audio_streams {
+        let stream_base_url = base_url
+            .clone()
+            .unwrap_or(stream.uri.parse::<Url>().unwrap());
 
-    //     if let Some(segment) = stream.segments.get(0) {
-    //         if let Some(map) = &segment.map {
-    //             let url = stream_base_url.join(&map.uri)?;
-    //             let mut request = client.get(url);
+        if let Some(segment) = stream.segments.get(0) {
+            if let Some(map) = &segment.map {
+                let url = stream_base_url.join(&map.uri)?;
+                let mut request = client.get(url);
 
-    //             if let Some(range) = &map.range {
-    //                 request = request.header(header::RANGE, range.as_header_value());
-    //             }
+                if let Some(range) = &map.range {
+                    request = request.header(header::RANGE, range.as_header_value());
+                }
 
-    //             let response = request.send()?;
-    //             let pssh = Pssh::new(&response.bytes()?).map_err(|x| anyhow!(x))?;
+                let response = request.send().await?;
+                let pssh = Pssh::new(&response.bytes().await?).map_err(|x| anyhow!(x))?;
 
-    //             for key_id in pssh.key_ids {
-    //                 if !kids.contains(&key_id.value) {
-    //                     kids.insert(key_id.value.clone());
-    //                     println!(
-    //                         "      {} {} {} ({})",
-    //                         "KeyId".colorize("bold green"),
-    //                         if default_kids.contains(&key_id.value) {
-    //                             "*"
-    //                         } else {
-    //                             " "
-    //                         },
-    //                         key_id.uuid(),
-    //                         key_id.system_type,
-    //                     );
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
+                for key_id in pssh.key_ids {
+                    if !kids.contains(&key_id.value) {
+                        kids.insert(key_id.value.clone());
+                        println!(
+                            "      {} {} {} ({})",
+                            "KeyId".colorize("bold green"),
+                            if default_kids.contains(&key_id.value) {
+                                "*"
+                            } else {
+                                " "
+                            },
+                            key_id.uuid(),
+                            key_id.system_type,
+                        );
+                    }
+                }
+            }
+        }
+    }
 
-    // for default_kid in &default_kids {
-    //     if !keys
-    //         .iter()
-    //         .flat_map(|x| x.0.as_ref())
-    //         .any(|x| x == default_kid)
-    //         && !no_decrypt
-    //     {
-    //         bail!(
-    //             "use {} flag to specify CENC content decryption keys for at least * (star) prefixed key ids.",
-    //             "--key".colorize("bold green")
-    //         );
-    //     }
-    // }
+    for default_kid in &default_kids {
+        if !keys
+            .iter()
+            .flat_map(|x| x.0.as_ref())
+            .any(|x| x == default_kid)
+            && !no_decrypt
+        {
+            bail!(
+                "use {} flag to specify CENC content decryption keys for at least * (star) prefixed key ids.",
+                "--key".colorize("bold green")
+            );
+        }
+    }
 
     // // -----------------------------------------------------------------------------------------
     // // Prepare Progress Bar

@@ -320,7 +320,7 @@ impl Save {
 
         let client = client_builder.cookie_provider(Arc::new(jar)).build()?;
 
-        crate::vsd::downloader::download(
+         crate::vsd::downloader::download(
             self.all_keys,
             self.base_url,
             client,
