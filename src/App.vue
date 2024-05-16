@@ -8,7 +8,7 @@
     <!-- <HDescription /> -->
     <XmPlayer />
     <HBanner />
-    <HTest />
+    <!-- <HTest /> -->
     <!-- <HGreet /> -->
     <XmFeedback />
   </div>
