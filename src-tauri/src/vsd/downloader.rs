@@ -5,6 +5,7 @@ use crate::vsd::{
     update, utils,
 };
 use anyhow::{anyhow, bail, Result};
+use futures_util::future::join_all;
 use kdam::{term::Colorizer, tqdm, BarExt, Column, RichProgress};
 use reqwest::{
     header,
@@ -721,6 +722,7 @@ pub(crate) async fn download(
     // -----------------------------------------------------------------------------------------
 
     // let pool = threadpool::ThreadPool::new(threads as usize);
+    let mut jhs = Vec::new();
     let mut should_mux = !no_decrypt && !no_merge;
 
     for stream in video_audio_streams {
@@ -895,12 +897,17 @@ pub(crate) async fn download(
                 previous_map = None;
             }
 
-            tauri::async_runtime::spawn(async move {
-                if let Err(e) = thread_data.execute().await {
-                    let _lock = thread_data.pb.lock().unwrap();
-                    println!("\n{}: {}", "error".colorize("bold red"), e);
+            let jh = tauri::async_runtime::spawn(async move {
+                match thread_data.execute().await {
+                    Ok(_) => Ok(()),
+                    Err(e) => {
+                        let _lock = thread_data.pb.lock().unwrap();
+                        println!("\n{}: {}", "error".colorize("bold red"), e);
+                        Err(e)
+                    }
                 }
             });
+            (&mut jhs).push(jh);
 
             // pool.execute(move || {
             //     if let Err(e) = thread_data.execute().await {
@@ -911,6 +918,7 @@ pub(crate) async fn download(
             // });
         }
 
+        join_all(&mut jhs).await;
         // pool.join();
         let mut merger = merger.lock().unwrap();
         merger.flush()?;
