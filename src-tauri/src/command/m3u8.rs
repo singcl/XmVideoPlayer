@@ -1,6 +1,6 @@
 // use std::fs::File;
 // use std::io::prelude::*;
-use std::path::PathBuf;
+// use std::path::PathBuf;
 // use std::thread;
 // use tauri::Runtime;
 // use futures_util::StreamExt;
@@ -21,7 +21,7 @@ pub(crate) async fn m3u8_download(
     app_handle: tauri::AppHandle,
     save_path: String,
     m3u8_url: &str,
-) -> Result<String, ()> {
+) -> Result<String, String> {
     let m3_hash = utils::hash_str(m3u8_url);
     let mut home_dir = tauri::api::path::home_dir().unwrap();
     home_dir.push(".xmvideoplayer");
@@ -40,10 +40,7 @@ pub(crate) async fn m3u8_download(
 
     match r {
         Ok(_) => Ok("Success!".into()),
-        Err(e) => {
-            println!("==download error==: {:?}", e);
-            Err(())
-        }
+        Err(e) => Err(e.to_string()),
     }
 
     // // 保存目录
