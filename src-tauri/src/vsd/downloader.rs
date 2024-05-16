@@ -720,8 +720,7 @@ pub(crate) async fn download(
     // Download Video & Audio Streams
     // -----------------------------------------------------------------------------------------
 
-    // @TODO 2024-05-15调试到这个位置
-    let pool = threadpool::ThreadPool::new(threads as usize);
+    // let pool = threadpool::ThreadPool::new(threads as usize);
     let mut should_mux = !no_decrypt && !no_merge;
 
     for stream in video_audio_streams {
@@ -896,7 +895,13 @@ pub(crate) async fn download(
                 previous_map = None;
             }
 
-            // TODO 执行线程池 改为 异步
+            tauri::async_runtime::spawn(async move {
+                if let Err(e) = thread_data.execute().await {
+                    let _lock = thread_data.pb.lock().unwrap();
+                    println!("\n{}: {}", "error".colorize("bold red"), e);
+                }
+            });
+
             // pool.execute(move || {
             //     if let Err(e) = thread_data.execute().await {
             //         let _lock = thread_data.pb.lock().unwrap();
@@ -906,7 +911,7 @@ pub(crate) async fn download(
             // });
         }
 
-        pool.join();
+        // pool.join();
         let mut merger = merger.lock().unwrap();
         merger.flush()?;
 
@@ -1093,7 +1098,7 @@ struct Stream {
     media_type: MediaType,
 }
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 struct Keys {
     bytes: Vec<u8>,
     iv: Option<String>,

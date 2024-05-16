@@ -270,7 +270,7 @@ impl Save {
             user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36".to_string(),
             all_keys: false,
             key: vec![],
-            no_decrypt: true,
+            no_decrypt: false,
             retry_count: 3,
             no_merge: false,
             threads: 5,

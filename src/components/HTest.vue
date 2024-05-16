@@ -51,7 +51,7 @@ async function handleDownloadClick() {
     const res = await invoke('m3u8_download', {
       // m3u8Url: 'https://bitdash-a.akamaihd.net/content/sintel/hls/video/800kbit.m3u8',
       m3u8Url:
-        'https://hls.vdtuzv.com/videos3/8f51051627782468d307693477a97498/8f51051627782468d307693477a97498.m3u8?auth_key=1715787570-6644d732a0209-0-2bd3ed08e744a57ea18c04925bdc01ce&v=3&time=0',
+        'https://hls.vdtuzv.com/videos3/384e44a785222864cd61b31116880286/384e44a785222864cd61b31116880286.m3u8?auth_key=1715870315-66461a6b61e3f-0-6ea4561218213760f576d4b610759cc0&v=3&time=0',
       savePath: filePath,
     });
     console.log('------', res);

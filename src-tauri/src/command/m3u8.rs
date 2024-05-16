@@ -28,7 +28,7 @@ pub(crate) async fn m3u8_download(
 
     // 临时目录
     let mut temp_dir = home_dir.clone();
-    temp_dir.push(format!("xm_{}", &m3_hash));
+    temp_dir.push(format!("rs_xm_{}", &m3_hash));
 
     std::fs::create_dir_all(&temp_dir).unwrap();
     let temp_dir_str = temp_dir.to_str().unwrap();
