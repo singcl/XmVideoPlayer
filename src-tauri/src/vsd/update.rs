@@ -1,5 +1,6 @@
 use kdam::term::Colorizer;
-use reqwest::blocking::Client;
+use reqwest::Client;
+// use reqwest::blocking::Client;
 use serde::Deserialize;
 
 #[derive(Deserialize)]
@@ -8,12 +9,12 @@ struct Releases {
     version: String,
 }
 
-pub(super) fn check_for_new_release(client: &Client) {
+pub(super) async fn check_for_new_release(client: &Client) {
     if let Ok(response) = client
         .get("https://raw.githubusercontent.com/clitic/vsd/main/vsd/releases.json")
-        .send()
+        .send().await
     {
-        if let Ok(text) = response.text() {
+        if let Ok(text) = response.text().await {
             if let Ok(releases) = serde_json::from_str::<Vec<Releases>>(&text) {
                 if let Some(latest) = releases.first() {
                     if latest.version != env!("CARGO_PKG_VERSION") {

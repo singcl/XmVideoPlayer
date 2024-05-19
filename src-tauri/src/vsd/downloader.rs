@@ -941,155 +941,155 @@ pub(crate) async fn download(
 
     // eprintln!();
 
-    // // -----------------------------------------------------------------------------------------
-    // // Mux Downloaded Streams
-    // // -----------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------
+    // Mux Downloaded Streams
+    // -----------------------------------------------------------------------------------------
 
-    // let video_temp_files = temp_files
-    //     .iter()
-    //     .filter(|x| (x.media_type == MediaType::Video) || (x.media_type == MediaType::Undefined))
-    //     .collect::<Vec<_>>();
-    // let video_streams_count = video_temp_files.len();
-    // let audio_streams_count = temp_files
-    //     .iter()
-    //     .filter(|x| x.media_type == MediaType::Audio)
-    //     .count();
-    // let subtitle_streams_count = temp_files
-    //     .iter()
-    //     .filter(|x| x.media_type == MediaType::Subtitles)
-    //     .count();
+    let video_temp_files = temp_files
+        .iter()
+        .filter(|x| (x.media_type == MediaType::Video) || (x.media_type == MediaType::Undefined))
+        .collect::<Vec<_>>();
+    let video_streams_count = video_temp_files.len();
+    let audio_streams_count = temp_files
+        .iter()
+        .filter(|x| x.media_type == MediaType::Audio)
+        .count();
+    let subtitle_streams_count = temp_files
+        .iter()
+        .filter(|x| x.media_type == MediaType::Subtitles)
+        .count();
 
-    // if should_mux
-    //     && (video_streams_count == 1 || audio_streams_count == 1 || subtitle_streams_count == 1)
-    // {
-    //     if let Some(output) = &output {
-    //         let all_temp_files = temp_files
-    //             .iter()
-    //             .filter(|x| {
-    //                 (x.media_type == MediaType::Video) || (x.media_type == MediaType::Undefined)
-    //             })
-    //             .chain(
-    //                 temp_files
-    //                     .iter()
-    //                     .filter(|x| x.media_type == MediaType::Audio),
-    //             )
-    //             .chain(
-    //                 temp_files
-    //                     .iter()
-    //                     .filter(|x| x.media_type == MediaType::Subtitles),
-    //             )
-    //             .collect::<Vec<_>>();
+    if should_mux
+        && (video_streams_count == 1 || audio_streams_count == 1 || subtitle_streams_count == 1)
+    {
+        if let Some(output) = &output {
+            let all_temp_files = temp_files
+                .iter()
+                .filter(|x| {
+                    (x.media_type == MediaType::Video) || (x.media_type == MediaType::Undefined)
+                })
+                .chain(
+                    temp_files
+                        .iter()
+                        .filter(|x| x.media_type == MediaType::Audio),
+                )
+                .chain(
+                    temp_files
+                        .iter()
+                        .filter(|x| x.media_type == MediaType::Subtitles),
+                )
+                .collect::<Vec<_>>();
 
-    //         let mut args = vec![];
+            let mut args = vec![];
 
-    //         for temp_file in &all_temp_files {
-    //             args.extend_from_slice(&["-i".to_owned(), temp_file.file_path.clone()]);
-    //         }
+            for temp_file in &all_temp_files {
+                args.extend_from_slice(&["-i".to_owned(), temp_file.file_path.clone()]);
+            }
 
-    //         if (video_streams_count == 1)
-    //             || (audio_streams_count == 1)
-    //             || (subtitle_streams_count == 1)
-    //         {
-    //             // TODO - Re-consider this copy
-    //             args.extend_from_slice(&["-c".to_owned(), "copy".to_owned()]);
-    //         } else {
-    //             args.extend_from_slice(&["-c".to_owned(), "copy".to_owned()]);
+            if (video_streams_count == 1)
+                || (audio_streams_count == 1)
+                || (subtitle_streams_count == 1)
+            {
+                // TODO - Re-consider this copy
+                args.extend_from_slice(&["-c".to_owned(), "copy".to_owned()]);
+            } else {
+                args.extend_from_slice(&["-c".to_owned(), "copy".to_owned()]);
 
-    //             if subtitle_streams_count > 0 && output.ends_with(".mp4") {
-    //                 args.extend_from_slice(&["-c:s".to_owned(), "mov_text".to_owned()]);
-    //             }
+                if subtitle_streams_count > 0 && output.ends_with(".mp4") {
+                    args.extend_from_slice(&["-c:s".to_owned(), "mov_text".to_owned()]);
+                }
 
-    //             for i in 0..all_temp_files.len() {
-    //                 args.extend_from_slice(&["-map".to_owned(), i.to_string()]);
-    //             }
+                for i in 0..all_temp_files.len() {
+                    args.extend_from_slice(&["-map".to_owned(), i.to_string()]);
+                }
 
-    //             let mut audio_index = 0;
-    //             let mut subtitle_index = 0;
+                let mut audio_index = 0;
+                let mut subtitle_index = 0;
 
-    //             for temp_file in &all_temp_files {
-    //                 match temp_file.media_type {
-    //                     MediaType::Audio => {
-    //                         if let Some(language) = &temp_file.language {
-    //                             args.extend_from_slice(&[
-    //                                 format!("-metadata:s:a:{}", audio_index),
-    //                                 format!("language={}", language),
-    //                             ]);
-    //                         }
+                for temp_file in &all_temp_files {
+                    match temp_file.media_type {
+                        MediaType::Audio => {
+                            if let Some(language) = &temp_file.language {
+                                args.extend_from_slice(&[
+                                    format!("-metadata:s:a:{}", audio_index),
+                                    format!("language={}", language),
+                                ]);
+                            }
 
-    //                         audio_index += 1;
-    //                     }
-    //                     MediaType::Subtitles => {
-    //                         if let Some(language) = &temp_file.language {
-    //                             args.extend_from_slice(&[
-    //                                 format!("-metadata:s:s:{}", subtitle_index),
-    //                                 format!("language={}", language),
-    //                             ]);
-    //                         }
+                            audio_index += 1;
+                        }
+                        MediaType::Subtitles => {
+                            if let Some(language) = &temp_file.language {
+                                args.extend_from_slice(&[
+                                    format!("-metadata:s:s:{}", subtitle_index),
+                                    format!("language={}", language),
+                                ]);
+                            }
 
-    //                         subtitle_index += 1;
-    //                     }
-    //                     _ => (),
-    //                 }
-    //             }
+                            subtitle_index += 1;
+                        }
+                        _ => (),
+                    }
+                }
 
-    //             if subtitle_streams_count > 0 {
-    //                 args.extend_from_slice(&["-disposition:s:0".to_owned(), "default".to_owned()]);
-    //             }
-    //         }
+                if subtitle_streams_count > 0 {
+                    args.extend_from_slice(&["-disposition:s:0".to_owned(), "default".to_owned()]);
+                }
+            }
 
-    //         args.push(output.to_owned());
+            args.push(output.to_owned());
 
-    //         println!(
-    //             "  {} ffmpeg {}",
-    //             "Executing".colorize("bold cyan"),
-    //             args.iter()
-    //                 .map(|x| if x.contains(' ') {
-    //                     format!("\"{}\"", x)
-    //                 } else {
-    //                     x.to_owned()
-    //                 })
-    //                 .collect::<Vec<_>>()
-    //                 .join(" ")
-    //         );
+            println!(
+                "  {} ffmpeg {}",
+                "Executing".colorize("bold cyan"),
+                args.iter()
+                    .map(|x| if x.contains(' ') {
+                        format!("\"{}\"", x)
+                    } else {
+                        x.to_owned()
+                    })
+                    .collect::<Vec<_>>()
+                    .join(" ")
+            );
 
-    //         if Path::new(output).exists() {
-    //             println!("   {} {}", "Deleting".colorize("bold red"), output);
-    //             std::fs::remove_file(output)?;
-    //         }
+            if Path::new(output).exists() {
+                println!("   {} {}", "Deleting".colorize("bold red"), output);
+                std::fs::remove_file(output)?;
+            }
 
-    //         let code = Command::new("ffmpeg")
-    //             .args(args)
-    //             .stderr(Stdio::null())
-    //             .spawn()?
-    //             .wait()?;
+            let code = Command::new("ffmpeg")
+                .args(args)
+                .stderr(Stdio::null())
+                .spawn()?
+                .wait()?;
 
-    //         if !code.success() {
-    //             bail!("ffmpeg exited with code {}", code.code().unwrap_or(1))
-    //         }
+            if !code.success() {
+                bail!("ffmpeg exited with code {}", code.code().unwrap_or(1))
+            }
 
-    //         for temp_file in &all_temp_files {
-    //             println!(
-    //                 "   {} {}",
-    //                 "Deleting".colorize("bold red"),
-    //                 temp_file.file_path
-    //             );
-    //             std::fs::remove_file(&temp_file.file_path)?;
-    //         }
+            for temp_file in &all_temp_files {
+                println!(
+                    "   {} {}",
+                    "Deleting".colorize("bold red"),
+                    temp_file.file_path
+                );
+                std::fs::remove_file(&temp_file.file_path)?;
+            }
 
-    //         if let Some(directory) = &directory {
-    //             if std::fs::read_dir(directory)?.next().is_none() {
-    //                 println!(
-    //                     "   {} {}",
-    //                     "Deleting".colorize("bold red"),
-    //                     directory.to_string_lossy()
-    //                 );
-    //                 std::fs::remove_dir(directory)?;
-    //             }
-    //         }
-    //     }
-    // }
+            if let Some(directory) = &directory {
+                if std::fs::read_dir(directory)?.next().is_none() {
+                    println!(
+                        "   {} {}",
+                        "Deleting".colorize("bold red"),
+                        directory.to_string_lossy()
+                    );
+                    std::fs::remove_dir(directory)?;
+                }
+            }
+        }
+    }
 
-    // update::check_for_new_release(&client);
+    update::check_for_new_release(&client).await;
     Ok(())
 }
 
