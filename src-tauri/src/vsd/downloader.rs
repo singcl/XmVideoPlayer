@@ -1089,7 +1089,7 @@ pub(crate) async fn download(
         }
     }
 
-    update::check_for_new_release(&client).await;
+    // update::check_for_new_release(&client).await;
     Ok(())
 }
 

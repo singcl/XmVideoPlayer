@@ -9,9 +9,11 @@ struct Releases {
     version: String,
 }
 
+// json lick this [{"url":"xxxx", version: "0.6.5"}, {"url":"xxxx", version: "0.6.4"}]
+
 pub(super) async fn check_for_new_release(client: &Client) {
     if let Ok(response) = client
-        .get("https://raw.githubusercontent.com/clitic/vsd/main/vsd/releases.json")
+        .get("https://github.com/singcl/XmVideoPlayer/releases")
         .send().await
     {
         if let Ok(text) = response.text().await {
