@@ -24,6 +24,7 @@ use std::{
     sync::{Arc, Mutex},
     time::Instant,
 };
+use tokio::sync::Semaphore;
 use vsd_mp4::{
     pssh::Pssh,
     text::{ttml_text_parser, Mp4TtmlParser, Mp4VttParser},
@@ -722,8 +723,9 @@ pub(crate) async fn download(
     // -----------------------------------------------------------------------------------------
 
     // let pool = threadpool::ThreadPool::new(threads as usize);
-    let mut jhs = Vec::new();
     let mut should_mux = !no_decrypt && !no_merge;
+    let semaphore = Arc::new(Semaphore::new(threads.into()));
+    let mut jhs = Vec::new();
 
     for stream in video_audio_streams {
         pb.lock().unwrap().write(format!(
@@ -897,11 +899,19 @@ pub(crate) async fn download(
                 previous_map = None;
             }
 
+            let semaphore = semaphore.clone();
             let jh = tauri::async_runtime::spawn(async move {
+                // Acquire permit before sending request.
+                let _permit = semaphore.acquire().await.unwrap();
                 match thread_data.execute().await {
-                    Ok(_) => Ok(()),
+                    Ok(_) => {
+                        drop(_permit);
+                        Ok(())
+                    }
                     Err(e) => {
                         let _lock = thread_data.pb.lock().unwrap();
+                        // Drop the permit after the request has been sent.
+                        drop(_permit);
                         println!("\n{}: {}", "error".colorize("bold red"), e);
                         Err(e)
                     }
