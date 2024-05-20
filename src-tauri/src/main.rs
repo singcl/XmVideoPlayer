@@ -4,7 +4,9 @@
 )]
 
 // use std::io::prelude::*;
+use crate::command::payload::Payload;
 use std::sync::atomic::{AtomicBool, AtomicUsize, Ordering};
+// use std::time::Duration;
 use std::{
     cmp::min,
     io::{Read, Seek, SeekFrom},
@@ -19,6 +21,7 @@ pub mod command;
 pub mod s;
 pub mod state;
 pub mod utils;
+pub mod vsd;
 
 fn main() {
     // here `"quit".to_string()` defines the menu item id, and the second parameter is the menu item label.
@@ -99,11 +102,37 @@ fn main() {
                 _ => {}
             }
         })
-        .setup(|_app| {
+        .setup(|app| {
             if let Some(mut home_dir) = tauri::api::path::home_dir() {
                 home_dir.push(".xmvideoplayer");
                 std::fs::create_dir_all(&home_dir)?;
             }
+            let main_window = app.get_window("main").unwrap();
+            tauri::async_runtime::spawn(async move {
+                loop {
+                    main_window
+                        .emit(
+                            "pong",
+                            Payload {
+                                message: "XmVideoPlayer@singcl<https://github.com/singcl>".into(),
+                            },
+                        )
+                        .unwrap();
+                    // std::thread::sleep(std::time::Duration::from_secs(5));
+                    async_std::task::sleep(std::time::Duration::from_secs(5)).await;
+                }
+            });
+            // std::thread::spawn(move || loop {
+            //     main_window
+            //         .emit(
+            //             "pong",
+            //             Payload {
+            //                 message: "XmVideoPlayer@singcl<https://github.com/singcl>".into(),
+            //             },
+            //         )
+            //         .unwrap();
+            //     std::thread::sleep(Duration::from_millis(5000));
+            // });
             Ok(())
         })
         .on_window_event(|event| match event.event() {
@@ -200,7 +229,7 @@ fn main() {
         .manage(state::WindowVisible(AtomicBool::new(true)))
         .invoke_handler(tauri::generate_handler![
             command::normal::greet,
-            command::normal::init_process,
+            // command::normal::init_process,
             command::normal::db_read,
             command::normal::db_insert,
             command::normal::increment_counter,

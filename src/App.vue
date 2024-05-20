@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // This will wait for the window to load, but you could
   // run this function on whatever trigger you want
   setTimeout(() => invoke('close_splashscreen'), 1000); // 让加载动画多显示一会儿
-  invoke('init_process');
+  // invoke('init_process');
   appWindow.listen('pong', (e) => {
     // event.event is the event name (useful if you want to use a single callback fn for multiple event types)
     // event.payload is the payload object

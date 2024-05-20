@@ -1,4 +1,4 @@
-use m3u8_rs::{ Playlist};
+use m3u8_rs::Playlist;
 
 pub fn parse_m3u8_list(list_string: &str, m3u8_url: &str) -> Vec<String> {
     let mut url_iter = m3u8_url.split('/');

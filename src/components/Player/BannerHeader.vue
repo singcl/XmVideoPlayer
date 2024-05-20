@@ -79,19 +79,18 @@ async function handleDownloadClick() {
 async function downloadM3u8() {
   try {
     const downloadDirPath = await downloadDir();
-    const filePath = await open({
-      // TODO: 这个filters什么意思？？
-      // filters: [
-      //   {
-      //     name: 'Video',
-      //     extensions: ['mp4'],
-      //   },
-      //   {
-      //     name: 'Image',
-      //     extensions: ['png', 'jpg', 'jpeg'],
-      //   },
-      // ],
-      directory: true,
+    const filePath = await save({
+      filters: [
+        {
+          name: '视频',
+          extensions: ['mp4'],
+        },
+        // {
+        //   name: '图片',
+        //   extensions: ['png', 'jpg', 'jpeg'],
+        // },
+      ],
+      // directory: true,
       defaultPath: downloadDirPath,
     });
     if (!filePath) return;
