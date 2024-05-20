@@ -18,12 +18,10 @@
       </div>
     </div>
     <a-tooltip>
-      <div v-if="downloadPayload.total > 0" class="progress">
+      <div v-if="downloadPayload.total > 0 && downloadPayload.current < downloadPayload.total" class="progress">
         <div
-          v-for="item in downloadPayload.total"
-          :key="item"
-          :style="{ width: `${(1 / downloadPayload.total) * 100}%` }"
-          :class="{ success: downloadPayload.current >= item }"
+          :style="{ width: `${(downloadPayload.current / downloadPayload.total) * 100}%` }"
+          :class="{ success: downloadPayload.current >= downloadPayload.total }"
           class="progress__chunk"
         ></div>
       </div>
@@ -50,6 +48,13 @@ import { checkM3U8Url } from '@/utils/validator';
 interface PayloadDownload {
   downloadType: string;
   message: string;
+  total: string;
+  current: string;
+}
+
+interface PayloadDownloadFed {
+  downloadType: string;
+  message: string;
   total: number;
   current: number;
 }
@@ -61,10 +66,14 @@ const props = defineProps({
   },
 });
 const loading = ref(false);
-const downloadPayload = ref<PayloadDownload>({ downloadType: 'm3u8', message: '', total: 0, current: 0 });
-appWindow.listen('download', (e) => {
+const downloadPayload = ref<PayloadDownloadFed>({ downloadType: 'm3u8', message: '', total: 0, current: 0 });
+appWindow.listen<PayloadDownload>('download', (e) => {
   console.log('-----download:', e.payload);
-  downloadPayload.value = e.payload as PayloadDownload;
+  downloadPayload.value = {
+    ...e.payload,
+    total: Number(e.payload.total),
+    current: Number(e.payload.current),
+  };
 });
 // 下载
 async function handleDownloadClick() {
@@ -157,7 +166,7 @@ async function downloadNormal() {
   width: 5px;
   height: 5px;
   box-sizing: border-box;
-  background-color: #f7f7f7;
+  background-color: #255dc5;
 
   /* border: 1px solid #f7f7f7; */
 }
