@@ -8,6 +8,6 @@ pub struct Payload {
 pub struct PayloadDownload {
     pub download_type: String,
     pub message: String,
-    pub total: usize,
-    pub current: usize,
+    pub total: String,
+    pub current: String,
 }
