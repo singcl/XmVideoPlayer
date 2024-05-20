@@ -18,7 +18,7 @@
     "allowlist": {
       "all": true,
       "http": {
-        "scope": ["https://**"],
+        "scope": ["https://**", "http://**"],
         "all": true,
         "request": true
       }
