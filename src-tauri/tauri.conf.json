@@ -8,7 +8,7 @@
   },
   "package": {
     "productName": "XmVideoPlayer",
-    "version": "0.5.8"
+    "version": "0.5.9"
   },
   "tauri": {
     "systemTray": {
@@ -18,7 +18,7 @@
     "allowlist": {
       "all": true,
       "http": {
-        "scope": ["https://**"],
+        "scope": ["https://**", "http://**"],
         "all": true,
         "request": true
       }
