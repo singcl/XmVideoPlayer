@@ -19,6 +19,9 @@
     </div>
     <a-tooltip>
       <div v-if="downloadPayload.total > 0 && downloadPayload.current < downloadPayload.total" class="progress">
+        <div class="progress__track">
+          {{ downloadPayload.message }}
+        </div>
         <div
           :style="{ width: `${(downloadPayload.current / downloadPayload.total) * 100}%` }"
           :class="{ success: downloadPayload.current >= downloadPayload.total }"
@@ -66,13 +69,19 @@ const props = defineProps({
   },
 });
 const loading = ref(false);
-const downloadPayload = ref<PayloadDownloadFed>({ downloadType: 'm3u8', message: '', total: 0, current: 0 });
+const downloadPayload = ref<PayloadDownloadFed>({
+  downloadType: 'm3u8',
+  message: '',
+  total: 0,
+  current: 0,
+});
 appWindow.listen<PayloadDownload>('download', (e) => {
   console.log('-----download:', e.payload);
   downloadPayload.value = {
     ...e.payload,
     total: Number(e.payload.total),
     current: Number(e.payload.current),
+    message: e.payload.message.replace(/━/g, ''),
   };
 });
 // 下载
@@ -156,17 +165,27 @@ async function downloadNormal() {
 }
 
 .progress {
-  display: flex;
+  position: relative;
   width: 100%;
   align-items: center;
   background-color: #f7f7f7;
 }
 
+.progress__track {
+  height: 10px;
+  font-size: 10px;
+  line-height: 10px;
+}
+
 .progress__chunk {
-  width: 5px;
-  height: 5px;
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 10px;
   box-sizing: border-box;
-  background-color: #255dc5;
+  background-color: rgb(37 93 197 / 72%);
 
   /* border: 1px solid #f7f7f7; */
 }
