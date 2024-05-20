@@ -15,7 +15,8 @@
 
 ### Prerequisites
 
-`node >= 16`
+- `node >= 16`
+- 资源下载后转换依赖`ffmpeg`，请自行本地安装`ffmpeg`，不然无法正常下载，不影响在线播放
 
 ### Start
 

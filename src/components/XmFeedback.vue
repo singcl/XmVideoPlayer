@@ -120,7 +120,7 @@ const handleSubmit = async () => {
 }
 
 .feedback {
-  position: absolute;
+  position: fixed;
   top: 50%;
   right: 0;
   padding: 5px 20px;
