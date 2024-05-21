@@ -6,7 +6,9 @@
 // use std::io::prelude::*;
 use crate::command::payload::Payload;
 use std::sync::atomic::{AtomicBool, AtomicUsize, Ordering};
+use std::time::Duration;
 // use std::time::Duration;
+use ffmpeg_sidecar::command::ffmpeg_is_installed;
 use std::{
     cmp::min,
     io::{Read, Seek, SeekFrom},
@@ -110,9 +112,11 @@ fn main() {
                 std::fs::create_dir_all(&home_dir)?;
             }
             let main_window = app.get_window("main").unwrap();
+            let m_w_1 = main_window.clone();
+            let m_w_2 = main_window.clone();
             tauri::async_runtime::spawn(async move {
                 loop {
-                    main_window
+                    m_w_1
                         .emit(
                             "pong",
                             Payload {
@@ -135,8 +139,15 @@ fn main() {
             //         .unwrap();
             //     std::thread::sleep(Duration::from_millis(5000));
             // });
+            let splashscreen_window = app.get_window("splashscreen").unwrap();
             std::thread::spawn(move || {
-                ffmpeg_sidecar::download::auto_download().unwrap();
+                if ffmpeg_is_installed() {
+                    std::thread::sleep(Duration::from_millis(2000));
+                } else {
+                    ffmpeg_sidecar::download::auto_download().unwrap();
+                }
+                splashscreen_window.close().unwrap();
+                m_w_2.show().unwrap();
             });
             Ok(())
         })
