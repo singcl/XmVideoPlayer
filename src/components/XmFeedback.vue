@@ -57,7 +57,7 @@ const handleSubmit = async () => {
   <div class="feedback">
     <a-tooltip :mini="true">
       <template #content>
-        <span style="color: #eee6e6; font-size: 12px">意见与建议</span>
+        <div style="width: 65px; color: #eee6e6; font-size: 12px">意见与建议</div>
       </template>
       <a-button class="feedback-btn" shape="circle" size="large" status="success" @click="handleFeedback">
         <XmSvgIcon name="icon-feedback" style="padding-left: 3px; font-size: 20px" />
