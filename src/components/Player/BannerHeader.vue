@@ -45,7 +45,7 @@ import { ref, reactive } from 'vue';
 import { /* convertFileSrc */ invoke } from '@tauri-apps/api/tauri';
 import { downloadDir } from '@tauri-apps/api/path';
 import { save, open } from '@tauri-apps/api/dialog';
-import { Message } from '@arco-design/web-vue';
+import { Notification, Message } from '@arco-design/web-vue';
 import { checkM3U8Url } from '@/utils/validator';
 
 interface PayloadDownload {
@@ -119,7 +119,11 @@ async function downloadM3u8() {
       savePath: filePath,
     });
     console.log('------', res);
-    Message.success({ content: '下载成功！' });
+    Notification.success({
+      title: '结果',
+      content: '下载成功！🎉',
+      duration: 3000,
+    });
   } finally {
     loading.value = false;
   }
