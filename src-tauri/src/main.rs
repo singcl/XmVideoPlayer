@@ -9,6 +9,8 @@ use std::sync::atomic::{AtomicBool, AtomicUsize, Ordering};
 use std::time::Duration;
 // use std::time::Duration;
 use ffmpeg_sidecar::command::ffmpeg_is_installed;
+// use ffmpeg_sidecar::download::ffmpeg_download_url;
+// use ffmpeg_sidecar::paths::ffmpeg_path;
 use std::{
     cmp::min,
     io::{Read, Seek, SeekFrom},
@@ -20,6 +22,7 @@ use tauri::Manager;
 use tauri::{CustomMenuItem, SystemTray, SystemTrayEvent, SystemTrayMenu, SystemTrayMenuItem};
 
 pub mod command;
+pub mod ffmpeg_c;
 pub mod s;
 pub mod state;
 pub mod utils;
@@ -140,11 +143,19 @@ fn main() {
             //     std::thread::sleep(Duration::from_millis(5000));
             // });
             let splashscreen_window = app.get_window("splashscreen").unwrap();
+
             std::thread::spawn(move || {
+                // println!(
+                //     "ffmpeg_path:{:?}; ffmpeg_download_url:{:?}",
+                //     ffmpeg_path(),
+                //     ffmpeg_download_url()
+                // );
                 if ffmpeg_is_installed() {
                     std::thread::sleep(Duration::from_millis(2000));
                 } else {
-                    ffmpeg_sidecar::download::auto_download().unwrap();
+                    ffmpeg_sidecar::download::auto_download().unwrap_or_else(|_| {
+                        std::thread::sleep(Duration::from_millis(2000));
+                    })
                 }
                 splashscreen_window.close().unwrap();
                 m_w_2.show().unwrap();
