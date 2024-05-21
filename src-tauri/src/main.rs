@@ -26,7 +26,7 @@ pub mod vsd;
 fn main() {
     // https://tauri.app/v1/guides/building/macos
     let _ = fix_path_env::fix(); // A Rust crate to fix the PATH environment variable on macOS and Linux when running a GUI app.
-    // here `"quit".to_string()` defines the menu item id, and the second parameter is the menu item label.
+                                 // here `"quit".to_string()` defines the menu item id, and the second parameter is the menu item label.
     let quit = CustomMenuItem::new("quit".to_string(), "退出");
     let visible = CustomMenuItem::new("visible".to_string(), "隐藏");
     let tray_menu = SystemTrayMenu::new()
@@ -135,6 +135,9 @@ fn main() {
             //         .unwrap();
             //     std::thread::sleep(Duration::from_millis(5000));
             // });
+            std::thread::spawn(move || {
+                ffmpeg_sidecar::download::auto_download().unwrap();
+            });
             Ok(())
         })
         .on_window_event(|event| match event.event() {

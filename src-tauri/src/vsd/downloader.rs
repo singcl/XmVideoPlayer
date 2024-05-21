@@ -8,6 +8,7 @@ use crate::{
     },
 };
 use anyhow::{anyhow, bail, Result};
+use ffmpeg_sidecar::{command::FfmpegCommand, event::FfmpegEvent};
 use futures_util::future::join_all;
 use kdam::{term::Colorizer, tqdm, BarExt, Column, RichProgress};
 use reqwest::{
@@ -1074,9 +1075,10 @@ pub(crate) async fn download(
                 std::fs::remove_file(output)?;
             }
 
-            let code = Command::new("ffmpeg")
+            let code = FfmpegCommand::new()
                 .args(args)
-                .stderr(Stdio::null())
+                // .stderr(Stdio::null())
+                .create_no_window()
                 .spawn()?
                 .wait()?;
 

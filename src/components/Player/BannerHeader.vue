@@ -101,7 +101,7 @@ async function downloadM3u8() {
       filters: [
         {
           name: '视频',
-          extensions: ['mp4'],
+          extensions: ['mp4', 'ts'],
         },
         // {
         //   name: '图片',
