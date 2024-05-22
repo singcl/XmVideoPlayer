@@ -25,6 +25,8 @@ use tauri::Window;
 
 use kdam::{tqdm, BarExt, Column, RichProgress};
 
+use crate::tools::payload::Payload;
+
 //
 /// Check if FFmpeg is installed, and if it's not, download and unpack it.
 /// Automatically selects the correct binaries for Windows, Linux, and MacOS.
@@ -148,6 +150,12 @@ pub(self) async fn get_package(url: &str, destination: &str, wd: &Window) -> any
                         let write_size = f.write(&chunk).unwrap();
                         // time::sleep(Duration::from_millis(10)).await;
                         pb.update(write_size).unwrap();
+                        let _ = wd.emit(
+                            "init_resources",
+                            Payload {
+                                message: pb.render(),
+                            },
+                        );
                     }
                     Ok(())
                 }
