@@ -4430,37 +4430,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "tauri-app"
-version = "0.0.0"
-dependencies = [
- "aes",
- "anyhow",
- "async-std",
- "base64 0.21.7",
- "cbc",
- "cookie 0.18.1",
- "dash-mpd",
- "ffmpeg-sidecar",
- "fix-path-env",
- "futures-util",
- "hex",
- "kdam",
- "m3u8-rs",
- "mp4decrypt",
- "percent-encoding",
- "regex",
- "requestty",
- "reqwest",
- "serde",
- "serde_json",
- "tauri",
- "tauri-build",
- "threadpool",
- "tokio",
- "vsd-mp4",
-]
-
-[[package]]
 name = "tauri-build"
 version = "1.5.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -6067,6 +6036,37 @@ checksum = "21e5a325c3cb8398ad6cf859c1135b25dd29e186679cf2da7581d9679f63b38e"
 dependencies = [
  "libc",
  "winapi",
+]
+
+[[package]]
+name = "xvp"
+version = "0.0.1"
+dependencies = [
+ "aes",
+ "anyhow",
+ "async-std",
+ "base64 0.21.7",
+ "cbc",
+ "cookie 0.18.1",
+ "dash-mpd",
+ "ffmpeg-sidecar",
+ "fix-path-env",
+ "futures-util",
+ "hex",
+ "kdam",
+ "m3u8-rs",
+ "mp4decrypt",
+ "percent-encoding",
+ "regex",
+ "requestty",
+ "reqwest",
+ "serde",
+ "serde_json",
+ "tauri",
+ "tauri-build",
+ "threadpool",
+ "tokio",
+ "vsd-mp4",
 ]
 
 [[package]]
