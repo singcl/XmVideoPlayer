@@ -72,9 +72,6 @@ pub async fn auto_download(wd: &Window) -> anyhow::Result<()> {
 
     println!("Done! 🏁");
 
-    if !ffmpeg_is_installed() {
-        anyhow::bail!("FFmpeg failed to install, please install manually.");
-    }
     Ok(())
 }
 
