@@ -144,7 +144,9 @@ fn main() {
                 if xvp::ffmpeg_c::dl_c::ffmpeg_is_installed() {
                     tokio::time::sleep(Duration::from_millis(2000)).await;
                 } else {
-                    xvp::ffmpeg_c::dl_c::auto_download().await.unwrap()
+                    xvp::ffmpeg_c::dl_c::auto_download(&splashscreen_window)
+                        .await
+                        .unwrap()
                 }
                 splashscreen_window.close().unwrap();
                 m_w_2.show().unwrap();
