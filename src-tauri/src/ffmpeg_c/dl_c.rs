@@ -123,8 +123,23 @@ pub(self) async fn get_package(url: &str, destination: &str, wd: &Window) -> any
         Ok(mut response) => {
             let t = response.content_length().unwrap_or(0);
             let mut pb = RichProgress::new(
-                tqdm!(total = t as usize),
-                vec![Column::Animation, Column::Percentage(2)],
+                tqdm!(
+                    total = t as usize,
+                    unit_scale = true,
+                    unit_divisor = 1024,
+                    unit = "B"
+                ),
+                vec![
+                    // Column::Text("[bold blue]?".to_owned()),
+                    Column::Animation,
+                    Column::Percentage(1),
+                    Column::Text("•".to_owned()),
+                    Column::CountTotal,
+                    Column::Text("•".to_owned()),
+                    Column::Rate,
+                    Column::Text("•".to_owned()),
+                    Column::RemainingTime,
+                ],
             );
             match response.status() {
                 reqwest::StatusCode::OK => {
