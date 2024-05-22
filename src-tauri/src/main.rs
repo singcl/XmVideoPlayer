@@ -140,18 +140,11 @@ fn main() {
             // });
             let splashscreen_window = app.get_window("splashscreen").unwrap();
 
-            std::thread::spawn(move || {
-                // println!(
-                //     "ffmpeg_path:{:?}; ffmpeg_download_url:{:?}",
-                //     ffmpeg_path(),
-                //     ffmpeg_download_url()
-                // );
+            tauri::async_runtime::spawn(async move {
                 if xvp::ffmpeg_c::dl_c::ffmpeg_is_installed() {
-                    std::thread::sleep(Duration::from_millis(2000));
+                    tokio::time::sleep(Duration::from_millis(2000)).await;
                 } else {
-                    xvp::ffmpeg_c::dl_c::auto_download().unwrap_or_else(|_| {
-                        std::thread::sleep(Duration::from_millis(2000));
-                    })
+                    xvp::ffmpeg_c::dl_c::auto_download().await.unwrap()
                 }
                 splashscreen_window.close().unwrap();
                 m_w_2.show().unwrap();

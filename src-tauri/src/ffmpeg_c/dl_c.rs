@@ -18,13 +18,18 @@ use ffmpeg_sidecar::{
 
 pub use ffmpeg_sidecar::command::ffmpeg_is_installed;
 
+use std::io::Write;
+use std::time::Duration;
+use tauri::Window;
+use tokio::time;
+
 /// Check if FFmpeg is installed, and if it's not, download and unpack it.
 /// Automatically selects the correct binaries for Windows, Linux, and MacOS.
 /// The binaries will be placed in the same directory as the Rust executable.
 ///
 /// If FFmpeg is already installed, the method exits early without downloading
 /// anything.
-pub fn auto_download() -> anyhow::Result<()> {
+pub async fn auto_download() -> anyhow::Result<()> {
     if ffmpeg_is_installed() {
         println!("FFmpeg is already installed! 🎉");
         println!("For demo purposes, we'll re-download and unpack it anyway.");
@@ -51,7 +56,7 @@ pub fn auto_download() -> anyhow::Result<()> {
     // By default the download will use a `curl` command. You could also write
     // your own download function and use another package like `reqwest` instead.
     println!("Downloading from: {:?}", download_url);
-    let archive_path = download_ffmpeg_package(download_url, &destination)?;
+    let archive_path = download_ffmpeg_package(download_url, &destination).await?;
     println!("Downloaded package: {:?}", archive_path);
 
     // Extraction uses `tar` on all platforms (available in Windows since version 1803)
@@ -72,7 +77,10 @@ pub fn auto_download() -> anyhow::Result<()> {
 
 /// Invoke `curl` to download an archive (ZIP on windows, TAR on linux and mac)
 /// from the latest published release online.
-pub(self) fn download_ffmpeg_package(url: &str, download_dir: &Path) -> anyhow::Result<PathBuf> {
+pub(self) async fn download_ffmpeg_package(
+    url: &str,
+    download_dir: &Path,
+) -> anyhow::Result<PathBuf> {
     let filename = Path::new(url)
         .file_name()
         .context("Failed to get filename")?;
@@ -81,20 +89,55 @@ pub(self) fn download_ffmpeg_package(url: &str, download_dir: &Path) -> anyhow::
 
     let archive_filename = archive_path.to_str().context("invalid download path")?;
 
-    let exit_status = curl_to_file(url, archive_filename)?;
+    get_package(url, archive_filename).await?;
 
-    if !exit_status.success() {
-        anyhow::bail!("Failed to download ffmpeg");
-    }
-
+    // if !exit_status.success() {
+    //     anyhow::bail!("Failed to download ffmpeg");
+    // }
     Ok(archive_path)
 }
 
-/// Invoke cURL on the command line to download a file, writing to a file.
-pub(self) fn curl_to_file(url: &str, destination: &str) -> anyhow::Result<ExitStatus> {
-    Command::new("curl")
-        .args(["-L", url])
-        .args(["-o", destination])
-        .status()
-        .map_err(Into::into)
+// /// Invoke cURL on the command line to download a file, writing to a file.
+// pub(self) fn curl_to_file(url: &str, destination: &str) -> anyhow::Result<ExitStatus> {
+//     Command::new("curl")
+//         .args(["-L", url])
+//         .args(["-o", destination])
+//         .status()
+//         .map_err(Into::into)
+// }
+
+const USER_AGENT: &str = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36";
+
+pub(self) async fn get_package(url: &str, destination: &str) -> anyhow::Result<()> {
+    let client = reqwest::Client::new();
+    match client
+        .get(url)
+        .header("User-Agent", USER_AGENT)
+        .send()
+        .await
+    {
+        Ok(mut response) => match response.status() {
+            reqwest::StatusCode::OK => {
+                let mut f = std::fs::File::create(destination).unwrap();
+                while let Some(chunk) = response.chunk().await.unwrap() {
+                    let write_size = f.write(&chunk).unwrap();
+                    time::sleep(Duration::from_millis(10)).await;
+                    println!("writing:{:?}", write_size);
+                }
+                Ok(())
+            }
+            status_code => {
+                println!(
+                    "Error getting package, Message: {} Try again...",
+                    status_code.canonical_reason().unwrap()
+                );
+                Err(anyhow::anyhow!("Error getting package"))
+            }
+        },
+        Err(error) => {
+            println!("Error sending HTTP request during getting package");
+            println!("{}", error.to_string());
+            Err(error.into())
+        }
+    }
 }
