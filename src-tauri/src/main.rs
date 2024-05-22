@@ -40,6 +40,9 @@ fn main() {
         .on_system_tray_event(|app, event| {
             let window_visible = app.state::<state::WindowVisible>();
             let window = app.get_window("main").unwrap();
+            let splashscreen_window = app.get_window("splashscreen").unwrap();
+            let sv = splashscreen_window.is_visible().unwrap();
+
             let item_handle = app.tray_handle().get_item("visible");
             match event {
                 SystemTrayEvent::LeftClick {
@@ -47,33 +50,39 @@ fn main() {
                     size: _,
                     ..
                 } => {
-                    window_visible.0.store(true, Ordering::Relaxed);
-                    window.show().unwrap();
-                    item_handle.set_title("隐藏").unwrap();
-                    println!(
-                        "system tray received a left click, and {:?}",
-                        window_visible
-                    );
+                    if !sv {
+                        window_visible.0.store(true, Ordering::Relaxed);
+                        window.show().unwrap();
+                        item_handle.set_title("隐藏").unwrap();
+                        println!(
+                            "system tray received a left click, and {:?}",
+                            window_visible
+                        );
+                    }
                 }
                 SystemTrayEvent::RightClick {
                     position: _,
                     size: _,
                     ..
                 } => {
-                    window_visible.0.store(true, Ordering::Relaxed);
-                    window.show().unwrap();
-                    item_handle.set_title("隐藏").unwrap();
-                    println!("system tray received a right click");
+                    if !sv {
+                        window_visible.0.store(true, Ordering::Relaxed);
+                        window.show().unwrap();
+                        item_handle.set_title("隐藏").unwrap();
+                        println!("system tray received a right click");
+                    }
                 }
                 SystemTrayEvent::DoubleClick {
                     position: _,
                     size: _,
                     ..
                 } => {
-                    window_visible.0.store(true, Ordering::Relaxed);
-                    window.show().unwrap();
-                    item_handle.set_title("隐藏").unwrap();
-                    println!("system tray received a double click");
+                    if (!sv) {
+                        window_visible.0.store(true, Ordering::Relaxed);
+                        window.show().unwrap();
+                        item_handle.set_title("隐藏").unwrap();
+                        println!("system tray received a double click");
+                    }
                 }
                 SystemTrayEvent::MenuItemClick { id, .. } => {
                     // get a handle to the clicked menu item
@@ -86,17 +95,19 @@ fn main() {
                             std::process::exit(0);
                         }
                         "visible" => {
-                            let visible = window_visible.0.load(Ordering::Relaxed);
-                            if visible {
-                                window_visible.0.store(false, Ordering::Relaxed);
-                                window.hide().unwrap();
-                                // you can also `set_selected`, `set_enabled` and `set_native_image` (macOS only).
-                                item_handle.set_title("显示").unwrap();
-                            } else {
-                                window_visible.0.store(true, Ordering::Relaxed);
-                                window.show().unwrap();
-                                // you can also `set_selected`, `set_enabled` and `set_native_image` (macOS only).
-                                item_handle.set_title("隐藏").unwrap();
+                            if !sv {
+                                let visible = window_visible.0.load(Ordering::Relaxed);
+                                if visible {
+                                    window_visible.0.store(false, Ordering::Relaxed);
+                                    window.hide().unwrap();
+                                    // you can also `set_selected`, `set_enabled` and `set_native_image` (macOS only).
+                                    item_handle.set_title("显示").unwrap();
+                                } else {
+                                    window_visible.0.store(true, Ordering::Relaxed);
+                                    window.show().unwrap();
+                                    // you can also `set_selected`, `set_enabled` and `set_native_image` (macOS only).
+                                    item_handle.set_title("隐藏").unwrap();
+                                }
                             }
                         }
                         _ => {}
@@ -151,6 +162,7 @@ fn main() {
                 splashscreen_window.close().unwrap();
                 m_w_2.show().unwrap();
             });
+
             Ok(())
         })
         .on_window_event(|event| match event.event() {
