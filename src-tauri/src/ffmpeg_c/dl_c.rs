@@ -22,6 +22,9 @@ use std::io::Write;
 // use std::time::Duration;
 use tauri::Window;
 // use tokio::time;
+
+use kdam::{tqdm, BarExt, Column, RichProgress};
+
 //
 /// Check if FFmpeg is installed, and if it's not, download and unpack it.
 /// Automatically selects the correct binaries for Windows, Linux, and MacOS.
@@ -118,14 +121,18 @@ pub(self) async fn get_package(url: &str, destination: &str, wd: &Window) -> any
         .await
     {
         Ok(mut response) => {
-            println!("Downloading...{:?}", response.content_length());
+            let t = response.content_length().unwrap_or(0);
+            let mut pb = RichProgress::new(
+                tqdm!(total = t as usize),
+                vec![Column::Animation, Column::Percentage(2)],
+            );
             match response.status() {
                 reqwest::StatusCode::OK => {
                     let mut f = std::fs::File::create(destination).unwrap();
                     while let Some(chunk) = response.chunk().await.unwrap() {
                         let write_size = f.write(&chunk).unwrap();
                         // time::sleep(Duration::from_millis(10)).await;
-                        println!("writing:{:?}", write_size);
+                        pb.update(write_size).unwrap();
                     }
                     Ok(())
                 }
