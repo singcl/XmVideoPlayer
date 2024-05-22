@@ -133,7 +133,7 @@ pub(self) async fn get_package(url: &str, destination: &str, wd: &Window) -> any
                 ),
                 vec![
                     // Column::Text("[bold blue]?".to_owned()),
-                    Column::Animation,
+                    // Column::Animation,
                     Column::Percentage(1),
                     Column::Text("•".to_owned()),
                     Column::CountTotal,
