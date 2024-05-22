@@ -1,6 +1,7 @@
 use anyhow::Context;
 use std::{
     path::{Path, PathBuf},
+    process::{Command, Stdio},
     // process::{Command, ExitStatus},
 };
 
@@ -12,11 +13,9 @@ use ffmpeg_sidecar::{
         ffmpeg_download_url,
         unpack_ffmpeg,
     },
-    paths::sidecar_dir,
+    paths::{ffmpeg_path, sidecar_dir},
     version::ffmpeg_version,
 };
-
-pub use ffmpeg_sidecar::command::ffmpeg_is_installed;
 
 use std::io::Write;
 // use std::time::Duration;
@@ -26,7 +25,6 @@ use tauri::Window;
 use kdam::{tqdm, BarExt, Column, RichProgress};
 
 use crate::tools::payload::Payload;
-
 //
 /// Check if FFmpeg is installed, and if it's not, download and unpack it.
 /// Automatically selects the correct binaries for Windows, Linux, and MacOS.
@@ -174,4 +172,17 @@ pub(self) async fn get_package(url: &str, destination: &str, wd: &Window) -> any
             Err(error.into())
         }
     }
+}
+
+/// Verify whether ffmpeg is installed on the system. This will return true if
+/// there is an ffmpeg binary in the PATH, or in the same directory as the Rust
+/// executable.
+pub fn ffmpeg_is_installed() -> bool {
+    Command::new(ffmpeg_path())
+        .arg("-version")
+        .stderr(Stdio::null())
+        .stdout(Stdio::null())
+        .status()
+        .map(|s| s.success())
+        .unwrap_or_else(|_| false)
 }
