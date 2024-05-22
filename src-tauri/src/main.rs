@@ -22,7 +22,6 @@ use tauri::Manager;
 use tauri::{CustomMenuItem, SystemTray, SystemTrayEvent, SystemTrayMenu, SystemTrayMenuItem};
 
 pub mod command;
-pub mod ffmpeg_c;
 pub mod s;
 pub mod state;
 pub mod utils;
