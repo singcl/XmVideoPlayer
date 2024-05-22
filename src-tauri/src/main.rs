@@ -8,9 +8,6 @@ use crate::command::payload::Payload;
 use std::sync::atomic::{AtomicBool, AtomicUsize, Ordering};
 use std::time::Duration;
 // use std::time::Duration;
-use ffmpeg_sidecar::command::ffmpeg_is_installed;
-// use ffmpeg_sidecar::download::ffmpeg_download_url;
-// use ffmpeg_sidecar::paths::ffmpeg_path;
 use std::{
     cmp::min,
     io::{Read, Seek, SeekFrom},
@@ -149,10 +146,10 @@ fn main() {
                 //     ffmpeg_path(),
                 //     ffmpeg_download_url()
                 // );
-                if ffmpeg_is_installed() {
+                if xvp::ffmpeg_c::dl_c::ffmpeg_is_installed() {
                     std::thread::sleep(Duration::from_millis(2000));
                 } else {
-                    ffmpeg_sidecar::download::auto_download().unwrap_or_else(|_| {
+                    xvp::ffmpeg_c::dl_c::auto_download().unwrap_or_else(|_| {
                         std::thread::sleep(Duration::from_millis(2000));
                     })
                 }
