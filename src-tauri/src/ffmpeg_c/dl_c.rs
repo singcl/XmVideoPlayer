@@ -183,3 +183,17 @@ pub fn ffmpeg_is_installed() -> bool {
         .map(|s| s.success())
         .unwrap_or_else(|_| false)
 }
+
+// /// Verify whether ffmpeg is installed on the system. This will return true if
+// /// there is an ffmpeg binary in the PATH, or in the same directory as the Rust
+// /// executable.
+// pub async fn ffmpeg_is_installed() -> anyhow::Result<bool> {
+//     let code = tokio::process::Command::new(ffmpeg_path())
+//         .arg("-version")
+//         .stderr(Stdio::null())
+//         .stdout(Stdio::null())
+//         .spawn()?
+//         .wait()
+//         .await?;
+//     Ok(code.success())
+// }
