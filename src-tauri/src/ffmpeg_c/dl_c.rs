@@ -1,4 +1,5 @@
 use anyhow::Context;
+use std::os::windows::process::CommandExt;
 use std::{
     path::{Path, PathBuf},
     process::{Command, Stdio},
@@ -174,14 +175,26 @@ pub(self) async fn get_package(url: &str, destination: &str, wd: &Window) -> any
 /// Verify whether ffmpeg is installed on the system. This will return true if
 /// there is an ffmpeg binary in the PATH, or in the same directory as the Rust
 /// executable.
+/// https://learn.microsoft.com/en-us/windows/win32/procthread/process-creation-flags
+/// https://doc.rust-lang.org/stable/std/os/windows/process/trait.CommandExt.html
 pub fn ffmpeg_is_installed() -> bool {
-    Command::new(ffmpeg_path())
+    #[cfg(target_os = "windows")]
+    return Command::new(ffmpeg_path())
+        .arg("-version")
+        .stderr(Stdio::null())
+        .stdout(Stdio::null())
+        .creation_flags(0x08000000)
+        .status()
+        .map(|s| s.success())
+        .unwrap_or_else(|_| false);
+    #[cfg(not(target_os = "windows"))]
+    return Command::new(ffmpeg_path())
         .arg("-version")
         .stderr(Stdio::null())
         .stdout(Stdio::null())
         .status()
         .map(|s| s.success())
-        .unwrap_or_else(|_| false)
+        .unwrap_or_else(|_| false);
 }
 
 // /// Verify whether ffmpeg is installed on the system. This will return true if
