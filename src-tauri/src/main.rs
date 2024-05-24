@@ -40,9 +40,10 @@ fn main() {
         .on_system_tray_event(|app, event| {
             let window_visible = app.state::<state::WindowVisible>();
             let window = app.get_window("main").unwrap();
-            let splashscreen_window = app.get_window("splashscreen").unwrap();
-            let sv = splashscreen_window.is_visible().unwrap();
-
+            let sv = match app.get_window("splashscreen") {
+                Some(v) => v.is_visible().unwrap_or(false),
+                None => false,
+            };
             let item_handle = app.tray_handle().get_item("visible");
             match event {
                 SystemTrayEvent::LeftClick {
