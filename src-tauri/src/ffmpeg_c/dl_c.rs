@@ -1,6 +1,7 @@
 use anyhow::Context;
 use std::os::windows::process::CommandExt;
 use std::{
+    io::Read,
     path::{Path, PathBuf},
     process::{Command, Stdio},
     // process::{Command, ExitStatus},
@@ -10,12 +11,14 @@ use ffmpeg_sidecar::{
     download::{
         // auto_download,
         // download_ffmpeg_package
-        check_latest_version,
+        // check_latest_version,
         ffmpeg_download_url,
+        parse_linux_version,
+        parse_macos_version,
         unpack_ffmpeg,
     },
     paths::{ffmpeg_path, sidecar_dir},
-    version::ffmpeg_version,
+    // version::ffmpeg_version,
 };
 
 use std::io::Write;
@@ -69,9 +72,9 @@ pub async fn auto_download(wd: &Window) -> anyhow::Result<()> {
     println!("Extracting...");
     unpack_ffmpeg(&archive_path, &destination)?;
 
-    // Use the freshly installed FFmpeg to check the version number
-    let version = ffmpeg_version()?;
-    println!("FFmpeg version: {}", version);
+    // // Use the freshly installed FFmpeg to check the version number
+    // let version = ffmpeg_version()?;
+    // println!("FFmpeg version: {}", version);
 
     println!("Done! 🏁");
 
@@ -221,4 +224,61 @@ pub async fn ffmpeg_is_installed() -> anyhow::Result<bool> {
         .wait()
         .await?;
     Ok(code.success())
+}
+
+/// URL of a manifest file containing the latest published build of FFmpeg. The
+/// correct URL for the target platform is baked in at compile time.
+pub fn ffmpeg_manifest_url() -> anyhow::Result<&'static str> {
+    if cfg!(not(target_arch = "x86_64")) {
+        anyhow::bail!("Downloads must be manually provided for non-x86_64 architectures");
+    }
+
+    if cfg!(target_os = "windows") {
+        Ok("https://www.gyan.dev/ffmpeg/builds/release-version")
+    } else if cfg!(target_os = "macos") {
+        Ok("https://evermeet.cx/ffmpeg/info/ffmpeg/release")
+    } else if cfg!(target_os = "linux") {
+        Ok("https://johnvansickle.com/ffmpeg/release-readme.txt")
+    } else {
+        anyhow::bail!("Unsupported platform")
+    }
+}
+
+/// Invoke cURL on the command line to download a file, returning it as a string.
+pub fn curl(url: &str) -> anyhow::Result<String> {
+    #[cfg(target_os = "windows")]
+    let mut child = Command::new("curl")
+        .args(["-L", url])
+        .stderr(Stdio::null())
+        .stdout(Stdio::piped())
+        .creation_flags(0x08000000)
+        .spawn()?;
+    #[cfg(not(target_os = "windows"))]
+    let mut child = Command::new("curl")
+        .args(["-L", url])
+        .stderr(Stdio::null())
+        .stdout(Stdio::piped())
+        .spawn()?;
+
+    let stdout = child.stdout.take().context("Failed to get stdout")?;
+
+    let mut string = String::new();
+    std::io::BufReader::new(stdout).read_to_string(&mut string)?;
+    Ok(string)
+}
+
+/// Makes an HTTP request to obtain the latest version available online,
+/// automatically choosing the correct URL for the current platform.
+pub fn check_latest_version() -> anyhow::Result<String> {
+    let string = curl(ffmpeg_manifest_url()?)?;
+
+    if cfg!(target_os = "windows") {
+        Ok(string)
+    } else if cfg!(target_os = "macos") {
+        parse_macos_version(&string).context("failed to parse version number (macos variant)")
+    } else if cfg!(target_os = "linux") {
+        parse_linux_version(&string).context("failed to parse version number (linux variant)")
+    } else {
+        Err(anyhow::Error::msg("Unsupported platform"))
+    }
 }
