@@ -1,4 +1,5 @@
 use anyhow::Context;
+#[cfg(target_os = "windows")]
 use std::os::windows::process::CommandExt;
 use std::{
     fs::{create_dir_all, read_dir, remove_dir_all, remove_file, rename},
