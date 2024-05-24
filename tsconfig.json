@@ -25,17 +25,25 @@
       "@/internal/*": ["src/internal/*"],
       "@/assets/*": ["./src/assets/*"],
       "@package": ["./package.json"],
-      "@project": ["./project.config.json"]
+      "@project": ["./project.config.json"],
+
+      "@/splashscreen/*": ["./slaves/splashscreen/*"]
     }
   },
   "include": [
+    "*.d.ts",
+    "typings/**/*.d.ts",
+
     "src/**/*.ts",
     "src/**/*.d.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
-    "typings/**/*.d.ts",
-    "*.d.ts",
-    "src/libs/heart.js"
+    "src/libs/heart.js",
+
+    "slaves/splashscreen/**/*.ts",
+    "slaves/splashscreen/**/*.d.ts",
+    "slaves/splashscreen/**/*.tsx",
+    "slaves/splashscreen/**/*.vue"
   ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

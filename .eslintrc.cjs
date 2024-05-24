@@ -40,7 +40,7 @@ module.exports = {
   // 不使用taro配置包，自定义lint ts文件
   overrides: [
     {
-      files: ['src/**/*.ts'],
+      files: ['src/**/*.ts', 'slaves/**/*.ts'],
       parser: '@typescript-eslint/parser',
       plugins: ['@typescript-eslint'],
       parserOptions: {
