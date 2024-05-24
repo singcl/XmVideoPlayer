@@ -13,7 +13,7 @@ use ffmpeg_sidecar::{
         // auto_download,
         // download_ffmpeg_package
         // check_latest_version,
-        ffmpeg_download_url,
+        // ffmpeg_download_url,
         parse_linux_version,
         parse_macos_version,
         // unpack_ffmpeg,
@@ -243,6 +243,22 @@ pub fn ffmpeg_manifest_url() -> anyhow::Result<&'static str> {
         Ok("https://johnvansickle.com/ffmpeg/release-readme.txt")
     } else {
         anyhow::bail!("Unsupported platform")
+    }
+}
+
+/// URL for the latest published FFmpeg release. The correct URL for the target
+/// platform is baked in at compile time.
+pub fn ffmpeg_download_url() -> anyhow::Result<&'static str> {
+    if cfg!(all(target_os = "windows", target_arch = "x86_64")) {
+        Ok("https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip")
+    } else if cfg!(all(target_os = "linux", target_arch = "x86_64")) {
+        Ok("https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz")
+    } else if cfg!(all(target_os = "macos", target_arch = "x86_64")) {
+        Ok("https://evermeet.cx/ffmpeg/getrelease")
+    } else if cfg!(all(target_os = "macos", target_arch = "aarch64")) {
+        Ok("https://www.osxexperts.net/ffmpeg6arm.zip") // Mac M1
+    } else {
+        anyhow::bail!("Unsupported platform; you can provide your own URL instead and call download_ffmpeg_package directly.")
     }
 }
 
