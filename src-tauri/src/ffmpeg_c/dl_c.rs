@@ -1,6 +1,7 @@
 use anyhow::Context;
 use std::os::windows::process::CommandExt;
 use std::{
+    fs::{create_dir_all, read_dir, remove_dir_all, remove_file, rename},
     io::Read,
     path::{Path, PathBuf},
     process::{Command, Stdio},
@@ -15,7 +16,8 @@ use ffmpeg_sidecar::{
         ffmpeg_download_url,
         parse_linux_version,
         parse_macos_version,
-        unpack_ffmpeg,
+        // unpack_ffmpeg,
+        UNPACK_DIRNAME,
     },
     paths::{ffmpeg_path, sidecar_dir},
     // version::ffmpeg_version,
@@ -281,4 +283,94 @@ pub fn check_latest_version() -> anyhow::Result<String> {
     } else {
         Err(anyhow::Error::msg("Unsupported platform"))
     }
+}
+
+/// After downloading, unpacks the archive to a folder, moves the binaries to
+/// their final location, and deletes the archive and temporary folder.
+pub fn unpack_ffmpeg(from_archive: &PathBuf, binary_folder: &Path) -> anyhow::Result<()> {
+    let temp_dirname = UNPACK_DIRNAME;
+    let temp_folder = binary_folder.join(temp_dirname);
+    create_dir_all(&temp_folder)?;
+
+    // Extract archive
+    #[cfg(target_os = "windows")]
+    Command::new("tar")
+        .arg("-xf")
+        .arg(from_archive)
+        .creation_flags(0x08000000)
+        .current_dir(&temp_folder)
+        .status()?
+        .success()
+        .then_some(())
+        .context("Failed to unpack ffmpeg")?;
+
+    // Extract archive
+    #[cfg(not(target_os = "windows"))]
+    Command::new("tar")
+        .arg("-xf")
+        .arg(from_archive)
+        .current_dir(&temp_folder)
+        .status()?
+        .success()
+        .then_some(())
+        .context("Failed to unpack ffmpeg")?;
+
+    // Move binaries
+    let (ffmpeg, ffplay, ffprobe) = if cfg!(target_os = "windows") {
+        let inner_folder = read_dir(&temp_folder)?
+            .next()
+            .context("Failed to get inner folder")??;
+        (
+            inner_folder.path().join("bin/ffmpeg.exe"),
+            inner_folder.path().join("bin/ffplay.exe"),
+            inner_folder.path().join("bin/ffprobe.exe"),
+        )
+    } else if cfg!(target_os = "linux") {
+        let inner_folder = read_dir(&temp_folder)?
+            .next()
+            .context("Failed to get inner folder")??;
+        (
+            inner_folder.path().join("./ffmpeg"),
+            inner_folder.path().join("./ffplay"), // <- no ffplay on linux
+            inner_folder.path().join("./ffprobe"),
+        )
+    } else if cfg!(target_os = "macos") {
+        (
+            temp_folder.join("ffmpeg"),
+            temp_folder.join("ffplay"),  // <-- no ffplay on mac
+            temp_folder.join("ffprobe"), // <-- no ffprobe on mac
+        )
+    } else {
+        anyhow::bail!("Unsupported platform");
+    };
+
+    // Move binaries
+    let move_bin = |path: &Path| {
+        let file_name = binary_folder.join(path.file_name().with_context(|| {
+            format!("Path {} does not have a file_name", path.to_string_lossy())
+        })?);
+        rename(path, file_name)?;
+        anyhow::Ok(())
+    };
+
+    move_bin(&ffmpeg)?;
+
+    if ffprobe.exists() {
+        move_bin(&ffprobe)?;
+    }
+
+    if ffplay.exists() {
+        move_bin(&ffplay)?;
+    }
+
+    // Delete archive and unpacked files
+    if temp_folder.exists() && temp_folder.is_dir() {
+        remove_dir_all(&temp_folder)?;
+    }
+
+    if from_archive.exists() {
+        remove_file(from_archive)?;
+    }
+
+    Ok(())
 }
