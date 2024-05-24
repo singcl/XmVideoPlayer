@@ -34,11 +34,13 @@ use crate::tools::payload::Payload;
 /// If FFmpeg is already installed, the method exits early without downloading
 /// anything.
 pub async fn auto_download(wd: &Window) -> anyhow::Result<()> {
-    if ffmpeg_is_installed() {
-        println!("FFmpeg is already installed! 🎉");
-        println!("For demo purposes, we'll re-download and unpack it anyway.");
-        println!("TIP: Use `auto_download()` to skip manual customization.");
-        return Ok(());
+    if let Ok(installed) = ffmpeg_is_installed().await {
+        if installed {
+            println!("FFmpeg is already installed! 🎉");
+            println!("For demo purposes, we'll re-download and unpack it anyway.");
+            println!("TIP: Use `auto_download()` to skip manual customization.");
+            return Ok(());
+        }
     }
 
     // Short version without customization:
@@ -172,41 +174,51 @@ pub(self) async fn get_package(url: &str, destination: &str, wd: &Window) -> any
     }
 }
 
+// /// Verify whether ffmpeg is installed on the system. This will return true if
+// /// there is an ffmpeg binary in the PATH, or in the same directory as the Rust
+// /// executable.
+// /// https://learn.microsoft.com/en-us/windows/win32/procthread/process-creation-flags
+// /// https://doc.rust-lang.org/stable/std/os/windows/process/trait.CommandExt.html
+// pub fn ffmpeg_is_installed() -> bool {
+//     #[cfg(target_os = "windows")]
+//     return Command::new(ffmpeg_path())
+//         .arg("-version")
+//         .stderr(Stdio::null())
+//         .stdout(Stdio::null())
+//         .creation_flags(0x08000000)
+//         .status()
+//         .map(|s| s.success())
+//         .unwrap_or_else(|_| false);
+//     #[cfg(not(target_os = "windows"))]
+//     return Command::new(ffmpeg_path())
+//         .arg("-version")
+//         .stderr(Stdio::null())
+//         .stdout(Stdio::null())
+//         .status()
+//         .map(|s| s.success())
+//         .unwrap_or_else(|_| false);
+// }
+
 /// Verify whether ffmpeg is installed on the system. This will return true if
 /// there is an ffmpeg binary in the PATH, or in the same directory as the Rust
 /// executable.
-/// https://learn.microsoft.com/en-us/windows/win32/procthread/process-creation-flags
-/// https://doc.rust-lang.org/stable/std/os/windows/process/trait.CommandExt.html
-pub fn ffmpeg_is_installed() -> bool {
+pub async fn ffmpeg_is_installed() -> anyhow::Result<bool> {
     #[cfg(target_os = "windows")]
-    return Command::new(ffmpeg_path())
+    let code = tokio::process::Command::new(ffmpeg_path())
         .arg("-version")
         .stderr(Stdio::null())
         .stdout(Stdio::null())
         .creation_flags(0x08000000)
-        .status()
-        .map(|s| s.success())
-        .unwrap_or_else(|_| false);
+        .spawn()?
+        .wait()
+        .await?;
     #[cfg(not(target_os = "windows"))]
-    return Command::new(ffmpeg_path())
+    let code = tokio::process::Command::new(ffmpeg_path())
         .arg("-version")
         .stderr(Stdio::null())
         .stdout(Stdio::null())
-        .status()
-        .map(|s| s.success())
-        .unwrap_or_else(|_| false);
+        .spawn()?
+        .wait()
+        .await?;
+    Ok(code.success())
 }
-
-// /// Verify whether ffmpeg is installed on the system. This will return true if
-// /// there is an ffmpeg binary in the PATH, or in the same directory as the Rust
-// /// executable.
-// pub async fn ffmpeg_is_installed() -> anyhow::Result<bool> {
-//     let code = tokio::process::Command::new(ffmpeg_path())
-//         .arg("-version")
-//         .stderr(Stdio::null())
-//         .stdout(Stdio::null())
-//         .spawn()?
-//         .wait()
-//         .await?;
-//     Ok(code.success())
-// }
