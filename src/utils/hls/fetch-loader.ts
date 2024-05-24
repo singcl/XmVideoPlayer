@@ -152,7 +152,7 @@ class FetchLoader implements Loader<LoaderContext> {
         callbacks.onSuccess(loaderResponse, stats, context, response);
       })
       .catch((error: FError) => {
-        // console.error('-----RUST_FETCH_ERROR------', error);
+        console.error('-----RUST_FETCH_ERROR------', error);
         self.clearTimeout(this.requestTimeout);
         if (stats.aborted) {
           return;

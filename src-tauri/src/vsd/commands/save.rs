@@ -16,6 +16,7 @@ use std::{
     path::{Path, PathBuf},
     sync::Arc,
 };
+use tauri::Window;
 
 type CookieParams = Vec<CookieParam>;
 
@@ -279,7 +280,7 @@ impl Save {
 }
 
 impl Save {
-    pub async fn execute(self) -> Result<()> {
+    pub async fn execute(self, window: &Window) -> Result<()> {
         let mut client_builder = Client::builder()
             .danger_accept_invalid_certs(self.no_certificate_checks)
             .user_agent(self.user_agent)
@@ -320,7 +321,7 @@ impl Save {
 
         let client = client_builder.cookie_provider(Arc::new(jar)).build()?;
 
-         crate::vsd::downloader::download(
+        crate::vsd::downloader::download(
             self.all_keys,
             self.base_url,
             client,
@@ -337,7 +338,9 @@ impl Save {
             self.raw_prompts,
             self.retry_count,
             self.threads,
-        ).await?;
+            window,
+        )
+        .await?;
 
         Ok(())
     }

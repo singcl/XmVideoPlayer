@@ -1,4 +1,5 @@
 ![ci](https://img.shields.io/github/actions/workflow/status/singcl/XmVideoPlayer/main.yml?branch=master&?label=build&logo=github)
+[![publish](https://github.com/singcl/XmVideoPlayer/actions/workflows/main.yml/badge.svg)](https://github.com/singcl/XmVideoPlayer/actions/workflows/main.yml)
 ![GitHub package.json version](https://img.shields.io/github/package-json/v/singcl/XmVideoPlayer)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196?logo=conventionalcommits&logoColor=white)](https://conventionalcommits.org)
@@ -14,7 +15,8 @@
 
 ### Prerequisites
 
-`node >= 16`
+- `node >= 16`
+- 资源转换依赖`ffmpeg`，应用第一次（仅第一次）启动会自动下载`ffmpeg` WOW🎉!
 
 ### Start
 

@@ -13,6 +13,13 @@
         margin: 0;
         background: linear-gradient(91deg, #f1eefc, #9dc6ff 70%, #a5bcff);
       }
+
+      #tips {
+        padding: 5px 10px;
+        color: #712020;
+        font-size: 14px;
+        text-align: center;
+      }
     </style>
   </head>
   <body>
@@ -26,5 +33,21 @@
         <span></span>
       </div>
     </div>
+    <div id="tips"></div>
   </body>
+  <script>
+    // access the pre-bundled global API functions
+    const { /*WebviewWindow,*/ appWindow } = window.__TAURI__.window;
+    // const splashscreenWindow = WebviewWindow.getByLabel('splashscreen');
+
+    document.addEventListener('DOMContentLoaded', () => {
+      appWindow.listen('init_resources', (e) => {
+        // event.event is the event name (useful if you want to use a single callback fn for multiple event types)
+        // event.payload is the payload object
+        // console.log(e.payload);
+        const message = e.payload.message || '';
+        document.getElementById('tips').innerHTML = message;
+      });
+    });
+  </script>
 </html>

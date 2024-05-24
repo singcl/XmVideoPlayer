@@ -36,7 +36,7 @@ pub(crate) async fn m3u8_download(
     //
     let save = vsd::commands::Save::new(m3u8_url, Some(temp_dir), Some(save_path));
     // println!("---{:?}", save);
-    let r = save.execute().await;
+    let r = save.execute(&window).await;
 
     match r {
         Ok(_) => Ok("Success!".into()),

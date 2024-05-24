@@ -1,10 +1,14 @@
-use crate::vsd::{
-    commands::Quality,
-    merger::Merger,
-    playlist::{KeyMethod, MediaType, PlaylistType, Range, Segment},
-    update, utils,
+use crate::{
+    command::payload::PayloadDownload,
+    vsd::{
+        commands::Quality,
+        merger::Merger,
+        playlist::{KeyMethod, MediaType, PlaylistType, Range, Segment},
+        update, utils,
+    },
 };
 use anyhow::{anyhow, bail, Result};
+use ffmpeg_sidecar::{command::FfmpegCommand, event::FfmpegEvent};
 use futures_util::future::join_all;
 use kdam::{term::Colorizer, tqdm, BarExt, Column, RichProgress};
 use reqwest::{
@@ -24,6 +28,8 @@ use std::{
     sync::{Arc, Mutex},
     time::Instant,
 };
+use tauri::Window;
+use tokio::sync::Semaphore;
 use vsd_mp4::{
     pssh::Pssh,
     text::{ttml_text_parser, Mp4TtmlParser, Mp4VttParser},
@@ -47,6 +53,7 @@ pub(crate) async fn download(
     raw_prompts: bool,
     retry_count: u8,
     threads: u8,
+    window: &Window,
 ) -> Result<()> {
     let mut playlist_url = base_url
         .clone()
@@ -722,8 +729,9 @@ pub(crate) async fn download(
     // -----------------------------------------------------------------------------------------
 
     // let pool = threadpool::ThreadPool::new(threads as usize);
-    let mut jhs = Vec::new();
     let mut should_mux = !no_decrypt && !no_merge;
+    let semaphore = Arc::new(Semaphore::new(threads.into()));
+    let mut jhs = Vec::new();
 
     for stream in video_audio_streams {
         pb.lock().unwrap().write(format!(
@@ -772,6 +780,7 @@ pub(crate) async fn download(
             Merger::new(stream.segments.len(), &temp_file)?
         }));
         let timer = Arc::new(Instant::now());
+        let wd = Arc::new(Mutex::new(window.clone()));
 
         let _ = relative_sizes.pop_front();
         let relative_size = relative_sizes.iter().sum();
@@ -891,17 +900,26 @@ pub(crate) async fn download(
                 request,
                 timer: timer.clone(),
                 total_retries: retry_count,
+                wd: wd.clone(),
             };
 
             if previous_key.is_none() {
                 previous_map = None;
             }
 
+            let semaphore = semaphore.clone();
             let jh = tauri::async_runtime::spawn(async move {
+                // Acquire permit before sending request.
+                let _permit = semaphore.acquire().await.unwrap();
                 match thread_data.execute().await {
-                    Ok(_) => Ok(()),
+                    Ok(_) => {
+                        drop(_permit);
+                        Ok(())
+                    }
                     Err(e) => {
                         let _lock = thread_data.pb.lock().unwrap();
+                        // Drop the permit after the request has been sent.
+                        drop(_permit);
                         println!("\n{}: {}", "error".colorize("bold red"), e);
                         Err(e)
                     }
@@ -1057,9 +1075,10 @@ pub(crate) async fn download(
                 std::fs::remove_file(output)?;
             }
 
-            let code = Command::new("ffmpeg")
+            let code = FfmpegCommand::new()
                 .args(args)
-                .stderr(Stdio::null())
+                // .stderr(Stdio::null())
+                .create_no_window()
                 .spawn()?
                 .wait()?;
 
@@ -1193,6 +1212,7 @@ struct ThreadData {
     request: RequestBuilder,
     timer: Arc<Instant>,
     total_retries: u8,
+    wd: Arc<Mutex<Window>>,
 }
 
 impl ThreadData {
@@ -1208,7 +1228,9 @@ impl ThreadData {
         merger.write(self.index, &segment)?;
         merger.flush()?;
 
-        self.notify(merger.stored(), merger.estimate())?;
+        let stored = merger.stored();
+        let estimate = merger.estimate();
+        self.notify(stored, estimate)?;
         Ok(())
     }
 
@@ -1253,17 +1275,29 @@ impl ThreadData {
 
     fn notify(&self, stored: usize, estimate: usize) -> Result<()> {
         let mut pb = self.pb.lock().unwrap();
-        pb.replace(
-            0,
-            Column::Text(format!(
-                "[bold blue]{}",
-                utils::format_download_bytes(
-                    self.downloaded_bytes + stored,
-                    self.downloaded_bytes + estimate + self.relative_size,
-                ),
-            )),
+        let info = utils::format_download_bytes(
+            self.downloaded_bytes + stored,
+            self.downloaded_bytes + estimate + self.relative_size,
         );
+        pb.replace(0, Column::Text(format!("[bold blue]{}", info,)));
         pb.update(1).unwrap();
+        //
+        self.tell(stored, estimate, pb.render())?;
+        Ok(())
+    }
+
+    fn tell(&self, stored: usize, estimate: usize, info: String) -> Result<()> {
+        let wd = self.wd.lock().unwrap();
+        wd.emit(
+            "download",
+            PayloadDownload {
+                download_type: "m3u8".into(),
+                message: info,
+                total: estimate.to_string(),
+                current: stored.to_string(),
+            },
+        )
+        .unwrap();
         Ok(())
     }
 }

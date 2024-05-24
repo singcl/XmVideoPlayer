@@ -96,8 +96,8 @@ pub async fn get_all_ts(
                 PayloadDownload {
                     download_type: "m3u8".into(),
                     message: "下载中...".into(),
-                    total: url_list_entity.len(),
-                    current: start + item + 1,
+                    total: url_list_entity.len().to_string(),
+                    current: (start + item + 1).to_string(),
                 },
             )
             .unwrap();
