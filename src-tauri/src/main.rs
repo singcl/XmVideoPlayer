@@ -78,7 +78,7 @@ fn main() {
                     size: _,
                     ..
                 } => {
-                    if (!sv) {
+                    if !sv {
                         window_visible.0.store(true, Ordering::Relaxed);
                         window.show().unwrap();
                         item_handle.set_title("隐藏").unwrap();
