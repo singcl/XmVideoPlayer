@@ -65,18 +65,23 @@
     "windows": [
       {
         "fullscreen": false,
+        "width": 960,
+        "minWidth": 960,
         "height": 610,
+        "minHeight": 610,
         "resizable": true,
         "title": "XmVideoPlayer支持m3u8,flv,mpeg-dash等多种流媒体格式🔥<https://github.com/singcl>",
-        "width": 960,
         "visible": false,
         "center": true,
         "transparent": false
       },
       {
         "width": 400,
+        "minWidth": 400,
         "height": 200,
+        "minHeight": 200,
         "decorations": false,
+        "resizable": false,
         "url": "splashscreen.html",
         "label": "splashscreen",
         "center": true,
