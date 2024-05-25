@@ -15,6 +15,7 @@ use std::{
     // process::{Command, Stdio},
 };
 use tauri::http::{HttpRange, ResponseBuilder};
+use tauri::GlobalShortcutManager;
 use tauri::Manager;
 use tauri::{CustomMenuItem, SystemTray, SystemTrayEvent, SystemTrayMenu, SystemTrayMenuItem};
 
@@ -118,6 +119,7 @@ fn main() {
             }
         })
         .setup(|app| {
+            //
             if let Some(mut home_dir) = tauri::api::path::home_dir() {
                 home_dir.push(".xmvideoplayer");
                 std::fs::create_dir_all(&home_dir)?;
@@ -270,10 +272,28 @@ fn main() {
         ])
         .build(tauri::generate_context!())
         .expect("error while running tauri application")
-        .run(|_app_handle, event| match event {
-            tauri::RunEvent::ExitRequested { api, .. } => {
-                api.prevent_exit();
+        .run(|_app_handle, event| {
+            //
+            let _app_handle_c = _app_handle.clone();
+            let mut short_cut = _app_handle.global_shortcut_manager(); //获取快捷键管理实例
+            let _result = short_cut.register("f11", move || {
+                //设置f11快捷键: 全屏
+                if let Some(main_window) = _app_handle_c.get_window("main") {
+                    if let Ok(v) = main_window.is_fullscreen() {
+                        if v {
+                            main_window.set_fullscreen(false).ok();
+                        } else {
+                            main_window.set_fullscreen(true).ok();
+                            main_window.set_focus().ok();
+                        }
+                    }
+                }
+            });
+            match event {
+                tauri::RunEvent::ExitRequested { api, .. } => {
+                    api.prevent_exit();
+                }
+                _ => {}
             }
-            _ => {}
         });
 }
