@@ -452,31 +452,31 @@
   "resolved" "https://registry.npmmirror.com/@singcl/throttle-debounce/-/throttle-debounce-1.1.1.tgz"
   "version" "1.1.1"
 
-"@tauri-apps/api@^1.5.5":
-  "integrity" "sha512-Jgwj8BK/9YXZNzcqVDk1Al7+u5V9sWrZ8MhV41A1AKgJaicHuqlkc/qdx06sNDXvc+qprTPpBAaqnt891qOUIQ=="
-  "resolved" "https://registry.npmmirror.com/@tauri-apps/api/-/api-1.5.5.tgz"
-  "version" "1.5.5"
+"@tauri-apps/api@^1.5.6":
+  "integrity" "sha512-LH5ToovAHnDVe5Qa9f/+jW28I6DeMhos8bNDtBOmmnaDpPmJmYLyHdeDblAWWWYc7KKRDg9/66vMuKyq0WIeFA=="
+  "resolved" "https://registry.npmmirror.com/@tauri-apps/api/-/api-1.5.6.tgz"
+  "version" "1.5.6"
 
-"@tauri-apps/cli-win32-x64-msvc@1.5.13":
-  "integrity" "sha512-B3YDAyZb8f6zKqZj/ydL/cQVkT/KxNyumXsX+UL4oM5E2DM89OD5BxMgqGr7zwmJSaRNRHkXRK+BMluvZjHG9w=="
-  "resolved" "https://registry.npmmirror.com/@tauri-apps/cli-win32-x64-msvc/-/cli-win32-x64-msvc-1.5.13.tgz"
-  "version" "1.5.13"
+"@tauri-apps/cli-win32-x64-msvc@1.5.14":
+  "integrity" "sha512-U0slee5tNM2PYECBpPHavLSwkT3szGMZ+qhcikQQbDan84bQdLn/kHWjyXOgLJs4KSve4+KxcrN+AVqj0VyHnw=="
+  "resolved" "https://registry.npmmirror.com/@tauri-apps/cli-win32-x64-msvc/-/cli-win32-x64-msvc-1.5.14.tgz"
+  "version" "1.5.14"
 
-"@tauri-apps/cli@^1.5.13":
-  "integrity" "sha512-wULOJNb/Dxc/E+Z0+7MkaqKYAmdjGJEFpZ5xcNhvC3BVX1O6MbhHjXGfwfu4mgIGhVqY1KJaKoXx7EDZAlk7Pw=="
-  "resolved" "https://registry.npmmirror.com/@tauri-apps/cli/-/cli-1.5.13.tgz"
-  "version" "1.5.13"
+"@tauri-apps/cli@^1.5.14":
+  "integrity" "sha512-JOSMKymlg116UdEXSj69eg5p1OtZnQkUE0qIGbtNDO1sk3X/KgBN6+oHBW0BzPStp/W0AjBgrMWCqjHPwEpOug=="
+  "resolved" "https://registry.npmmirror.com/@tauri-apps/cli/-/cli-1.5.14.tgz"
+  "version" "1.5.14"
   optionalDependencies:
-    "@tauri-apps/cli-darwin-arm64" "1.5.13"
-    "@tauri-apps/cli-darwin-x64" "1.5.13"
-    "@tauri-apps/cli-linux-arm-gnueabihf" "1.5.13"
-    "@tauri-apps/cli-linux-arm64-gnu" "1.5.13"
-    "@tauri-apps/cli-linux-arm64-musl" "1.5.13"
-    "@tauri-apps/cli-linux-x64-gnu" "1.5.13"
-    "@tauri-apps/cli-linux-x64-musl" "1.5.13"
-    "@tauri-apps/cli-win32-arm64-msvc" "1.5.13"
-    "@tauri-apps/cli-win32-ia32-msvc" "1.5.13"
-    "@tauri-apps/cli-win32-x64-msvc" "1.5.13"
+    "@tauri-apps/cli-darwin-arm64" "1.5.14"
+    "@tauri-apps/cli-darwin-x64" "1.5.14"
+    "@tauri-apps/cli-linux-arm-gnueabihf" "1.5.14"
+    "@tauri-apps/cli-linux-arm64-gnu" "1.5.14"
+    "@tauri-apps/cli-linux-arm64-musl" "1.5.14"
+    "@tauri-apps/cli-linux-x64-gnu" "1.5.14"
+    "@tauri-apps/cli-linux-x64-musl" "1.5.14"
+    "@tauri-apps/cli-win32-arm64-msvc" "1.5.14"
+    "@tauri-apps/cli-win32-ia32-msvc" "1.5.14"
+    "@tauri-apps/cli-win32-x64-msvc" "1.5.14"
 
 "@trysound/sax@0.2.0":
   "integrity" "sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA=="
