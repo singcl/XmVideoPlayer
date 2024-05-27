@@ -49,18 +49,15 @@ npm run tauri dev
 
 #### MACOS
 
-|                          macos 截图                          |                          macos 截图                          |
+|                      macos 截图 - 主题                       |                      macos 截图 - 播放                       |
 | :----------------------------------------------------------: | :----------------------------------------------------------: |
-| ![macos](https://s2.loli.net/2022/10/31/Kr2BkOsG4RbUtjL.jpg) | ![macos](https://s2.loli.net/2022/10/31/sgWo4AHpKqFLlRr.jpg) |
-| ![macos](https://s2.loli.net/2022/10/31/YbprKqoi7OI1Zhf.jpg) | ![macos](https://s2.loli.net/2022/10/31/qnY7IGduLh415JQ.jpg) |
+| ![macos](https://s2.loli.net/2022/10/31/sgWo4AHpKqFLlRr.jpg) | ![macos](https://s2.loli.net/2022/10/31/qnY7IGduLh415JQ.jpg) |
 
 #### Windows
 
-|                          Windows 截图                           |                          Windows 截图                           |
-| :-------------------------------------------------------------: | :-------------------------------------------------------------: |
-|   ![界面](https://s2.loli.net/2022/09/18/4Yid5Ql81wnV2bU.png)   |   ![界面](https://s2.loli.net/2022/09/18/cbzwIdaXvoxWMi9.png)   |
-| ![下载进度](https://s2.loli.net/2022/10/08/74otrlVCgKR2hfE.png) | ![本地视频](https://s2.loli.net/2022/10/10/jVI1m54AwbckHR2.png) |
-|   ![界面](https://s2.loli.net/2023/11/13/7RVG1XvjNcSDBgz.png)   |   ![界面](https://s2.loli.net/2024/05/25/2HonVT5Kuw3WBDN.png)   |
+|                       Windows 截图 - 播放                       |                     Windows 截图 - 下载                     |
+| :-------------------------------------------------------------: | :---------------------------------------------------------: |
+| ![本地视频](https://s2.loli.net/2022/10/10/jVI1m54AwbckHR2.png) | ![界面](https://s2.loli.net/2024/05/25/2HonVT5Kuw3WBDN.png) |
 
 ## Roadmap
 
