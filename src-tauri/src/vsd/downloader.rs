@@ -900,7 +900,7 @@ pub(crate) async fn download(
                 request,
                 timer: timer.clone(),
                 total_retries: retry_count,
-                wd: wd.clone(),
+                wd: Arc::clone(& wd),
             };
 
             if previous_key.is_none() {
