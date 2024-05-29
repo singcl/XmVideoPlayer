@@ -1,6 +1,6 @@
 <template>
   <div class="player">
-    <XmSearch v-model="mediaUrl" :placeholder="defaultUrl" @submit="restart" />
+    <XmSearch v-model="mediaUrl" :placeholder="'请输入资源地址...'" @submit="restart" />
     <BannerWrapper>
       <BannerHeader :media-url="mediaUrl" />
     </BannerWrapper>
