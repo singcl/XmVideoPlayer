@@ -67,3 +67,33 @@ a:hover {
 :not(:root):fullscreen .dplayer-video {
   max-height: 100%;
 }
+
+.typing {
+  overflow: hidden;
+  border-right: 2px solid transparent;
+  animation: typing 3s steps(42, end) infinite, blink-caret 0.55s step-end infinite;
+  word-break: break-all;
+}
+
+/* 打印效果 */
+@keyframes typing {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 100%;
+  }
+}
+
+/* 光标 */
+@keyframes blink-caret {
+  0%,
+  100% {
+    border-color: transparent;
+  }
+
+  50% {
+    border-color: currentColor;
+  }
+}
