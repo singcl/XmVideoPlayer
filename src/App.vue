@@ -1,14 +1,22 @@
 <template>
-  <RouterView />
+  <div :style="{ height: cHeight }">
+    <RouterView />
+  </div>
 </template>
 
 <script setup lang="ts">
 import debounce from '@singcl/throttle-debounce/debounce';
 import { appWindow /* WebviewWindow */ } from '@tauri-apps/api/window';
 import { useHeightStore } from '@/stores';
+import { storeToRefs } from 'pinia';
+import { computed } from 'vue';
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
 const heightStore = useHeightStore();
+const cHeight = storeToRefs(heightStore).height;
+const cHeightPlayer = computed(() => {
+  return `calc(${cHeight.value} - 265px)`;
+});
 
 // onMounted(() => {
 //   invoke('close_splashscreen');
@@ -30,3 +38,9 @@ document.addEventListener('DOMContentLoaded', () => {
   );
 });
 </script>
+
+<style>
+.dplayer-video {
+  max-height: v-bind(cHeightPlayer);
+}
+</style>

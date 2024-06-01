@@ -1,5 +1,5 @@
 <template>
-  <div class="container" :style="{ height: cHeight }">
+  <div class="container">
     <XmThemePanel />
     <h1 class="home-title">
       <img src="/logo.svg" class="logo vite" alt="XmVideoPlayer logo" />
@@ -15,9 +15,6 @@
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from 'pinia';
-import { useHeightStore } from '@/stores';
-import { computed } from 'vue';
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
 // import HGreet from "./components/HGreet.vue";
@@ -26,11 +23,6 @@ import { computed } from 'vue';
 // import XmFeedback from '../components/XmFeedback.vue';
 // import HDescription from "../components/HDescription.vue";
 const APP_TITLE = import.meta.env.VITE_APP_TITLE;
-const heightStore = useHeightStore();
-const cHeight = storeToRefs(heightStore).height;
-const cHeightPlayer = computed(() => {
-  return `calc(${cHeight.value} - 265px)`;
-});
 </script>
 
 <style scoped>
@@ -72,11 +64,5 @@ const cHeightPlayer = computed(() => {
 
 .logo.vue:hover {
   filter: drop-shadow(0 0 2em #249b73);
-}
-</style>
-
-<style>
-.dplayer-video {
-  max-height: v-bind(cHeightPlayer);
 }
 </style>
