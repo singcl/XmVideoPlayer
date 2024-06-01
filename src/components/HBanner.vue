@@ -36,6 +36,7 @@ const version = ref<string>();
 .banner {
   position: fixed;
   bottom: 0;
+  left: 50%;
   display: flex;
   width: var(--area-width);
   max-width: var(--area-width-max);
@@ -43,6 +44,7 @@ const version = ref<string>();
   justify-content: flex-end;
   margin: 0 auto;
   font-size: 12px;
+  transform: translateX(-50%);
 }
 
 .banner a {

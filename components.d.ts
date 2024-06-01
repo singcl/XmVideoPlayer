@@ -10,6 +10,8 @@ declare module 'vue' {
     BannerFooter: typeof import('./src/components/Player/BannerFooter.vue')['default']
     BannerHeader: typeof import('./src/components/Player/BannerHeader.vue')['default']
     BannerWrapper: typeof import('./src/components/Player/BannerWrapper.vue')['default']
+    copy: typeof import('./src/components/HBanner copy.vue')['default']
+    HBackHome: typeof import('./src/components/HBackHome.vue')['default']
     HBanner: typeof import('./src/components/HBanner.vue')['default']
     HDescription: typeof import('./src/components/HDescription.vue')['default']
     HGreet: typeof import('./src/components/HGreet.vue')['default']

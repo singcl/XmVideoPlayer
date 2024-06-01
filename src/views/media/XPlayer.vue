@@ -4,7 +4,11 @@
       <img src="/logo.svg" class="logo vite" alt="XmVideoPlayer logo" />
       <span class="txt typing">{{ APP_TITLE }}</span>
     </h1>
-    <XmSearch />
+    <!-- <HDescription /> -->
+    <XmPlayer />
+    <!-- <HTest /> -->
+    <!-- <HGreet /> -->
+    <router-link :to="{ name: 'home' }">跳转</router-link>
   </div>
 </template>
 

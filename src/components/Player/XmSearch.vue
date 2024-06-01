@@ -72,7 +72,7 @@ const props = defineProps({
   placeholder: {
     type: String,
     required: false,
-    default: undefined,
+    default: '请输入资源地址...',
   },
 });
 // 可以重载的函数类型定义
