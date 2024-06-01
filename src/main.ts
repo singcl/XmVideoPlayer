@@ -9,6 +9,6 @@ import XmSvgIcon from '~virtual/svg-component';
 
 const app = createApp(App);
 app.use(pinia);
-app.component(XmSvgIcon.name, XmSvgIcon);
+app.component(XmSvgIcon.name || 'unknown', XmSvgIcon);
 
 app.mount('#app');

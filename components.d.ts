@@ -14,6 +14,8 @@ declare module '@vue/runtime-core' {
     HDescription: typeof import('./src/components/HDescription.vue')['default']
     HGreet: typeof import('./src/components/HGreet.vue')['default']
     HTest: typeof import('./src/components/HTest.vue')['default']
+    RouterLink: typeof import('vue-router')['RouterLink']
+    RouterView: typeof import('vue-router')['RouterView']
     XmFeedback: typeof import('./src/components/XmFeedback.vue')['default']
     XmHistoryEditDialog: typeof import('./src/components/Player/XmHistoryEditDialog.vue')['default']
     XmPlayer: typeof import('./src/components/Player/XmPlayer.vue')['default']

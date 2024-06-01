@@ -43,7 +43,7 @@
     "pinia": "^2.1.7",
     "pinyin-match": "^1.2.2",
     "unplugin-svg-component": "^0.7.6",
-    "vue": "^3.3.8",
+    "vue": "^3.4.27",
     "vue-router": "^4.3.2"
   },
   "author": "singcl<imbabyer@gmail.com>",
