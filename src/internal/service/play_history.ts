@@ -16,6 +16,17 @@ export function queryHistoryList() {
   });
 }
 
+export function queryHistoryPageList(params?: { page?: PageCamels }) {
+  const { page: { pageNo, pageSize } = { pageNo: 1, pageSize: 20 } } = params ?? {};
+  return db.transaction('r', [db[XM_TABLE.PLAY_HISTORY_TABLE]], async () => {
+    const offset = (pageNo - 1) * pageSize;
+    const dbTable = db[XM_TABLE.PLAY_HISTORY_TABLE];
+    const count = await dbTable.count();
+    const list = await dbTable.offset(offset).limit(pageSize).toArray();
+    return { list, total: count, pageNo, pageSize };
+  });
+}
+
 export function deleteHistory(id: number) {
   return db.transaction('rw', [db[XM_TABLE.PLAY_HISTORY_TABLE]], async () => {
     await db[XM_TABLE.PLAY_HISTORY_TABLE].delete(id);
