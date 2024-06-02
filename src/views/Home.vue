@@ -22,9 +22,9 @@
       <template #item="{ item }">
         <a-list-item class="his-list-item" action-layout="vertical">
           <template #actions>
-            <span><icon-heart />83</span>
+            <span><icon-heart />0</span>
             <span><icon-star />{{ item.index }}</span>
-            <span><icon-message />Reply</span>
+            <span><icon-play-circle />Play</span>
           </template>
           <a-list-item-meta :title="item.name" :description="item.url">
             <template #avatar>
