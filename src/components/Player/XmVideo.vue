@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 import { appWindow /* WebviewWindow */ } from '@tauri-apps/api/window';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 import DPlayer from '@singcl/dplayer';
 import { useHeightStore } from '@/stores';
 import { formatVideo } from './utils';
@@ -31,7 +31,11 @@ const isPlay = ref(false);
 const heightStore = useHeightStore();
 
 onMounted(() => {
-  load();
+  // load();
+});
+
+onBeforeUnmount(() => {
+  dplayer?.destroy();
 });
 
 function load(options?: Omit<DPlayerOptions, 'container'>) {

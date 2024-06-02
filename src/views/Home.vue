@@ -24,7 +24,7 @@
           <template #actions>
             <span><icon-heart />0</span>
             <span><icon-star />{{ item.index }}</span>
-            <span><icon-play-circle />Play</span>
+            <span @click="handlePlay($event, item)"><icon-play-circle />Play</span>
             <span @click="handleOptEdit($event, item)"><icon-edit />Edit</span>
             <span @click="handleOptDelete($event, item)"> <icon-delete />Delete</span>
           </template>
@@ -51,6 +51,7 @@ import API from '@/api';
 import { reactive, ref, h } from 'vue';
 import { Modal, Message } from '@arco-design/web-vue';
 import { decodeURL } from '@/utils/tools';
+import { useRouter } from 'vue-router';
 // import { useObservable, from } from '@vueuse/rxjs';
 // import { liveQuery } from 'dexie';
 // //
@@ -65,6 +66,8 @@ import { decodeURL } from '@/utils/tools';
 
 type HList = Await<ReturnType<typeof API.idb.getPlayerHistoryPageList>>['data']['list'];
 type HListItem = UnArray<HList>;
+
+const router = useRouter();
 
 const loading = ref(false);
 const bottom = ref(false);
@@ -110,6 +113,12 @@ const handleReSearch = async () => {
   } finally {
     loading.value = false;
   }
+};
+
+//
+const handlePlay = (e: Event, opt: HListItem) => {
+  e.stopPropagation();
+  router.push({ name: 'x-player', params: { id: opt.id } });
 };
 
 //

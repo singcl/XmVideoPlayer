@@ -10,9 +10,10 @@ const router = createRouter({
       component: HomeView,
     },
     {
-      path: '/media/x-player',
+      path: '/media/x-player/:id',
       name: 'x-player',
       component: () => import('@/views/media/XPlayer.vue'),
+      props: true,
     },
   ],
 });

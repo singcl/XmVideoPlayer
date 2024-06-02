@@ -51,3 +51,10 @@ export function updateHistory(data: UpdatePlayHistory) {
     return record;
   });
 }
+
+export function getHistoryInfo(data: { id: number }) {
+  return db.transaction('r', [dbTable], async () => {
+    const record = await dbTable.where('id').equals(Number(data.id)).first();
+    return record;
+  });
+}

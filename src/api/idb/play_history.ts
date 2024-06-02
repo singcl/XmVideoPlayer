@@ -31,3 +31,9 @@ export async function updatePlayerHistory(data: UpdatePlayHistory) {
   const res = await playHistoryService.updateHistory(data);
   return ServerResponse.default(res);
 }
+
+// 修改
+export async function getPlayerHistoryInfo(data: { id: number }) {
+  const res = await playHistoryService.getHistoryInfo(data);
+  return ServerResponse.default(res);
+}
