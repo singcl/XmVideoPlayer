@@ -6,13 +6,19 @@
     </h1>
     <XmSearch />
     <a-list
-      ref="listRef"
       class="his-list-action-layout"
       :bordered="false"
-      :data="dataSource?.list || []"
+      size="small"
+      :data="dataSource || []"
       :scrollbar="true"
-      :virtual-list-props="{ height: 'calc(100vh - 160px)' }"
+      :max-height="'calc(100vh - 160px)'"
+      @reach-bottom="handleReachBottom"
     >
+      <!-- :virtual-list-props="{ height: 'calc(100vh - 160px)' }" -->
+      <template #scroll-loading>
+        <div v-if="bottom">没有更多数据啦(*^_^*)</div>
+        <a-spin v-else />
+      </template>
       <template #item="{ item }">
         <a-list-item class="his-list-item" action-layout="vertical">
           <template #actions>
@@ -20,15 +26,9 @@
             <span><icon-star />{{ item.index }}</span>
             <span><icon-message />Reply</span>
           </template>
-          <!-- <template #extra>
-            <div className="image-area">
-              <img alt="arco-design" :src="item.imageSrc" />
-            </div>
-          </template> -->
           <a-list-item-meta :title="item.name" :description="item.url">
             <template #avatar>
               <a-avatar shape="square">
-                <!-- <img alt="avatar" :src="item.name" /> -->
                 {{ item.name?.slice(0, 1) }}
               </a-avatar>
             </template>
@@ -45,22 +45,46 @@
 const APP_TITLE = import.meta.env.VITE_APP_TITLE;
 
 import API from '@/api';
-import { useObservable, from } from '@vueuse/rxjs';
-import { liveQuery } from 'dexie';
-import { onMounted, reactive, ref } from 'vue';
+import { reactive, ref } from 'vue';
+// import { useObservable, from } from '@vueuse/rxjs';
+// import { liveQuery } from 'dexie';
+// //
+// const dataSource = useObservable(
+//   from(
+//     liveQuery(async () => {
+//       const r = await API.idb.getPlayerHistoryPageList();
+//       return r.data;
+//     })
+//   )
+// );
+
+type HList = Await<ReturnType<typeof API.idb.getPlayerHistoryPageList>>['data']['list'];
+
+const loading = ref(false);
+const bottom = ref(false);
+const page = reactive({ pageNo: 0, pageSize: 20, total: 0 });
+const dataSource = ref<HList>([]);
 //
-const dataSource = useObservable(
-  from(
-    liveQuery(async () => {
-      const r = await API.idb.getPlayerHistoryPageList();
-      return r.data;
-    })
-  )
-);
-const paginationProps = reactive({
-  defaultPageSize: 3,
-  total: dataSource.value?.list.length,
-});
+const fetchData = async (currPage = page.pageNo) => {
+  try {
+    loading.value = true;
+    const {
+      data: { list = [], pageNo, pageSize, total },
+    } = await API.idb.getPlayerHistoryPageList({ page: { pageNo: currPage, pageSize: page.pageSize } });
+    dataSource.value = dataSource.value.concat(list);
+    page.total = total;
+    page.pageNo = pageNo;
+    page.pageSize = pageSize;
+    bottom.value = pageNo >= Math.ceil(total / pageSize);
+  } finally {
+    loading.value = false;
+  }
+};
+
+//
+const handleReachBottom = () => {
+  fetchData(page.pageNo + 1);
+};
 </script>
 
 <style scoped>
