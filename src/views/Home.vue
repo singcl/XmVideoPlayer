@@ -10,14 +10,14 @@
       :bordered="false"
       size="small"
       :data="dataSource || []"
-      :scrollbar="true"
+      :scrollbar="false"
       :max-height="'calc(100vh - 160px)'"
       @reach-bottom="handleReachBottom"
     >
-      <!-- :virtual-list-props="{ height: 'calc(100vh - 160px)' }" -->
+      <!-- :virtual-list-props="{ height: 'calc(100vh - 175px)' }" -->
       <template #scroll-loading>
-        <div v-if="bottom">没有更多数据啦(*^_^*)</div>
-        <a-spin v-else />
+        <div v-if="bottom">{{ dataSource.length }}/{{ page.total }} 没有更多数据啦(*^_^*)</div>
+        <a-spin v-else-if="loading" />
       </template>
       <template #item="{ item }">
         <a-list-item class="his-list-item" action-layout="vertical">
