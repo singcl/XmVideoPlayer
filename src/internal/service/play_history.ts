@@ -2,7 +2,7 @@ import { DexieDb } from './../database/db';
 import { XM_TABLE } from './../repository/model';
 import { PlayHistory } from '@/internal/repository/model';
 
-export type SavePlayHistory = Omit<PlayHistory, 'id'>;
+export type SavePlayHistory = Omit<PlayHistory, 'id' | 'created_at' | 'updated_at'>;
 export interface UpdatePlayHistory extends Partial<PlayHistory> {
   id: number;
 }
@@ -22,7 +22,7 @@ export function queryHistoryPageList(params?: { page?: PageCamels }) {
   return db.transaction('r', [dbTable], async () => {
     const offset = (pageNo - 1) * pageSize;
     const count = await dbTable.count();
-    const list = await dbTable.offset(offset).limit(pageSize).toArray();
+    const list = await dbTable.orderBy('created_at').reverse().offset(offset).limit(pageSize).toArray();
     return { list, total: count, pageNo, pageSize };
   });
 }
@@ -38,7 +38,9 @@ export function saveHistory(data: SavePlayHistory) {
   return db.transaction('rw', [dbTable], async () => {
     const record = await dbTable.where('url').equals(data.url).first();
     if (record) return record.id;
-    const res = await db.table<SavePlayHistory, number>(XM_TABLE.PLAY_HISTORY_TABLE).add(data);
+    const res = await db
+      .table<Omit<PlayHistory, 'id'>, number>(XM_TABLE.PLAY_HISTORY_TABLE)
+      .add({ ...data, created_at: new Date().toISOString() });
     return res;
   });
 }

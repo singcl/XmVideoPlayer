@@ -20,14 +20,19 @@ export class DexieDb extends Dexie {
   }
 
   private _build() {
-    this.version(1)
+    this.version(2)
       .stores({
-        [XM_TABLE.PLAY_HISTORY_TABLE]: '++id, name, &url', // Primary key and indexed props
+        [XM_TABLE.PLAY_HISTORY_TABLE]: '++id, name, &url, created_at, updated_at', // Primary key and indexed props
       })
-      .upgrade((/* trans */) => {
+      .upgrade((trans) => {
         // 升级时候触发，初始化不会触发
-        console.log('-------IDB升级--------:', this.verno);
-        // return trans.table<PlayHistory>(XM_TABLE.PLAY_HISTORY_TABLE).bulkAdd(historyListDefault);
+        console.info(`IDB正在升级至version:%c${this.verno}...`, 'color: green');
+        return trans
+          .table<PlayHistory>(XM_TABLE.PLAY_HISTORY_TABLE)
+          .toCollection()
+          .modify((t) => {
+            t.created_at = new Date().toISOString(); // 为所有现有的记录设置默认值
+          });
       });
     // https://dexie.org/docs/Dexie/Dexie.on.populate
     // http://www.javashuo.com/article/p-qmqrgdsu-ea.html
@@ -46,7 +51,12 @@ export class DexieDb extends Dexie {
     // （populate 事件只在创建数据库时调用，更新时不调用）
     this.on('populate', (trans) => {
       console.log('-------IDB初始化--------:', this.verno);
-      return trans.table<Omit<PlayHistory, 'id'>>(XM_TABLE.PLAY_HISTORY_TABLE).bulkAdd(historyListDefault);
+      return trans.table<Omit<PlayHistory, 'id'>>(XM_TABLE.PLAY_HISTORY_TABLE).bulkAdd(
+        historyListDefault.map((item) => ({
+          ...item,
+          created_at: new Date().toISOString(),
+        }))
+      );
     });
   }
 

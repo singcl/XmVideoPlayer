@@ -19,3 +19,12 @@ export function download(data: ArrayBuffer, fileName: string, contentType?: stri
   elink.click();
   document.body.removeChild(elink);
 }
+
+export function decodeURL(v: string, prot = 'stream') {
+  return stripPrefix(decodeURIComponent(v), prot);
+}
+
+function stripPrefix(input: string, prot = 'stream') {
+  const reg = new RegExp(`^https://${prot}.localhost/`, 'g');
+  return input.replace(reg, '');
+}

@@ -4,7 +4,7 @@
       <img src="/logo.svg" class="logo vite" alt="XmVideoPlayer logo" />
       <span class="txt typing">{{ APP_TITLE }}</span>
     </h1>
-    <XmSearch />
+    <XmListSearch v-model="searchKeyword" @submit="handleSubmit" />
     <a-list
       class="his-list-action-layout"
       :bordered="false"
@@ -25,17 +25,20 @@
             <span><icon-heart />0</span>
             <span><icon-star />{{ item.index }}</span>
             <span><icon-play-circle />Play</span>
+            <span @click="handleOptEdit($event, item)"><icon-edit />Edit</span>
+            <span @click="handleOptDelete($event, item)"> <icon-delete />Delete</span>
           </template>
-          <a-list-item-meta :title="item.name" :description="item.url">
+          <a-list-item-meta :title="decodeURL(item.name)" :description="decodeURL(item.url)">
             <template #avatar>
               <a-avatar shape="square">
-                {{ item.name?.slice(0, 1) }}
+                {{ decodeURL(item.name)?.slice(0, 1) }}
               </a-avatar>
             </template>
           </a-list-item-meta>
         </a-list-item>
       </template>
     </a-list>
+    <xm-history-edit-dialog v-model:visible="hisEditVisible" :data="hisEditData" @success="handleOptEditSuccess" />
   </div>
 </template>
 
@@ -45,7 +48,9 @@
 const APP_TITLE = import.meta.env.VITE_APP_TITLE;
 
 import API from '@/api';
-import { reactive, ref } from 'vue';
+import { reactive, ref, h } from 'vue';
+import { Modal, Message } from '@arco-design/web-vue';
+import { decodeURL } from '@/utils/tools';
 // import { useObservable, from } from '@vueuse/rxjs';
 // import { liveQuery } from 'dexie';
 // //
@@ -59,11 +64,15 @@ import { reactive, ref } from 'vue';
 // );
 
 type HList = Await<ReturnType<typeof API.idb.getPlayerHistoryPageList>>['data']['list'];
+type HListItem = UnArray<HList>;
 
 const loading = ref(false);
 const bottom = ref(false);
 const page = reactive({ pageNo: 0, pageSize: 20, total: 0 });
 const dataSource = ref<HList>([]);
+const hisEditVisible = ref(false);
+const hisEditData = ref<HListItem>();
+const searchKeyword = ref('');
 //
 const fetchData = async (currPage = page.pageNo) => {
   try {
@@ -85,6 +94,66 @@ const fetchData = async (currPage = page.pageNo) => {
 const handleReachBottom = () => {
   fetchData(page.pageNo + 1);
 };
+
+//
+const handleReSearch = async () => {
+  try {
+    loading.value = true;
+    const {
+      data: { list = [], pageNo, pageSize, total },
+    } = await API.idb.getPlayerHistoryPageList({ page: { pageNo: 1, pageSize: page.pageSize } });
+    dataSource.value = list;
+    page.total = total;
+    page.pageNo = pageNo;
+    page.pageSize = pageSize;
+    bottom.value = pageNo >= Math.ceil(total / pageSize);
+  } finally {
+    loading.value = false;
+  }
+};
+
+//
+// 删除播放记录
+async function handleOptDelete(e: Event, opt: HListItem) {
+  e.stopPropagation();
+  Modal.confirm({
+    title: '删除确认',
+    titleAlign: 'start',
+    content: () =>
+      h('div', { style: 'word-break: break-all' }, [
+        h('span', null, '确认删除'),
+        h('span', { style: 'color: red; margin: 0 3px' }, decodeURL(opt.name)),
+        h('span', null, '吗？'),
+      ]),
+    async onBeforeOk(done) {
+      await API.idb.deletePlayerHistory(opt.id);
+      await handleReSearch();
+      Message.success('删除成功');
+      done(true);
+    },
+  });
+}
+
+// 编辑播放记录
+async function handleOptEdit(e: Event, opt: HListItem) {
+  e.stopPropagation();
+  hisEditVisible.value = true;
+  hisEditData.value = opt;
+}
+
+//
+async function handleOptEditSuccess() {
+  await handleReSearch();
+  Message.success('编辑成功');
+  hisEditVisible.value = false;
+}
+
+// Submit
+async function handleSubmit(opt?: { name: string; url: string }) {
+  if (!opt) return Message.info({ content: '请输入正确的链接' });
+  const { data } = await API.idb.savePlayerHistory({ name: opt.name, url: opt.url });
+  await handleReSearch();
+}
 </script>
 
 <style scoped>
