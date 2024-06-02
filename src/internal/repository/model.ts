@@ -8,4 +8,6 @@ export interface PlayHistory {
   id: number;
   url: string;
   name: string;
+  created_at: string;
+  updated_at?: string;
 }

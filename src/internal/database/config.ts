@@ -12,10 +12,6 @@ export const historyListDefault = [
     url: 'https://bitdash-a.akamaihd.net/content/sintel/hls/video/800kbit.m3u8',
   },
   {
-    name: '西瓜视频[FLV]',
-    url: 'https://sf1-hscdn-tos.pstatp.com/obj/media-fe/xgplayer_doc_video/flv/xgplayer-demo-360p.flv',
-  },
-  {
     name: '小松鼠与熊[MPEG-DASH]',
     url: 'https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps.mpd',
   },

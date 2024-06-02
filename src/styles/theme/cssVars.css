@@ -3,6 +3,7 @@ body {
   --xm-bg-5: var(--blue-5);
   --xm-bg-7: var(--blue-7);
   --xm-txt-10: var(--blue-10);
+  --xm-color-border-3: rgb(var(--arcoblue-3));
 }
 
 body[xm-theme='blue'] {
@@ -10,6 +11,7 @@ body[xm-theme='blue'] {
   --xm-bg-5: var(--blue-5);
   --xm-bg-7: var(--blue-7);
   --xm-txt-10: var(--blue-10);
+  --xm-color-border-3: rgb(var(--arcoblue-3));
 }
 
 body[xm-theme='red'] {
@@ -17,6 +19,7 @@ body[xm-theme='red'] {
   --xm-bg-5: var(--red-5);
   --xm-bg-7: var(--red-7);
   --xm-txt-10: var(--red-10);
+  --xm-color-border-3: rgb(var(--red-3));
 }
 
 body[xm-theme='green'] {
@@ -24,6 +27,7 @@ body[xm-theme='green'] {
   --xm-bg-5: var(--green-5);
   --xm-bg-7: var(--green-7);
   --xm-txt-10: var(--green-10);
+  --xm-color-border-3: rgb(var(--green-3));
 }
 
 body[xm-theme='gold'] {
@@ -31,4 +35,5 @@ body[xm-theme='gold'] {
   --xm-bg-5: var(--gold-5);
   --xm-bg-7: var(--gold-7);
   --xm-txt-10: var(--gold-10);
+  --xm-color-border-3: rgb(var(--orange-3));
 }

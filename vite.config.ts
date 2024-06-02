@@ -18,6 +18,8 @@ const aliases = {
   '@/hooks': `${path.resolve(__dirname, 'src')}/hooks`,
   '@/internal': `${path.resolve(__dirname, 'src')}/internal`,
   '@package': `${path.resolve(__dirname)}/package.json`,
+  //
+  'hls.js': 'hls.js/dist/hls.min.js',
 };
 
 // https://vitejs.dev/config/

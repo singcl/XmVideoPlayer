@@ -67,3 +67,66 @@ a:hover {
 :not(:root):fullscreen .dplayer-video {
   max-height: 100%;
 }
+
+.typing {
+  overflow: hidden;
+  border-right: 2px solid transparent;
+  animation: typing 3s steps(42, end) infinite, blink-caret 0.55s step-end infinite;
+  word-break: break-all;
+}
+
+/* 打印效果 */
+@keyframes typing {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 100%;
+  }
+}
+
+/* 光标 */
+@keyframes blink-caret {
+  0%,
+  100% {
+    border-color: transparent;
+  }
+
+  50% {
+    border-color: currentColor;
+  }
+}
+
+/* 整个滚动条 */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+/* 滚动条上的滚动滑块 */
+::-webkit-scrollbar-thumb {
+  border-radius: 32px;
+  background-color: #49b1f5;
+
+  /* 关键代码 */
+
+  background-image: linear-gradient(
+    45deg,
+    rgb(255 255 255 / 40%) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgb(255 255 255 / 40%) 25%,
+    50%,
+    rgb(255 255 255 / 40%) 25%,
+    75%,
+    transparent 75%,
+    transparent
+  );
+}
+
+/* 滚动条轨道 */
+::-webkit-scrollbar-track {
+  border-radius: 32px;
+  background-color: #dbeffd;
+}

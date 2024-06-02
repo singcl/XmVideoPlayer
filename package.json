@@ -1,7 +1,7 @@
 {
   "name": "xmvideoplayer",
   "private": true,
-  "version": "0.5.13",
+  "version": "0.6.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -30,20 +30,22 @@
     ]
   },
   "dependencies": {
-    "@arco-design/web-vue": "^2.53.2",
+    "@arco-design/web-vue": "^2.55.2",
     "@singcl/dplayer": "^2.0.0",
     "@singcl/throttle-debounce": "^1.1.1",
     "@tauri-apps/api": "^1.5.6",
+    "@vueuse/core": "^10.10.0",
     "@vueuse/rxjs": "^10.6.1",
     "clipboard": "^2.0.11",
     "dashjs": "^4.4.1",
-    "dexie": "^3.2.2",
+    "dexie": "^4.0.7",
     "flv.js": "^1.6.2",
     "hls.js": "^1.2.3",
     "pinia": "^2.1.7",
     "pinyin-match": "^1.2.2",
     "unplugin-svg-component": "^0.7.6",
-    "vue": "^3.3.8"
+    "vue": "^3.4.27",
+    "vue-router": "^4.3.2"
   },
   "author": "singcl<imbabyer@gmail.com>",
   "homepage": "https://github.com/singcl/XmVideoPlayer",
@@ -61,7 +63,7 @@
     "@types/node": "18.8.0",
     "@typescript-eslint/eslint-plugin": "^5.37.0",
     "@typescript-eslint/parser": "^5.37.0",
-    "@vitejs/plugin-vue": "^3.0.1",
+    "@vitejs/plugin-vue": "^5.0.5",
     "commitizen": "^4.2.5",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.23.1",
@@ -86,12 +88,12 @@
     "stylelint-config-recommended-vue": "^1.4.0",
     "stylelint-config-standard": "^29.0.0",
     "stylelint-order": "^5.0.0",
-    "typescript": "^4.6.4",
-    "unplugin-auto-import": "^0.11.2",
-    "unplugin-vue-components": "^0.22.7",
-    "vite": "^3.0.2",
+    "typescript": "^5.4.5",
+    "unplugin-auto-import": "^0.17.6",
+    "unplugin-vue-components": "^0.27.0",
+    "vite": "^5.2.12",
     "vue-eslint-parser": "^9.1.0",
-    "vue-tsc": "^1.6.4"
+    "vue-tsc": "^2.0.19"
   },
   "engines": {
     "node": ">=16"

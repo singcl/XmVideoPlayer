@@ -24,7 +24,14 @@ module.exports = {
     // @see https://github.com/prettier/eslint-plugin-prettier
     'plugin:prettier/recommended',
   ],
-  rules: {},
+  rules: {
+    'vue/multi-word-component-names': [
+      'error',
+      {
+        ignores: ['Home'],
+      },
+    ],
+  },
   // 方式一：
   // lint js?(x) ts?(x)文件
   // eslint-config-taro 没有引入相关依赖

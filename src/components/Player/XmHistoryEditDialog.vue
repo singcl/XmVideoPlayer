@@ -28,8 +28,8 @@ import { Message } from '@arco-design/web-vue';
 import API from '@/api';
 
 interface HistoryData {
-  label: string;
-  value: string;
+  name: string;
+  url: string;
   id: number;
 }
 
@@ -78,8 +78,8 @@ onBeforeUnmount(() => {
 
 watchEffect(() => {
   if (props.visible && props.data) {
-    form.name = props.data.label;
-    form.url = props.data.value;
+    form.name = props.data.name;
+    form.url = props.data.url;
   }
 });
 
