@@ -25,6 +25,6 @@ export function decodeURL(v: string, prot = 'stream') {
 }
 
 function stripPrefix(input: string, prot = 'stream') {
-  const reg = new RegExp(`^https://${prot}.localhost/`, 'g');
+  const reg = new RegExp(`(^https://${prot}.localhost/)|(^${prot}://localhost/)`, 'g');
   return input.replace(reg, '');
 }

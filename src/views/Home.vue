@@ -160,8 +160,7 @@ async function handleOptEditSuccess() {
 // Submit
 async function handleSubmit(opt?: { name: string; url: string }) {
   if (!opt) return Message.info({ content: '请输入正确的链接' });
-  if (!/^(((ht|f)tps?):\/\/)?([^!@#$%^&*?.\s-]([^!@#$%^&*?.\s]{0,63}[^!@#$%^&*?.\s])?\.)+[a-z]{2,6}\/?/.test(opt.url))
-    return Message.info({ content: '请输入正确的链接' });
+  if (!/^(((ht|f)tps?)|stream):\/\//.test(opt.url)) return Message.info({ content: '请输入正确的链接' });
   const { data } = await API.idb.savePlayerHistory({ name: opt.name, url: opt.url });
   router.push({ name: 'x-player', params: { id: data } });
   handleReSearch();
