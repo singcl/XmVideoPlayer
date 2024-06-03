@@ -1,7 +1,6 @@
 import Hls from 'hls.js';
 import flv from 'flv.js';
 import dash from 'dashjs';
-import pinyinMatch from 'pinyin-match';
 import FetchLoader from '@/utils/hls/fetch-loader';
 // import Normal from '@/utils/normal';
 
@@ -65,10 +64,4 @@ export function formatVideo(url: string, type?: string) {
   //     },
   //   },
   // };
-}
-
-//
-export function checkPinYin(name: string, keyword: string) {
-  const matchRes = pinyinMatch.match(name, keyword);
-  return typeof matchRes === 'object' ? matchRes.length > 0 : matchRes;
 }

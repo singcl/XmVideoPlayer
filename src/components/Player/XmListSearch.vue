@@ -9,7 +9,7 @@
         @change="handleChange"
         @input="handleInput"
         @clear="handleClear"
-        @press-enter="() => handleSubmit()"
+        @press-enter="(e: KeyboardEvent) => $emit('press-enter', e)"
         @search="handleSearch"
       >
       </a-input-search>
@@ -62,6 +62,8 @@ const emits = defineEmits<{
   (e: 'change', v?: string): void;
   (e: 'input', v?: string): void;
   (e: 'search', v?: string): void;
+  (e: 'clear'): void;
+  (e: 'press-enter', v: KeyboardEvent): void;
 }>();
 
 // 可以发起请求远程获取
@@ -71,6 +73,7 @@ function handleSearch(v?: string) {
 // Clear
 function handleClear() {
   emits('update:modelValue', undefined);
+  emits('clear');
 }
 
 //

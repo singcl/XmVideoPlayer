@@ -4,7 +4,14 @@
       <img src="/logo.svg" class="logo vite" alt="XmVideoPlayer logo" />
       <span class="txt typing">{{ APP_TITLE }}</span>
     </h1>
-    <XmListSearch v-model="searchKeyword" @submit="handleSubmit" />
+    <XmListSearch
+      v-model="searchKeyword"
+      :loading="loading"
+      @submit="handleSubmit"
+      @press-enter="handleSubmit({ name: searchKeyword, url: searchKeyword })"
+      @input="handleSearchInput"
+      @clear="onSearchInput"
+    />
     <a-list
       class="his-list-action-layout"
       :bordered="false"
@@ -16,7 +23,7 @@
     >
       <!-- :virtual-list-props="{ height: 'calc(100vh - 175px)' }" -->
       <template #scroll-loading>
-        <div v-if="bottom">{{ dataSource.length }}/{{ page.total }} 没有更多数据啦(*^_^*)</div>
+        <div v-if="bottom" class="empty-text">{{ dataSource.length }}/{{ page.total }} 没有更多数据啦(*^_^*)</div>
         <a-spin v-else-if="loading" />
       </template>
       <template #item="{ item }">
@@ -52,6 +59,7 @@ import { reactive, ref, h } from 'vue';
 import { Modal, Message } from '@arco-design/web-vue';
 import { decodeURL } from '@/utils/tools';
 import { useRouter } from 'vue-router';
+import { useDebounceFn } from '@vueuse/core';
 // import { useObservable, from } from '@vueuse/rxjs';
 // import { liveQuery } from 'dexie';
 // //
@@ -99,12 +107,12 @@ const handleReachBottom = () => {
 };
 
 //
-const handleReSearch = async () => {
+const handleReSearch = async (keyword?: string) => {
   try {
     loading.value = true;
     const {
       data: { list = [], pageNo, pageSize, total },
-    } = await API.idb.getPlayerHistoryPageList({ page: { pageNo: 1, pageSize: page.pageSize } });
+    } = await API.idb.getPlayerHistoryPageList({ page: { pageNo: 1, pageSize: page.pageSize }, keyword });
     dataSource.value = list;
     page.total = total;
     page.pageNo = pageNo;
@@ -165,6 +173,15 @@ async function handleSubmit(opt?: { name: string; url: string }) {
   router.push({ name: 'x-player', params: { id: data } });
   handleReSearch();
 }
+
+//
+async function onSearchInput(v?: string) {
+  console.count();
+  await handleReSearch(v);
+}
+
+//
+const handleSearchInput = useDebounceFn(onSearchInput, 500);
 </script>
 
 <style scoped>
@@ -206,6 +223,11 @@ async function handleSubmit(opt?: { name: string; url: string }) {
 
 .logo.vue:hover {
   filter: drop-shadow(0 0 2em #249b73);
+}
+
+.empty-text {
+  color: #fff;
+  font-size: 12px;
 }
 </style>
 
