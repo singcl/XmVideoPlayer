@@ -1,6 +1,10 @@
 <template>
   <div class="container">
-    <a-typography-title :heading="3" :ellipsis="true" style="margin-top: 0.5em">
+    <a-typography-title
+      :heading="3"
+      :ellipsis="true"
+      style="overflow: hidden; margin-top: 0.5em; text-overflow: ellipsis; white-space: nowrap"
+    >
       {{ hisInfo?.name && decodeURL(hisInfo?.name) }}
     </a-typography-title>
     <XmPlayer ref="playerRef" @change="handleXmPlayerChange" />
