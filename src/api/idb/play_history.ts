@@ -9,7 +9,7 @@ export async function getPlayerHistoryList() {
 }
 
 // 获取播放列表 - 分页
-export async function getPlayerHistoryPageList(data?: { page?: PageCamels }) {
+export async function getPlayerHistoryPageList(data?: { page?: PageCamels; keyword?: string }) {
   const response = await playHistoryService.queryHistoryPageList(data);
   return ServerTableResponse.default(response, { costTime: 0, status: 1, msg: 'success' });
 }

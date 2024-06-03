@@ -17,12 +17,19 @@ export function queryHistoryList() {
   });
 }
 
-export function queryHistoryPageList(params?: { page?: PageCamels }) {
-  const { page: { pageNo, pageSize } = { pageNo: 1, pageSize: 20 } } = params ?? {};
+export function queryHistoryPageList(params?: { page?: PageCamels; keyword?: string }) {
+  const { page: { pageNo, pageSize } = { pageNo: 1, pageSize: 20 }, keyword } = params ?? {};
   return db.transaction('r', [dbTable], async () => {
     const offset = (pageNo - 1) * pageSize;
-    const count = await dbTable.count();
-    const list = await dbTable.orderBy('created_at').reverse().offset(offset).limit(pageSize).toArray();
+
+    let collection = dbTable.orderBy('created_at');
+    if (keyword) {
+      const reg = new RegExp(encodeURIComponent(keyword), 'i');
+      collection = collection.filter((obj) => reg.test(obj.name) || reg.test(obj.url));
+    }
+    //
+    const count = await collection.count();
+    const list = await collection.reverse().offset(offset).limit(pageSize).toArray();
     return { list, total: count, pageNo, pageSize };
   });
 }
