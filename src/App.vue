@@ -1,10 +1,6 @@
 <template>
   <div :style="{ height: cHeight }">
-    <XmThemePanel />
     <RouterView />
-    <HBanner />
-    <XmFeedback />
-    <HBackHome />
   </div>
 </template>
 

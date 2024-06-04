@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import Layout from '@/layout/Layout.vue';
 const HomeView = () => import('@/views/Home.vue');
 
 const router = createRouter({
@@ -6,14 +7,20 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: HomeView,
-    },
-    {
-      path: '/media/x-player/:id',
-      name: 'x-player',
-      component: () => import('@/views/media/XPlayer.vue'),
-      props: true,
+      component: Layout,
+      children: [
+        {
+          path: '/',
+          name: 'home',
+          component: HomeView,
+        },
+        {
+          path: '/media/x-player/:id',
+          name: 'x-player',
+          component: () => import('@/views/media/XPlayer.vue'),
+          props: true,
+        },
+      ],
     },
   ],
 });

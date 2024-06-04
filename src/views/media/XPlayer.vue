@@ -7,7 +7,7 @@
     >
       {{ hisInfo?.name && decodeURL(hisInfo?.name) }}
     </a-typography-title>
-    <XmPlayer ref="playerRef" @change="handleXmPlayerChange" />
+    <XmPlayer ref="playerRef" v-model="mediaUrl" @change="handleXmPlayerChange" />
   </div>
 </template>
 
@@ -23,6 +23,7 @@ type HListItem = Await<ReturnType<typeof API.idb.getPlayerHistoryInfo>>['data'];
 const props = withDefaults(defineProps<{ id?: number | string }>(), {
   id: undefined,
 });
+const mediaUrl = ref('');
 onMounted(() => {
   getHisInfo(props.id);
 });
@@ -39,6 +40,7 @@ const getHisInfo = async (id?: number | string) => {
   const { data } = await API.idb.getPlayerHistoryInfo({ id: Number(id) });
   if (!data) return;
   hisInfo.value = data;
+  mediaUrl.value = data.url;
   playerRef.value?.load({ video: { url: data.url } });
 };
 
