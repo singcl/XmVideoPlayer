@@ -34,7 +34,11 @@
           <!-- 升级到sqlite数据库后再做多任务下载 -->
           <!-- 暂时只支持m3u8下载，更多下载类型正在开发中 -->
           <template #actions>
-            <span><icon-download />Download</span>
+            <span class="action-btn" :class="{ disabled: m3u8Loading }" @click="handleDownload($event, item)">
+              <icon-refresh v-if="m3u8Loading && downloadOpt && downloadOpt.id == item.id" spin />
+              <icon-download v-else />
+              Download
+            </span>
             <span @click="handlePlay($event, item)"><icon-play-circle />Play</span>
             <span @click="handleOptEdit($event, item)"><icon-edit />Edit</span>
             <span @click="handleOptDelete($event, item)"> <icon-delete />Delete</span>
@@ -64,6 +68,8 @@ import { Modal, Message } from '@arco-design/web-vue';
 import { decodeURL } from '@/utils/tools';
 import { useRouter } from 'vue-router';
 import { useDebounceFn } from '@vueuse/core';
+import { useDownloadM3u8 } from '@/composable/useDownloadM3u8';
+import { checkM3U8Url } from '@/utils/validator';
 // import { useObservable, from } from '@vueuse/rxjs';
 // import { liveQuery } from 'dexie';
 // //
@@ -88,6 +94,8 @@ const dataSource = ref<HList>([]);
 const hisEditVisible = ref(false);
 const hisEditData = ref<HListItem>();
 const searchKeyword = ref('');
+const { loading: m3u8Loading, download: downloadM3u8 } = useDownloadM3u8();
+const downloadOpt = ref<HListItem>();
 //
 const fetchData = async (currPage = page.pageNo) => {
   try {
@@ -131,6 +139,16 @@ const handleReSearch = async (keyword?: string) => {
 const handlePlay = (e: Event, opt: HListItem) => {
   e.stopPropagation();
   router.push({ name: 'x-player', params: { id: opt.id } });
+};
+
+//
+const handleDownload = async (e: Event, opt: HListItem) => {
+  if (m3u8Loading.value) return Message.info({ content: '当前有资源正在下载中...' });
+  if (!checkM3U8Url(opt.url)) return Message.info({ content: '暂时只支持m3u8类型下载' });
+  e.stopPropagation();
+  downloadOpt.value = opt;
+  await downloadM3u8(opt.url);
+  downloadOpt.value = void 0;
 };
 
 //
@@ -232,6 +250,11 @@ const handleSearchInput = useDebounceFn(onSearchInput, 500);
 .empty-text {
   color: #fff;
   font-size: 12px;
+}
+
+.action-btn.disabled {
+  color: #666;
+  pointer-events: none;
 }
 </style>
 
