@@ -2,6 +2,7 @@
   <HBackHome />
   <XmThemePanel />
   <RouterView />
+  <XmDownloadProgressBall />
   <XmFeedback />
   <HBanner />
 </template>
