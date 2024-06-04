@@ -29,8 +29,8 @@
       <template #item="{ item }">
         <a-list-item class="his-list-item" action-layout="vertical">
           <template #actions>
-            <span><icon-heart />0</span>
-            <span><icon-star />{{ item.index }}</span>
+            <span><icon-heart />Like</span>
+            <span><icon-download />Download</span>
             <span @click="handlePlay($event, item)"><icon-play-circle />Play</span>
             <span @click="handleOptEdit($event, item)"><icon-edit />Edit</span>
             <span @click="handleOptDelete($event, item)"> <icon-delete />Delete</span>
