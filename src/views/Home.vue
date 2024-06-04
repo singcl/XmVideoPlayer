@@ -12,6 +12,7 @@
       @input="handleSearchInput"
       @clear="onSearchInput"
     />
+    <!-- :scrollbar="true" 不会显示垂直滚动条？？ -->
     <a-list
       class="his-list-action-layout"
       :bordered="false"
@@ -28,8 +29,11 @@
       </template>
       <template #item="{ item }">
         <a-list-item class="his-list-item" action-layout="vertical">
+          <!-- 升级到sqlite数据库后再做收藏功能 -->
+          <!-- <span><icon-heart />Like</span> -->
+          <!-- 升级到sqlite数据库后再做多任务下载 -->
+          <!-- 暂时只支持m3u8下载，更多下载类型正在开发中 -->
           <template #actions>
-            <span><icon-heart />Like</span>
             <span><icon-download />Download</span>
             <span @click="handlePlay($event, item)"><icon-play-circle />Play</span>
             <span @click="handleOptEdit($event, item)"><icon-edit />Edit</span>
