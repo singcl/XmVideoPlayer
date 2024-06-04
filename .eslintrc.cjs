@@ -28,7 +28,7 @@ module.exports = {
     'vue/multi-word-component-names': [
       'error',
       {
-        ignores: ['Home'],
+        ignores: ['Home', 'Layout'],
       },
     ],
   },
