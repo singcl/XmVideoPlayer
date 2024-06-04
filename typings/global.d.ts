@@ -48,3 +48,17 @@ declare interface XmServerResponse<T> {
   msg: string;
   data?: T;
 }
+
+declare interface PayloadDownload {
+  downloadType: string;
+  message: string;
+  total: string;
+  current: string;
+}
+
+declare interface PayloadDownloadFed {
+  downloadType: string;
+  message: string;
+  total: number;
+  current: number;
+}
