@@ -85,7 +85,6 @@ function load(options?: Omit<DPlayerOptions, 'container'>) {
     if (full) await appWindow.setFullscreen(false);
     heightStore.change();
   });
-  dp.play();
   dplayer = dp;
   return dp;
 }
