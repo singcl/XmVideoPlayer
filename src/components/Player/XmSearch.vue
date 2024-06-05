@@ -52,7 +52,7 @@ import { Modal, Message } from '@arco-design/web-vue';
 // import '@arco-design/web-vue/es/modal/style/css.js';
 import API from '@/api';
 import { useDebounceFn } from '@vueuse/core';
-import { decodeURL } from '@/utils/tools';
+import { decodeURIComponentIgnoreError, decodeURL } from '@/utils/tools';
 // import { checkPinYin } from '@/utils/tools';
 type HListItem = Await<ReturnType<typeof API.idb.getPlayerHistoryInfo>>['data'] & { label: string; value: string };
 
@@ -87,7 +87,7 @@ async function getPlayList(keyword?: string) {
   options.value = (data?.list || []).map((item) => ({
     ...item,
     label: decodeURL(item.name),
-    value: decodeURIComponent(item.url),
+    value: decodeURIComponentIgnoreError(item.url),
   }));
 }
 
@@ -100,7 +100,7 @@ async function handleOptDelete(e: Event, opt: HListItem) {
     content: () =>
       h('div', { style: 'word-break: break-all' }, [
         h('span', null, '确认删除'),
-        h('span', { style: 'color: red; margin: 0 3px' }, decodeURIComponent(opt.name)),
+        h('span', { style: 'color: red; margin: 0 3px' }, decodeURIComponentIgnoreError(opt.name)),
         h('span', null, '吗？'),
       ]),
     async onBeforeOk(done) {

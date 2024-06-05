@@ -22,8 +22,16 @@ export function download(data: ArrayBuffer, fileName: string, contentType?: stri
   document.body.removeChild(elink);
 }
 
+export function decodeURIComponentIgnoreError(v: string) {
+  try {
+    return decodeURIComponent(v);
+  } catch (error) {
+    return v;
+  }
+}
+
 export function decodeURL(v: string, prot = 'stream') {
-  return stripPrefix(decodeURIComponent(v), prot);
+  return stripPrefix(decodeURIComponentIgnoreError(v), prot);
 }
 
 function stripPrefix(input: string, prot = 'stream') {
