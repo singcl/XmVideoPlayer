@@ -6,6 +6,7 @@
         :placeholder="placeholder"
         :allow-clear="true"
         :loading="loading"
+        :spellcheck="false"
         @change="handleChange"
         @input="handleInput"
         @clear="handleClear"

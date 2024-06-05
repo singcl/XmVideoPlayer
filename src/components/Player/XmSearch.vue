@@ -7,6 +7,7 @@
         :placeholder="placeholder"
         :allow-clear="true"
         :filter-option="false"
+        :spellcheck="false"
         @change="(v: string) => $emit('update:modelValue', v)"
         @clear="handleClear"
         @press-enter="() => handleSubmit()"
