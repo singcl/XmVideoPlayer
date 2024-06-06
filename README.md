@@ -15,7 +15,7 @@
 
 ### Prerequisites
 
-- `node >= 16`
+- `node >= 18`
 - 资源转换依赖`ffmpeg`，应用每次启动会自动检测是否安装`ffmpeg`, 若没有安装则会自动下载并安装，已安装则跳过 WOW🎉!
 
 ### Start
